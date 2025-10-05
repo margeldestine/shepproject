@@ -1,0 +1,41 @@
+.landing-right {
+  flex: 1;
+  padding: 2.5rem;
+  background: #800000;
+  color: white;
+  border-radius: 0 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.4s ease;
+}
+
+.landing-right h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.auth-form {
+  width: 100%;
+}
+
+.toggle-text {
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.toggle-text span {
+  color: #ffd6d6;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.toggle-text span:hover {
+  color: #fff;
+}
+
+
+

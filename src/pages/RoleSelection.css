@@ -1,0 +1,94 @@
+/* Background container */
+.role-selection-bg {
+  position: relative;
+  min-height: 100vh; /* full height for entire page */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Overlay that covers entire page */
+.role-overlay {
+  position: absolute;
+  inset: 0; /* shorthand for top, right, bottom, left = 0 */
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 0;
+}
+
+/* Content container (sits above overlay) */
+.role-container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+}
+
+/* Title */
+.role-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+/* For role selection screen — vertical stack */
+.role-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Make all role buttons same width as heading and input */
+.role-btn {
+  width: 100%;
+  max-width: 500px; /* same width as input field and heading */
+  padding: 0.9rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  text-transform: none !important;
+  backdrop-filter: blur(6px);
+  border: none;
+  transition: background 0.3s ease;
+  margin: 0 auto; /* centers the buttons */
+  display: block;
+}
+
+.role-btn:hover {
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+
+
+.role-btn:hover {
+  background: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Footer link below buttons */
+.role-text {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #ccc;
+}
+
+.role-link {
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.role-link:hover {
+  text-decoration: underline;
+}
+
+/* Input box (used only in parent ID screen) */
+.role-input-box {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 1.5rem auto;
+}

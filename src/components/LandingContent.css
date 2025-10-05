@@ -1,0 +1,41 @@
+.landing-left {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.landing-left h1 {
+  color: #800000;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 900;
+}
+
+.landing-left h3 {
+  color: #a05252;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.landing-left p {
+  color: #333;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.landing-left img {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 12px;
+  align-self: center;
+}
+
+.landing-container {
+  background-image: url("../assets/shepbg.png");
+  background-size: cover;
+  background-position: center;
+}
+

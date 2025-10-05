@@ -1,0 +1,131 @@
+/* ================== GLOBAL TWEAK KNOBS ================== */
+:root{
+  --seal-size: 1150px;   /* scale of the watermark */
+}
+
+/* ============= Page background (single watermark) ============= */
+.about-page{
+  position:relative;
+  min-height:100vh;
+
+  /* watermark - ADD YOUR BACKGROUND IMAGE PATH HERE */
+  background-image: url('../assets/shepbg.png'); /* Add this line */
+  background-repeat: no-repeat;                 /* one seal only */
+  background-size: var(--seal-size) auto;       /* scale */
+  background-position: center center;           /* CENTERED position */
+  background-attachment: fixed;                 /* stays put while scrolling */
+}
+
+/* Keep all main sections above any page-wide overlays */
+.about-topbar, .about-hero, .about-band, .about-section{
+  position:relative; z-index:1;
+}
+
+/* ======================= Top bar (same theme) ====================== */
+.about-topbar{
+  background:#6f0d0d;
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:.95rem 1.25rem;
+}
+.about-user{ display:flex; align-items:center; gap:.7rem; font-weight:700; }
+.about-user .pfp{ width:36px; height:36px; border-radius:50%; background:#eee; }
+.about-actions{ display:flex; gap:.6rem; }
+.about-actions .icon{ background:transparent; border:none; color:#fff; font-size:1.15rem; cursor:pointer; }
+.about-actions .icon:hover{ opacity:.9; }
+
+/* ============================= HERO ================================ */
+.about-hero{
+  position:relative;
+  min-height:220px;                   /* height like your mock */
+  background-size:cover;
+  background-position:center;
+}
+.hero-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.35));
+}
+.hero-inner{
+  position:relative; z-index:1;
+  max-width:1000px; margin:0 auto;
+  padding:2.2rem 1.25rem 1.6rem;
+  text-align:center; color:#fff;
+}
+.hero-inner h1{
+  margin:0 0 .6rem;
+  font-weight:800;
+  font-size:2.05rem;
+  letter-spacing:.3px;
+}
+.hero-inner p{
+  margin:0 auto;
+  max-width:900px;
+  color:#f3f3f3;
+  font-size:1.02rem;
+  line-height:1.55;
+}
+
+/* ======================== VISION / MISSION ======================== */
+.about-band{
+  background:#6f0d0d;
+  color:#fff;
+  padding:1.6rem 1rem;
+}
+.band-inner{
+  max-width:1000px; margin:0 auto;
+  display:flex; flex-direction:column;
+  align-items:center; gap:1.1rem; text-align:center;
+}
+.vm-block .pill{
+  display:inline-block;
+  background:#f4c542;
+  color:#3b2b00;
+  font-weight:800;
+  border-radius:12px;
+  padding:.5rem 1.1rem;
+  letter-spacing:.3px;
+  margin-bottom:.5rem;
+}
+.vm-block .line{ margin:.15rem 0; font-size:1.02rem; }
+.vm-block .strong{ font-weight:800; color:#ffd26a; }
+
+/* ========================= SH-EP SECTION ========================== */
+.about-section{ padding:2.2rem 1rem 3.6rem; }
+.about-container{ max-width:1000px; margin:0 auto; text-align:center; }
+.about-container h2{
+  font-size:2.05rem;
+  color:#6f0d0d; font-weight:800;
+  letter-spacing:.3px; margin:0 0 .9rem;
+}
+.about-container .blurb{
+  max-width:920px; margin:0 auto;
+  font-size:1.03rem; line-height:1.75; color:#2c2c2c;
+}
+
+/* =========================== Back pill ============================ */
+.back-pill{
+  position:fixed; left:16px; bottom:16px;
+  background:#6f0d0d; color:#fff;
+  border:none; border-radius:10px;
+  padding:.48rem .85rem;
+  font-weight:700; cursor:pointer;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);
+}
+.back-pill:hover{ filter:brightness(1.05); }
+
+/* ============================ Responsive ========================== */
+@media (max-width: 1200px){
+  :root{ --seal-size: 1000px; }
+}
+@media (max-width: 900px){
+  :root{ --seal-size: 880px; }
+  .hero-inner h1{ font-size:1.8rem; }
+}
+@media (max-width: 640px){
+  :root{ --seal-size: 740px; }
+  .hero-inner{ padding:1.8rem 1rem 1.3rem; }
+  .hero-inner p{ font-size:1rem; }
+  .about-container h2{ font-size:1.7rem; }
+}

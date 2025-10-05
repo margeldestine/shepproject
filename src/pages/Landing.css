@@ -1,0 +1,98 @@
+/* Full background */
+.landing-background {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Gray overlay across entire screen */
+.overlay {
+  background: linear-gradient(
+    rgba(40, 40, 40, 0.85),
+    rgba(40, 40, 40, 0.85)
+  );
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card container (glass frame) */
+.landing-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  margin: 3rem auto;
+  max-width: 1100px;
+
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+
+  width: 95%;
+}
+
+/* Left section: Glassmorphism */
+.landing-left {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0.55)
+  );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Right section: Maroon panel */
+.landing-right {
+  flex: 1;
+  padding: 2rem;
+  background: rgba(128, 0, 0, 0.95);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ================= */
+/* RESPONSIVENESS    */
+/* ================= */
+
+/* Tablets (below 900px) */
+@media (max-width: 900px) {
+  .landing-container {
+    flex-direction: column;
+    max-width: 90%;
+  }
+
+  .landing-right {
+    border-radius: 0 0 12px 12px; /* round bottom corners when stacked */
+  }
+}
+
+/* Phones (below 600px) */
+@media (max-width: 600px) {
+  .landing-container {
+    margin: 1rem;
+  }
+
+  .landing-left h1 {
+    font-size: 2rem;
+  }
+
+  .landing-left h3 {
+    font-size: 1.1rem;
+  }
+
+  .landing-left p {
+    font-size: 0.95rem;
+  }
+}
