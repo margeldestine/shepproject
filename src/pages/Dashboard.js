@@ -1,11 +1,23 @@
 import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import AnnouncementModal from "../components/AnnouncementModal";
+import { announcements } from "../data/announcements";
 
 
 function Dashboard() {
 
     const navigate = useNavigate();
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState({ title: "", date: "", description: "" });
+    const [showAll, setShowAll] = useState(false);
+
+    const openModal = (title, date, description) => {
+      setModalContent({ title, date, description });
+      setModalOpen(true);
+    };
+    const closeModal = () => setModalOpen(false);
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
@@ -50,50 +62,36 @@ function Dashboard() {
           {/* Announcements */}
           <div className="section-header">
             <h2>Announcements &amp; Updates</h2>
-            <button className="see-all">See All</button>
+            {!showAll && (
+              <button className="see-all" onClick={() => setShowAll(true)}>See All</button>
+            )}
           </div>
 
           <div className="cards">
-            <article className="card">
-              <h3><br />
-                Parent-Teacher Meeting
-              </h3>
-              <small>September 15, 2025</small>
-              <br />
-              <p className="desc">
-                We invite all parents to do our quarterly Parent Teacher Meeting to
-                discuss student progress.
-              </p>
-              <br />
-              <button className="read-btn">Read More</button>
-            </article>
-
-            <article className="card">
-              <h3><br />
-                Annual Science Fair
-              </h3>
-              <small>November 18, 2025</small>
-              <br />
-              <p className="desc">
-                We proudly present our students' innovative projects. Come celebrate their curiosity, creativity, and scientific discoveries.
-              </p>
-              <br />
-              <button className="read-btn">Read More</button>
-            </article>
-
-            <article className="card">
-              <h3><br />
-                Curriculum Night
-              </h3>
-              <small>October 2, 2025</small>
-              <br />
-              <p className="desc">
-                Join us for an evening to explore the curriculum, meet our dedicated teachers, and learn about the educational journey ahead for your child this year.
-              </p>
-              <br />
-              <button className="read-btn">Read More</button>
-            </article>
+            {(showAll ? announcements : announcements.slice(0, 3)).map((item) => (
+              <article className="card" key={item.id}>
+                <h3><br />
+                  {item.title}
+                </h3>
+                <small>{item.date}</small>
+                <br />
+                <p className="desc">{item.preview}</p>
+                <br />
+                <button
+                  className="read-btn"
+                  onClick={() => openModal(item.title, item.date, item.full)}
+                >
+                  Read More
+                </button>
+              </article>
+            ))}
           </div>
+
+          {showAll && (
+            <button className="back-pill" onClick={() => setShowAll(false)}>
+              Back
+            </button>
+          )}
         </section>
 
         {/* ===== RIGHT SIDEBAR ===== */}
@@ -103,34 +101,23 @@ function Dashboard() {
             <h4>Francaryllese Dacabelam</h4>
 
             <div className="profile-actions">
-              <button className="pill">Behavior</button>
-              <button className="pill">Attendance</button>
-              <button className="pill">Grades</button>
-              <button className="pill">Forms</button>
+              <button className="pill" onClick={() => navigate("/behavior")}>Behavior</button>
+              <button className="pill" onClick={() => navigate("/attendance")}>Attendance</button>
+              <button className="pill" onClick={() => navigate("/grades")}>View Grades</button>
+              <button className="pill" onClick={() => navigate("/forms")}>Forms</button>
             </div>
           </div>
 
-          <div className="events-card">
-            <h4>Upcoming Events</h4>
-
-            <div className="event">
-              <div className="event-dot red" />
-              <div className="event-body">
-                <strong>September 9</strong>
-                <span>Sergio Osmeña Day</span>
-              </div>
-            </div>
-
-            <div className="event">
-              <div className="event-dot green" />
-              <div className="event-body">
-                <strong>September 23</strong>
-                <span>Faculty Admin Day</span>
-              </div>
-            </div>
-          </div>
         </aside>
       </main>
+      {/* Detail Modal */}
+      <AnnouncementModal
+        open={modalOpen}
+        title={modalContent.title}
+        date={modalContent.date}
+        description={modalContent.description}
+        onClose={closeModal}
+      />
     </div>
   );
 }

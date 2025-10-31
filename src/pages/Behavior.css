@@ -1,0 +1,86 @@
+/* Page enter transition: slide in from right to left */
+@keyframes slideLeftIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0.01;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.behavior-content-enter {
+  animation: slideLeftIn 420ms ease both;
+}
+
+/* Minor tweaks for behavior panel visual alignment */
+.behavior-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 1.8rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+}
+
+.record-shell {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1rem 1.4rem;
+}
+.record-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #6f0d0d;
+  color: #ffd64d;
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.9rem;
+}
+.record-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 0.9rem;
+}
+.record-title {
+  font-weight: 800;
+  color: #3a2b2b;
+}
+.record-meta {
+  color: #6b6b6b;
+  margin-bottom: 0.5rem;
+}
+.record-body {
+  color: #333;
+}
+
+.pill.active {
+  filter: brightness(1.1);
+}
+
+/* Back button consistent with app theme */
+.back-btn {
+  background: #6f0d0d;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.9rem;
+}
+.back-btn:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 1024px) {
+  .behavior-panel {
+    grid-template-columns: 1fr;
+  }
+}

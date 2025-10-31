@@ -1,0 +1,121 @@
+/* Content-only enter transition: slide in from right to left */
+@keyframes slideLeftIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0.01;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.attendance-content-enter {
+  animation: slideLeftIn 420ms ease both;
+}
+
+/* Panel layout (mirrors behavior panel) */
+.attendance-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 1.8rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+}
+
+.att-shell {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1rem 1.4rem;
+}
+.att-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #6f0d0d;
+  color: #ffd64d;
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.att-body {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 1.2rem;
+}
+
+.calendar-card,
+.status-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 0.9rem;
+}
+.calendar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #3a2b2b;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.45rem;
+}
+.day,
+.weekday {
+  text-align: center;
+  padding: 0.45rem 0;
+  color: #333;
+}
+.weekday {
+  font-weight: 700;
+  color: #6b6b6b;
+}
+.day.active {
+  background: #d64747;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.status-title {
+  text-align: center;
+  font-weight: 700;
+  color: #3a2b2b;
+  margin-bottom: 0.6rem;
+}
+.status-row {
+  background: #f2f2f2;
+  border-radius: 10px;
+  padding: 0.7rem 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.status-row + .status-row { margin-top: 0.6rem; }
+.status-key { color: #6b6b6b; }
+.status-value { color: #333; font-weight: 700; }
+
+.back-btn {
+  background: #6f0d0d;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.9rem;
+}
+.back-btn:hover { filter: brightness(1.05); }
+
+@media (max-width: 1024px) {
+  .attendance-panel { grid-template-columns: 1fr; }
+  .att-body { grid-template-columns: 1fr; }
+}

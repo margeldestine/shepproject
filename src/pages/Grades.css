@@ -1,0 +1,91 @@
+/* Content-only enter transition: slide in from right to left */
+@keyframes slideLeftIn {
+  from { transform: translateX(100%); opacity: 0.01; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.grades-content-enter { animation: slideLeftIn 420ms ease both; }
+
+/* Panel layout similar to other sections */
+.grades-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 1.8rem auto;
+  padding: 0 1rem;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.5rem;
+}
+
+.grades-shell {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 1rem 1rem 1.4rem;
+}
+.grades-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #6f0d0d;
+  color: #ffd64d;
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.9rem;
+}
+
+.grades-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  padding: 0.9rem;
+}
+
+.click-hint {
+  margin: 0.2rem 0 0.6rem;
+  color: #6f0d0d;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.grades-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.grades-table thead th {
+  color: #3a2b2b;
+  font-weight: 800;
+  padding: 0.6rem;
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+}
+.grades-table tbody td {
+  padding: 0.55rem 0.6rem;
+  color: #333;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.grades-table tbody tr { cursor: pointer; transition: background 160ms ease; }
+.grades-table tbody tr:hover { background: rgba(111, 13, 13, 0.06); }
+.subject-name { display: inline-flex; align-items: center; gap: 8px; }
+.subject-name .chev { color: #6f0d0d; font-weight: 800; }
+.grades-table tbody tr:last-child td { border-bottom: none; }
+.grades-table thead th + th, .grades-table tbody td + td {
+  border-left: 1px solid rgba(0,0,0,0.06); /* vertical separators */
+}
+.remark-pass { color: #2ca86a; font-weight: 700; }
+
+.back-btn {
+  background: #6f0d0d;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.9rem;
+}
+.back-btn:hover { filter: brightness(1.05); }
+
+@media (max-width: 1024px) {
+  .grades-panel { grid-template-columns: 1fr; }
+  .grades-table { font-size: 0.95rem; }
+}
