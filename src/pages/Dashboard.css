@@ -103,19 +103,6 @@
   filter: brightness(0.96);
 }
 
-/* ⭐ Standalone illustration (separate from hero) */
-.hero-illustration-standalone {
-  position: absolute;
-  top: -10px;           /* fine-tune vertical */
-  left: 46%;            /* move to upper-middle area */
-  transform: translateX(-10%);
-  width: 360px;
-  height: 260px;
-  background: url("../assets/dashboardpic.png") center/contain no-repeat;
-  pointer-events: none;
-  z-index: 0;           /* sits behind sections that follow */
-}
-
 /* Keep announcements over the illustration */
 .section-header,
 .cards {

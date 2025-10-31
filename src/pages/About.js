@@ -20,22 +20,16 @@ export default function About() {
         </div>
       </header>
 
-      {/* ===== HERO ===== */}
-      <section
-        className="about-hero"
-        style={{ backgroundImage: `url(${campusHero})` }}
-      >
-        <div className="hero-overlay" />
-        <div className="hero-inner">
-          <h1>Cebu Institute of Technology - University</h1>
-          <p>
-            a private, non-sectarian academic institution founded in 1946 that
-            provides quality education from basic to higher learning, with a
-            strong focus on science, technology, innovation, and values-driven
-            development.
-          </p>
-        </div>
-      </section>
+      {/* ===== HERO CONTENT (no separate section) ===== */}
+      <div className="hero-content">
+        <h1>Cebu Institute of Technology - University</h1>
+        <p>
+          a private, non-sectarian academic institution founded in 1946 that
+          provides quality education from basic to higher learning, with a
+          strong focus on science, technology, innovation, and values-driven
+          development.
+        </p>
+      </div>
 
       {/* ===== VISION / MISSION BAND ===== */}
       <section className="about-band">

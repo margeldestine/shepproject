@@ -8,34 +8,25 @@
 
 .landing-left h1 {
   color: #800000;
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
+  font-size: 2.5rem;
   font-weight: 900;
+  margin-bottom: 0.5rem;
 }
 
 .landing-left h3 {
-  color: #a05252;
+  color: #a52a2a;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
 .landing-left p {
-  color: #333;
-  font-size: 1.1rem;
+  color: #222;
   margin-bottom: 2rem;
   line-height: 1.5;
 }
 
 .landing-left img {
+  max-width: 350px;
   width: 100%;
-  max-width: 380px;
-  border-radius: 12px;
   align-self: center;
 }
-
-.landing-container {
-  background-image: url("../assets/shepbg.png");
-  background-size: cover;
-  background-position: center;
-}
-
