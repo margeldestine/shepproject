@@ -293,3 +293,42 @@
     align-items: flex-start;
   }
 }
+
+/* ===== Animations for Announcements / Updates Cards ===== */
+.cards .card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  cursor: pointer; /* indicate clickable */
+}
+
+/* Hover effect: lift card slightly */
+.cards .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.85));
+}
+
+/* Click / press effect: shrink and pop */
+.cards .card:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  animation: cardPop 0.2s ease;
+}
+
+/* Keyframe pop animation */
+@keyframes cardPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+/* Optional: make read button inside card also interactive */
+.cards .card .read-btn {
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.cards .card .read-btn:hover {
+  background: #ffc933;
+  transform: translateY(-2px);
+}
+.cards .card .read-btn:active {
+  transform: scale(0.95);
+}
