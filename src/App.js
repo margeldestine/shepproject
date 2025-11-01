@@ -10,6 +10,8 @@ import SubjectDetails from "./pages/SubjectDetails";
 import About from "./pages/About";
 import Forms from "./pages/Forms";
 import FormDetail from "./pages/FormDetail";
+import Settings from "./pages/Settings";
+
 
 
 function App() {
@@ -27,6 +29,7 @@ function App() {
         <Route path="/forms/pta-meeting" element={<FormDetail title="PTA Meeting" />} />
         <Route path="/parent-id" element={<ParentIdInput />} />
         <Route path="/about" element={<About />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </Router>
   );

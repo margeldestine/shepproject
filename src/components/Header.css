@@ -30,3 +30,15 @@
 .nav li:hover {
   color: #ffcccc;
 }
+
+.settings-link {
+  color: #6a1414;
+  transition: 0.3s ease;
+}
+
+.settings-link:hover {
+  color: #d4a017;
+}
+
+
+

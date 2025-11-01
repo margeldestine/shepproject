@@ -1,50 +1,93 @@
-.announce-modal-backdrop{
+/* ===== Backdrop ===== */
+.announce-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(40, 40, 40, 0.55);
+  background: rgba(40, 40, 40, 0.55); /* dimmed overlay */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
-.announce-modal{
+/* ===== Modal container ===== */
+.announce-modal {
   width: min(900px, 92vw);
-  border-radius: 16px;
-  box-shadow: 0 12px 26px rgba(0,0,0,0.18);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-  color: #2b2b2b;
-  padding: 1.25rem 1.25rem 1.75rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f4f4 100%);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.announce-modal-header h3{
-  margin: 0 0 .25rem;
-  color: #3a2b2b;
-}
-.announce-modal-header small{
-  color: #6b6b6b;
+/* Decorative gold corners */
+.announce-modal::before,
+.announce-modal::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 3px solid #d4a017; /* gold tone */
+  border-radius: 8px;
 }
 
-.announce-modal-body{
-  margin-top: .8rem;
+.announce-modal::before {
+  top: 10px;
+  left: 10px;
+  border-right: none;
+  border-bottom: none;
 }
-.announce-modal-body p{
+
+.announce-modal::after {
+  bottom: 10px;
+  right: 10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Header */
+.announce-modal-header h3 {
+  margin: 0;
+  font-weight: 700;
+  color: #6a1414; /* maroon tone */
+  font-size: 1.4rem;
+}
+
+.announce-modal-header small {
+  display: block;
+  margin-top: 0.25rem;
+  color: #7b7b7b;
+  font-size: 0.9rem;
+}
+
+/* Body */
+.announce-modal-body {
+  margin-top: 1rem;
+}
+
+.announce-modal-body p {
   margin: 0;
   line-height: 1.7;
-  color: #333;
+  color: #2b2b2b;
+  font-size: 1rem;
 }
 
-.announce-modal-actions{
-  position: relative;
-  margin-top: 1.25rem;
+/* ===== Back button inside modal ===== */
+.back-pill {
+  display: inline-block;      /* flows inside content */
+  margin-top: 1.5rem;         /* spacing from text */
+  background: #6a1414;        /* maroon color */
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
 }
 
-/* Back pill styled to match About page tone */
-.back-pill{
-  background:#6f0d0d; color:#fff;
-  border:none; border-radius:10px;
-  padding:.48rem .85rem;
-  font-weight:700; cursor:pointer;
-  box-shadow:0 8px 18px rgba(0,0,0,.12);
+.back-pill:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
-.back-pill:hover{ filter:brightness(1.05); }

@@ -11,11 +11,13 @@ function AnnouncementModal({ open, title, date, description, onClose }) {
           <h3>{title}</h3>
           <small>{date}</small>
         </div>
+
         <div className="announce-modal-body">
           <p>{description}</p>
-        </div>
-        <div className="announce-modal-actions">
-          <button className="back-pill" onClick={onClose}>‹ Back</button>
+          {/* Back button now inside the rectangle, below content */}
+          <button className="back-pill" onClick={onClose}>
+            ‹ Back
+          </button>
         </div>
       </div>
     </div>
