@@ -96,18 +96,38 @@ function Dashboard() {
 
         {/* ===== RIGHT SIDEBAR ===== */}
         <aside className="dash-side">
-          <div className="profile-card">
-            <div className="profile-avatar" />
-            <h4>Francaryllese Dacabelam</h4>
+          <div className="sidebar-panel">
+            <div className="profile-card">
+              <div className="profile-avatar" />
+              <h4>Francaryllese Dacabelam</h4>
 
-            <div className="profile-actions">
-              <button className="pill" onClick={() => navigate("/behavior")}>Behavior</button>
-              <button className="pill" onClick={() => navigate("/attendance")}>Attendance</button>
-              <button className="pill" onClick={() => navigate("/grades")}>View Grades</button>
-              <button className="pill" onClick={() => navigate("/forms")}>Forms</button>
+              <div className="profile-actions">
+                <button className="pill" onClick={() => navigate("/behavior")}>Behavior</button>
+                <button className="pill" onClick={() => navigate("/attendance")}>Attendance</button>
+                <button className="pill" onClick={() => navigate("/grades")}>View Grades</button>
+                <button className="pill" onClick={() => navigate("/forms")}>Forms</button>
+              </div>
+            </div>
+
+            {/* Upcoming Events (static prototype) */}
+            <div className="events-card" onClick={() => navigate("/events")} style={{ cursor: "pointer" }}>
+              <h4>Upcoming Events</h4>
+              <div className="event">
+                <div className="event-badge" />
+                <div className="event-body">
+                  <strong>September 9</strong>
+                  <span>Sergio Osmeña Day</span>
+                </div>
+              </div>
+              <div className="event">
+                <div className="event-badge" />
+                <div className="event-body">
+                  <strong>September 23</strong>
+                  <span>Faculty-Admin Day</span>
+                </div>
+              </div>
             </div>
           </div>
-
         </aside>
       </main>
       {/* Detail Modal */}
