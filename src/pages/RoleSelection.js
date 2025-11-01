@@ -6,6 +6,10 @@ import "./RoleSelection.css";
 function RoleSelection() {
   const navigate = useNavigate();
 
+  const handleTeacherClick = () => {
+    navigate("/teacher");
+  };
+
   const handleParentClick = () => {
     navigate("/parent-id");
   };
@@ -20,15 +24,15 @@ function RoleSelection() {
         <h2>Which best describes you?</h2>
 
         <div className="role-buttons">
-          <Button className="role-btn">Staff/Teacher</Button>
+        <Button className="role-btn" onClick={handleTeacherClick}>
+          Staff/Teacher
+        </Button>
 
-          <Button className="role-btn" onClick={handleParentClick}>
-            Parent/Guardian
-          </Button>
-
-          <Button className="role-btn">Administrator</Button>
-        </div>
-
+        <Button className="role-btn" onClick={handleParentClick}>
+          Parent/Guardian
+        </Button>
+      </div>
+      
         <p className="role-text">
           Already have an account?{" "}
           <a href="/" className="role-link">
@@ -36,7 +40,7 @@ function RoleSelection() {
           </a>
         </p>
       </div>
-    </div>
+      </div>
   );
 }
 

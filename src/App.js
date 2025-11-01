@@ -11,6 +11,8 @@ import About from "./pages/About";
 import Forms from "./pages/Forms";
 import FormDetail from "./pages/FormDetail";
 import Settings from "./pages/Settings";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import TeacherAttendance from "./pages/TeacherAttendance";
 
 
 
@@ -30,6 +32,8 @@ function App() {
         <Route path="/parent-id" element={<ParentIdInput />} />
         <Route path="/about" element={<About />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/teacher" element={<TeacherDashboard />} />
+        <Route path="/TeacherAttendance/:sectionId" element={<TeacherAttendance />} />
       </Routes>
     </Router>
   );
