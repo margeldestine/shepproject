@@ -5,13 +5,21 @@ import Dashboard from "./pages/Dashboard";
 import Behavior from "./pages/Behavior";
 import Attendance from "./pages/Attendance";
 import Grades from "./pages/Grades";
-import ParentIdInput from "./pages/ParentIdInput";
 import SubjectDetails from "./pages/SubjectDetails";
-import About from "./pages/About";
 import Forms from "./pages/Forms";
 import FormDetail from "./pages/FormDetail";
 import Events from "./pages/Events";
 
+import ParentIdInput from "./pages/ParentIdInput";
+import About from "./pages/About";
+import Settings from "./pages/Settings";
+import TeacherDashboard from "./pages/TeacherDashboard";
+import TeacherAttendance from "./pages/TeacherAttendance";
+import TeacherGrades from "./pages/TeacherGrades";
+import BehaviorLogs from "./pages/BehaviorLogs";
+import ClassAnnouncements from "./pages/ClassAnnouncements";
+import TeacherForms from "./pages/TeacherForms";
+import Announcements from "./pages/Announcements";
 
 function App() {
   return (
@@ -29,6 +37,14 @@ function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/parent-id" element={<ParentIdInput />} />
         <Route path="/about" element={<About />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/teacher" element={<TeacherDashboard />} />
+        <Route path="/teacher-attendance/:sectionId" element={<TeacherAttendance />} /> 
+        <Route path="/teacher-grades" element={<TeacherGrades />} />
+        <Route path="/behavior-logs" element={<BehaviorLogs />} />
+        <Route path="/class-announcements" element={<ClassAnnouncements/>} />
+        <Route path="/teacher-forms" element={<TeacherForms/>} />
+        <Route path="/announcements" element={<Announcements/>} />
       </Routes>
     </Router>
   );

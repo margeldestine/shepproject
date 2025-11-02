@@ -5,6 +5,9 @@
   background-size: cover;
   background-position: center;
   color: #2b2b2b;
+
+  background-color: rgba(0, 0, 0, 0.6); /* increased from 0.4 to 0.6 */
+  background-blend-mode: overlay;
 }
 .dash-overlay {
   position: absolute;
@@ -173,6 +176,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
 }
 .sidebar-panel {
   background: #dedede; /* light gray wrapper to match prototype */
@@ -190,7 +194,7 @@
 .profile-card {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 16px;
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
@@ -283,7 +287,7 @@
     font-size: 14px;
 }
 
-/* ===== Responsive ===== */
+
 @media (max-width: 1024px) {
   .dash-grid {
     grid-template-columns: 1fr;
@@ -292,8 +296,8 @@
     position: static;
     transform: none;
     margin: 0 auto 1rem;
-    width: min(650px, 95%); /* Increased from 520px */
-    height: 680px; /* Increased from 540px */
+    width: min(650px, 95%); 
+    height: 680px; 
   }
   .cards {
     grid-template-columns: repeat(2, 1fr);
@@ -304,8 +308,8 @@
     font-size: 1.5rem;
   }
   .hero-illustration-standalone {
-    height: 320px; /* Increased from 200px */
-    width: min(400px, 95%); /* Added width control for mobile */
+    height: 320px; 
+    width: min(400px, 95%); 
   }
   .cards {
     grid-template-columns: 1fr;
@@ -315,4 +319,41 @@
     gap: 0.6rem;
     align-items: flex-start;
   }
+}
+
+.cards .card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  cursor: pointer; 
+}
+
+.cards .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.85));
+}
+
+
+.cards .card:active {
+  transform: scale(0.96);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  animation: cardPop 0.2s ease;
+}
+
+
+@keyframes cardPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+
+.cards .card .read-btn {
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.cards .card .read-btn:hover {
+  background: #ffc933;
+  transform: translateY(-2px);
+}
+.cards .card .read-btn:active {
+  transform: scale(0.95);
 }

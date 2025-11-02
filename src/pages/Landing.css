@@ -1,4 +1,6 @@
-/* Full background */
+/* ================= */
+/* FULL BACKGROUND   */
+/* ================= */
 .landing-background {
   min-height: 100vh;
   background-size: cover;
@@ -20,53 +22,55 @@
   flex-direction: column;
 }
 
-/* Card container (glass frame) */
+/* ================= */
+/* CARD CONTAINER     */
+/* ================= */
 .landing-container {
   display: flex;
   justify-content: space-between;
   align-items: stretch;
   margin: 3rem auto;
   max-width: 1100px;
+  width: 95%;
 
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
 
-  width: 95%;
+  /* Single transparent glass effect */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white; /* make text readable */
 }
 
-/* Left section: Glassmorphism */
+/* ================= */
+/* LEFT SECTION      */
+/* ================= */
 .landing-left {
-  flex: 1;
+  flex: 1.2; /* slightly bigger than the red side */
   padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.75),
-    rgba(255, 255, 255, 0.55)
-  );
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+ 
 }
 
-/* Right section: Maroon panel */
+
 .landing-right {
   flex: 1;
   padding: 2rem;
-  background: rgba(128, 0, 0, 0.95);
-  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+
+  background: #570101; 
+  color: white;
 }
 
-/* ================= */
-/* RESPONSIVENESS    */
-/* ================= */
-
-/* Tablets (below 900px) */
 @media (max-width: 900px) {
   .landing-container {
     flex-direction: column;
@@ -75,6 +79,10 @@
 
   .landing-right {
     border-radius: 0 0 12px 12px; /* round bottom corners when stacked */
+  }
+
+  .landing-left {
+    flex: 1; /* stacked, equal width */
   }
 }
 

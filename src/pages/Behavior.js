@@ -2,9 +2,10 @@ import "./Behavior.css";
 import "./Dashboard.css"; // reuse shared layout styles
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 function Behavior() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
@@ -17,9 +18,8 @@ function Behavior() {
           <span>Ritchie Marie</span>
         </div>
 
-        <div className="top-actions">
-          <button className="icon-btn" aria-label="Notifications">🔔</button>
-          <button className="icon-btn" aria-label="Settings">⚙️</button>
+        <div className="about-actions">
+          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
         </div>
       </header>
 

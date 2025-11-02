@@ -23,24 +23,20 @@ function Dashboard() {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      {/* Top bar */}
       <header className="dash-topbar">
         <div className="user-chip">
           <div className="avatar" />
           <span>Ritchie Marie</span>
         </div>
 
-        <div className="top-actions">
-          <button className="icon-btn" aria-label="Notifications">🔔</button>
-          <button className="icon-btn" aria-label="Settings">⚙️</button>
+        <div className="about-actions">
+          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
         </div>
       </header>
 
-      {/* Main grid */}
+
       <main className="dash-grid">
-        {/* ===== LEFT COLUMN ===== */}
         <section className="dash-main">
-          {/* Text-only hero */}
           <div className="hero">
             <div className="hero-text">
               <h1>
@@ -59,7 +55,6 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Announcements */}
           <div className="section-header">
             <h2>Announcements &amp; Updates</h2>
             {!showAll && (
@@ -94,7 +89,6 @@ function Dashboard() {
           )}
         </section>
 
-        {/* ===== RIGHT SIDEBAR ===== */}
         <aside className="dash-side">
           <div className="sidebar-panel">
             <div className="profile-card">
@@ -130,7 +124,6 @@ function Dashboard() {
           </div>
         </aside>
       </main>
-      {/* Detail Modal */}
       <AnnouncementModal
         open={modalOpen}
         title={modalContent.title}

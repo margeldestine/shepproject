@@ -22,9 +22,8 @@ function Forms() {
           <span>Ritchie Marie</span>
         </div>
 
-        <div className="top-actions">
-          <button className="icon-btn" aria-label="Notifications">🔔</button>
-          <button className="icon-btn" aria-label="Settings">⚙️</button>
+        <div className="about-actions">
+          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
         </div>
       </header>
 

@@ -15,8 +15,7 @@ export default function About() {
           <span>Ritchie Marie</span>
         </div>
         <div className="about-actions">
-          <button className="icon" aria-label="Notifications">🔔</button>
-          <button className="icon" aria-label="Settings">⚙️</button>
+          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
         </div>
       </header>
 
