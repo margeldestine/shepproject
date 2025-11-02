@@ -1,0 +1,163 @@
+/* Content-only enter transition: slide in from right to left */
+@keyframes slideLeftIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0.01;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.events-content-enter {
+  animation: slideLeftIn 420ms ease both;
+}
+
+/* Panel layout (mirrors other detail pages) */
+.events-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 1360px; /* occupy more width like prototype */
+  margin: 1.8rem auto;
+  padding: 0 1.2rem;
+}
+
+/* Page title outside container to match screenshot */
+.events-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #620000; /* match prototype headline color */
+  margin: 0 0 1rem 0;
+}
+
+.events-shell {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 1.2rem 1.2rem 1.8rem; /* more breathing room */
+  min-height: 70vh; /* occupy more height */
+}
+
+/* header removed in favor of external title */
+
+/* Events grid - 3 columns as shown in prototype */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem; /* increase spacing between cards */
+  margin-bottom: 1.5rem;
+}
+
+/* Individual event cards */
+.event-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 1.2rem 1.3rem; /* larger internal spacing */
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 92px; /* increase visual size to occupy container */
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Red badge for event cards */
+.event-card-badge {
+  width: 26px;
+  height: 56px; /* noticeably taller accent line */
+  background: #e00000;
+  border-radius: 16px;
+  flex-shrink: 0;
+}
+
+/* Event card content */
+.event-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.event-card-content strong {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  line-height: 1.2;
+}
+
+.event-card-content span {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.35;
+}
+
+/* Events footer with Next button */
+.events-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.next-btn {
+  background: #6f0d0d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.next-btn:hover {
+  background: #8b1111;
+}
+
+/* Back button (reuses existing styles from Dashboard.css) */
+.back-btn {
+  background: linear-gradient(135deg, #6f0d0d, #8b1111);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.back-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(111, 13, 13, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .events-panel {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .events-header {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.7rem;
+  }
+}

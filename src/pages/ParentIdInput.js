@@ -14,7 +14,7 @@ function ParentIdInput() {
 
   // regex for valid formats
   const validPattern1 = /^\d{4}-\d{5}$/; // ****-*****
-  const validPattern2 = /^\d{2}-\d{2}-\d{5}$/; // **-**-*****
+  const validPattern2 = /^\d{2}-\d{4}-\d{3}$/; // **-****-***
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -32,7 +32,7 @@ function ParentIdInput() {
     }
 
     if (!validPattern1.test(schoolId) && !validPattern2.test(schoolId)) {
-      setError("Invalid format. Use ****-***** or **-**-*****.");
+      setError("Invalid format. Use ****-***** or **-****-***.");
       return;
     }
 

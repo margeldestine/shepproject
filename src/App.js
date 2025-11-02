@@ -8,6 +8,8 @@ import Grades from "./pages/Grades";
 import SubjectDetails from "./pages/SubjectDetails";
 import Forms from "./pages/Forms";
 import FormDetail from "./pages/FormDetail";
+import Events from "./pages/Events";
+
 import ParentIdInput from "./pages/ParentIdInput";
 import About from "./pages/About";
 import Settings from "./pages/Settings";
@@ -32,6 +34,7 @@ function App() {
         <Route path="/grades/:subjectId" element={<SubjectDetails />} />
         <Route path="/forms" element={<Forms />} />
         <Route path="/forms/pta-meeting" element={<FormDetail title="PTA Meeting" />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/parent-id" element={<ParentIdInput />} />
         <Route path="/about" element={<About />} />
         <Route path="/settings" element={<Settings />} />

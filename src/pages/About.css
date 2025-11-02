@@ -75,7 +75,13 @@
 
 /* ======================== VISION / MISSION ======================== */
 .about-band{
-  background:#6f0d0d;
+  /* Use the rectangle image to match prototype */
+  background-image: url('../assets/rectangle.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Fallback color under the image */
+  background-color:#6f0d0d;
   color:#fff;
   padding:1.6rem 1rem;
 }
@@ -94,8 +100,8 @@
   letter-spacing:.3px;
   margin-bottom:.5rem;
 }
-.vm-block .line{ margin:.15rem 0; font-size:1.02rem; }
-.vm-block .strong{ font-weight:800; color:#ffd26a; }
+.vm-block .line{ margin:.15rem 0; font-size:1.02rem; color:#F4C430; }
+.vm-block .strong{ font-weight:800; color:#F4C430; }
 
 /* ========================= SH-EP SECTION ========================== */
 .about-section{ padding:2.2rem 1rem 3.6rem; }
