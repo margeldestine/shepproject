@@ -260,7 +260,7 @@
     font-size: 14px;
 }
 
-/* ===== Responsive ===== */
+
 @media (max-width: 1024px) {
   .dash-grid {
     grid-template-columns: 1fr;
@@ -269,8 +269,8 @@
     position: static;
     transform: none;
     margin: 0 auto 1rem;
-    width: min(650px, 95%); /* Increased from 520px */
-    height: 680px; /* Increased from 540px */
+    width: min(650px, 95%); 
+    height: 680px; 
   }
   .cards {
     grid-template-columns: repeat(2, 1fr);
@@ -281,8 +281,8 @@
     font-size: 1.5rem;
   }
   .hero-illustration-standalone {
-    height: 320px; /* Increased from 200px */
-    width: min(400px, 95%); /* Added width control for mobile */
+    height: 320px; 
+    width: min(400px, 95%); 
   }
   .cards {
     grid-template-columns: 1fr;
@@ -294,34 +294,32 @@
   }
 }
 
-/* ===== Animations for Announcements / Updates Cards ===== */
 .cards .card {
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
-  cursor: pointer; /* indicate clickable */
+  cursor: pointer; 
 }
 
-/* Hover effect: lift card slightly */
 .cards .card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
   background: linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.85));
 }
 
-/* Click / press effect: shrink and pop */
+
 .cards .card:active {
   transform: scale(0.96);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
   animation: cardPop 0.2s ease;
 }
 
-/* Keyframe pop animation */
+
 @keyframes cardPop {
   0%   { transform: scale(1); }
   50%  { transform: scale(0.95); }
   100% { transform: scale(1); }
 }
 
-/* Optional: make read button inside card also interactive */
+
 .cards .card .read-btn {
   transition: background 0.2s ease, transform 0.15s ease;
 }

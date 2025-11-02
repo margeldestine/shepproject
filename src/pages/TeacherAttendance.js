@@ -26,13 +26,16 @@ export default function TeacherAttendance() {
           </div>
         </div>
 
-        <div className="sidebar-links">
-          <button className="active">Attendance</button>
-          <button>Grades</button>
-          <button>Behavior Logs</button>
-          <button>Class Announcements</button>
-          <button>Forms</button>
-        </div>
+      <div className="sidebar-links">
+      <button className="active" onClick={() => navigate("/teacher-attendance")}>Attendance</button>
+      <button onClick={() => navigate("/teacher-grades")}>Grades</button>
+      <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
+      <button onClick={() => navigate("/class-announcements")}>Class Announcements</button>
+      <button onClick={() => navigate("/forms")}>Forms</button>
+      <button onClick={() => navigate("/announcements")}>Announcements</button>
+    </div>
+
+
       </aside>
 
       {/* === MAIN SECTION === */}
@@ -45,7 +48,8 @@ export default function TeacherAttendance() {
 
 
         <div className="attendance-container">
-          <h2 className="attendance-header">Attendance — G2 Faith</h2>
+        <h2 className="attendance-header header-box">Attendance — G2 Faith</h2>
+
 
           <div className="filters">
             <select>

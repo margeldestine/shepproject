@@ -7,11 +7,8 @@ export default function TeacherDashboard() {
   const [activeSubject, setActiveSubject] = useState("Science");
   const navigate = useNavigate();
 
-  // ✅ Sign out handler — redirect to landing page
   const handleSignOut = () => {
-    // Optional: clear user session/localStorage if used
-    // localStorage.removeItem("teacherUser");
-    navigate("/"); // go back to landing page
+    navigate("/"); 
   };
 
   const subjects = [
@@ -53,12 +50,11 @@ export default function TeacherDashboard() {
   ];
 
   const handleOpenSection = (sectionId) => {
-    navigate(`/TeacherAttendance/${sectionId}`);
+    navigate(`/teacher-attendance/${sectionId}`);
   };
 
   return (
     <div className="teacher-dashboard-container">
-      {/* Sidebar */}
       <aside className="teacher-sidebar">
         <div className="sidebar-header">
           <h1>SHEP</h1>
@@ -93,9 +89,8 @@ export default function TeacherDashboard() {
         </div>
       </aside>
 
-      {/* Main Section */}
+
       <main className="teacher-main">
-        {/* ✅ Working Sign out button */}
         <div className="top-right-actions" onClick={handleSignOut}>
           <LogOut size={16} />
           <span>Sign out</span>

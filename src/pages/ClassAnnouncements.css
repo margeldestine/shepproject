@@ -1,0 +1,207 @@
+.announcements-container {
+  max-width: 1100px;
+  margin: 3rem auto 0;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.header-box {
+  background-color: #630000;
+  color: #f1c93d;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 0.7rem;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.header-box h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.header-box button {
+  background-color: #ffd54f;
+  color: #4a0000;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.header-box button:hover {
+  background-color: #f1c93d;
+}
+
+.announcements-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  justify-items: center;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .announcements-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .announcements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.announcement-card {
+  background-color: #fffdf6;
+  border: 1px solid #e2c97b;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  width: 90%;
+  max-width: 320px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s ease;
+}
+
+.announcement-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.announcement-header h3 {
+  color: #4a0000;
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 700;
+}
+
+.announcement-date {
+  background-color: #ffd54f;
+  color: #4a0000;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+}
+
+.announcement-desc {
+  color: #5a0000;
+  font-size: 0.9rem;
+  margin: 0.8rem 0 1.2rem;
+}
+
+.read-more-btn {
+  background-color: #ffd54f;
+  color: #4a0000;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  padding: 0.4rem 1rem;
+  align-self: flex-start;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.read-more-btn:hover {
+  background-color: #f1c93d;
+}
+
+.announcement-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border-radius: 1rem;
+}
+
+.announcement-modal {
+  background-color: #fffdf6;
+  border-radius: 10px;
+  width: 500px;
+  max-width: 85%;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  color: #4a0000;
+  font-weight: 800;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  color: #4a0000;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-modal-btn:hover {
+  color: #b00000;
+}
+
+.modal-date {
+  background-color: #ffd54f;
+  color: #4a0000;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.2rem 0.5rem;
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.modal-details {
+  white-space: pre-wrap;
+  font-family: "Segoe UI", sans-serif;
+  color: #4a0000;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}

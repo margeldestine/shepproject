@@ -55,29 +55,22 @@
   flex-direction: column;
   justify-content: center;
 
-  /* inherit transparency from parent, no separate background */
+ 
 }
 
-/* ================= */
-/* RIGHT SECTION     */
-/* ================= */
+
 .landing-right {
-  flex: 1; /* slightly smaller than left */
+  flex: 1;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  /* fully opaque maroon background */
-  background: #570101; /* opaque */
+
+  background: #570101; 
   color: white;
 }
 
-/* ================= */
-/* RESPONSIVENESS    */
-/* ================= */
-
-/* Tablets (below 900px) */
 @media (max-width: 900px) {
   .landing-container {
     flex-direction: column;

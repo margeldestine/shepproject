@@ -23,7 +23,6 @@ function Dashboard() {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      {/* Top bar */}
       <header className="dash-topbar">
         <div className="user-chip">
           <div className="avatar" />
@@ -35,11 +34,9 @@ function Dashboard() {
         </div>
       </header>
 
-      {/* Main grid */}
+
       <main className="dash-grid">
-        {/* ===== LEFT COLUMN ===== */}
         <section className="dash-main">
-          {/* Text-only hero */}
           <div className="hero">
             <div className="hero-text">
               <h1>
@@ -58,7 +55,6 @@ function Dashboard() {
             </div>
           </div>
 
-          {/* Announcements */}
           <div className="section-header">
             <h2>Announcements &amp; Updates</h2>
             {!showAll && (
@@ -93,7 +89,6 @@ function Dashboard() {
           )}
         </section>
 
-        {/* ===== RIGHT SIDEBAR ===== */}
         <aside className="dash-side">
           <div className="profile-card">
             <div className="profile-avatar" />
@@ -109,7 +104,6 @@ function Dashboard() {
 
         </aside>
       </main>
-      {/* Detail Modal */}
       <AnnouncementModal
         open={modalOpen}
         title={modalContent.title}

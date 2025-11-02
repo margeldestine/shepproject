@@ -1,96 +1,25 @@
-.announce-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(40, 40, 40, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.announce-modal {
-  width: min(900px, 92vw);
-  border-radius: 20px;
-  background: linear-gradient(180deg, #ffffff 0%, #f3f3f3 100%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-
-/* ✨ Yellow corner accents like the cards */
-.announce-modal::before,
-.announce-modal::after {
-  content: "";
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  border: 3px solid #d4a017;
-  border-radius: 10px;
-}
-
-.announce-modal::before {
-  top: -2px;
-  right: -2px;
-  border-left: none;
-  border-bottom: none;
-}
-
-.announce-modal::after {
-  bottom: -2px;
-  left: -2px;
-  border-right: none;
-  border-top: none;
-}
-
-/* Header */
-.announce-modal-header h3 {
-  margin: 0;
-  font-weight: 700;
-  color: #6a1414; /* maroon */
-  font-size: 1.4rem;
-}
-
-.announce-modal-header small {
-  display: block;
-  margin-top: 0.25rem;
-  color: #7b7b7b;
-  font-size: 0.9rem;
-}
-
-/* Body */
-.announce-modal-body {
-  margin-top: 1rem;
-}
-
-.announce-modal-body p {
-  margin: 0;
-  line-height: 1.7;
-  color: #2b2b2b;
-  font-size: 1rem;
-}
-
-/* Actions */
-.announce-modal-actions {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: flex-end;
-}
-
-/* Back button */
-.back-pill {
-  background: #6a1414; /* maroon */
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 0.5rem 1.2rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
-}
-
-.back-pill:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+{
+  "short_name": "React App",
+  "name": "Create React App Sample",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
 }
