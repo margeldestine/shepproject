@@ -31,7 +31,7 @@ export default function TeacherAttendance() {
       <button onClick={() => navigate("/teacher-grades")}>Grades</button>
       <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
       <button onClick={() => navigate("/class-announcements")}>Class Announcements</button>
-      <button onClick={() => navigate("/forms")}>Forms</button>
+      <button onClick={() => navigate("/teacher-forms")}>Forms</button>
       <button onClick={() => navigate("/announcements")}>Announcements</button>
     </div>
 

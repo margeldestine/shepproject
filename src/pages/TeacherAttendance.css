@@ -214,7 +214,7 @@
 
 .header-box {
   background-color: #630000;
-  color: #f1c93d;
+  color: #bc0c0c;
   font-weight: 700;
   font-size: 1.1rem;
   border-radius: 0.7rem;
@@ -235,7 +235,7 @@
 }
 
 .header-box button {
-  background-color: #ffd54f;
+  background-color: #a5810a;
   color: #4a0000;
   font-weight: 700;
   border: none;

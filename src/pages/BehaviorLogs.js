@@ -27,11 +27,11 @@ export default function Behavior() {
         </div>
 
         <div className="sidebar-links">
-          <button onClick={() => navigate("/teacher-attendance")}>Attendance</button>
+          <button onClick={() => navigate("/teacher-attendance/1")}>Attendance</button>
           <button onClick={() => navigate("/teacher-grades")}>Grades</button>
           <button className="active" onClick={() => navigate("/behavior")}>Behavior Logs</button>
           <button onClick={() => navigate("/class-announcements")}>Class Announcements</button>
-          <button onClick={() => navigate("/forms")}>Forms</button>
+          <button onClick={() => navigate("/teacher-forms")}>Forms</button>
           <button onClick={() => navigate("/announcements")}>Announcements</button>
         </div>
       </aside>
