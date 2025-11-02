@@ -1,14 +1,19 @@
 import React from "react";
-import { LogOut } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import "./TeacherAttendance.css";
 import { useNavigate } from "react-router-dom";
 
-
 export default function TeacherAttendance() {
-    const navigate = useNavigate();
-    const handleSignOut = () => {
-        navigate("/");
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    navigate("/");
   };
+
+  const handleSettings = () => {
+    navigate("/settings");
+  };
+
   return (
     <div className="teacher-attendance-container">
       {/* === SIDEBAR === */}
@@ -26,30 +31,70 @@ export default function TeacherAttendance() {
           </div>
         </div>
 
-      <div className="sidebar-links">
-      <button className="active" onClick={() => navigate("/teacher-attendance")}>Attendance</button>
-      <button onClick={() => navigate("/teacher-grades")}>Grades</button>
-      <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
-      <button onClick={() => navigate("/class-announcements")}>Class Announcements</button>
-      <button onClick={() => navigate("/teacher-forms")}>Forms</button>
-      <button onClick={() => navigate("/announcements")}>Announcements</button>
-    </div>
-
-
+        <div className="sidebar-links">
+          <button className="active" onClick={() => navigate("/teacher-attendance/1")}>
+            Attendance
+          </button>
+          <button onClick={() => navigate("/teacher-grades")}>Grades</button>
+          <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
+          <button onClick={() => navigate("/class-announcements")}>Class Announcements</button>
+          <button onClick={() => navigate("/teacher-forms")}>Forms</button>
+          <button onClick={() => navigate("/announcements")}>Announcements</button>
+        </div>
       </aside>
 
       {/* === MAIN SECTION === */}
       <main className="teacher-main">
-        {/* ✅ SIGN OUT BUTTON */}
-        <div className="top-right-actions" onClick={handleSignOut}>
-        <LogOut size={16} />
-        <span>Sign out</span>
+        {/* ✅ SETTINGS + SIGN OUT (Dashboard Style) */}
+        <div
+          className="top-right-actions"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            gap: "1rem",
+            marginBottom: "1rem",
+          }}
+        >
+          {/* Settings button first */}
+          <button
+            onClick={handleSettings}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+
+          {/* Sign out button next */}
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
 
-
         <div className="attendance-container">
-        <h2 className="attendance-header header-box">Attendance — G2 Faith</h2>
-
+          <h2 className="attendance-header header-box">Attendance — G2 Faith</h2>
 
           <div className="filters">
             <select>

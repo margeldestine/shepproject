@@ -1,16 +1,20 @@
 import "./Attendance.css";
-import "./Dashboard.css"; // reuse shared layout styles
+import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
+import React from "react";
+import { LogOut, Settings } from "lucide-react";
 
 function Attendance() {
   const navigate = useNavigate();
+
+  const handleSignOut = () => navigate("/");
+  const handleSettings = () => navigate("/settings");
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      {/* Top bar */}
       <header className="dash-topbar">
         <div className="user-chip">
           <div className="avatar" />
@@ -18,18 +22,47 @@ function Attendance() {
         </div>
 
         <div className="about-actions">
-          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
+          <button
+            onClick={handleSettings}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
       </header>
 
-      {/* Main grid (attendance layout) */}
       <main className="attendance-panel">
-        {/* ===== LEFT SIDEBAR ===== */}
         <aside className="dash-side">
           <div className="profile-card">
             <div className="profile-avatar" />
             <h4>Francaryllese Dacabelam</h4>
-
             <div className="profile-actions">
               <button className="pill" onClick={() => navigate("/behavior")}>Behavior</button>
               <button className="pill active" onClick={() => {}}>Attendance</button>
@@ -37,10 +70,8 @@ function Attendance() {
               <button className="pill" onClick={() => navigate("/forms")}>Forms</button>
             </div>
           </div>
-
         </aside>
 
-        {/* ===== RIGHT CONTENT ===== */}
         <section className="attendance-content-enter">
           <div className="att-shell">
             <div className="att-header">
@@ -49,7 +80,6 @@ function Attendance() {
             </div>
 
             <div className="att-body">
-              {/* Calendar */}
               <div className="calendar-card">
                 <div className="calendar-top">
                   <span>‹</span>
@@ -60,7 +90,6 @@ function Attendance() {
                   {['SUN','MON','TUE','WED','THU','FRI','SAT'].map((d) => (
                     <div className="weekday" key={d}>{d}</div>
                   ))}
-                  {/* Week 1 (starts on Monday) */}
                   <div className="day" />
                   <div className="day">1</div>
                   <div className="day">2</div>
@@ -68,7 +97,6 @@ function Attendance() {
                   <div className="day">4</div>
                   <div className="day">5</div>
                   <div className="day">6</div>
-                  {/* Week 2 */}
                   <div className="day">7</div>
                   <div className="day">8</div>
                   <div className="day">9</div>
@@ -76,7 +104,6 @@ function Attendance() {
                   <div className="day">11</div>
                   <div className="day active">12</div>
                   <div className="day">13</div>
-                  {/* Week 3 */}
                   <div className="day">14</div>
                   <div className="day">15</div>
                   <div className="day">16</div>
@@ -84,7 +111,6 @@ function Attendance() {
                   <div className="day">18</div>
                   <div className="day">19</div>
                   <div className="day">20</div>
-                  {/* Week 4 */}
                   <div className="day">21</div>
                   <div className="day">22</div>
                   <div className="day">23</div>
@@ -92,7 +118,6 @@ function Attendance() {
                   <div className="day">25</div>
                   <div className="day">26</div>
                   <div className="day">27</div>
-                  {/* Week 5 */}
                   <div className="day">28</div>
                   <div className="day">29</div>
                   <div className="day">30</div>
@@ -103,7 +128,6 @@ function Attendance() {
                 </div>
               </div>
 
-              {/* Status */}
               <div className="status-card">
                 <div className="status-title">Attendance Status</div>
                 <div className="status-row">
