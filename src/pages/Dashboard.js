@@ -4,20 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AnnouncementModal from "../components/AnnouncementModal";
 import { announcements } from "../data/announcements";
-
+import { LogOut, Settings } from "lucide-react";
 
 function Dashboard() {
+  const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState({ title: "", date: "", description: "" });
+  const [showAll, setShowAll] = useState(false);
 
-    const navigate = useNavigate();
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalContent, setModalContent] = useState({ title: "", date: "", description: "" });
-    const [showAll, setShowAll] = useState(false);
+  const openModal = (title, date, description) => {
+    setModalContent({ title, date, description });
+    setModalOpen(true);
+  };
+  const closeModal = () => setModalOpen(false);
 
-    const openModal = (title, date, description) => {
-      setModalContent({ title, date, description });
-      setModalOpen(true);
-    };
-    const closeModal = () => setModalOpen(false);
+  const handleSignOut = () => navigate("/");
+  const handleSettings = () => navigate("/settings");
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
@@ -30,10 +32,41 @@ function Dashboard() {
         </div>
 
         <div className="about-actions">
-          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
+          <button
+            onClick={handleSettings}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
       </header>
-
 
       <main className="dash-grid">
         <section className="dash-main">
@@ -44,7 +77,7 @@ function Dashboard() {
                 <br /> Students in One Platform
               </h1>
               <p>
-                Easily manage events, track engagement, and stay in control of privacy. <br />Support student success every step of the way. 
+                Easily manage events, track engagement, and stay in control of privacy. <br />Support student success every step of the way.
               </p>
               <button
                 className="about-btn-plain"
@@ -124,6 +157,7 @@ function Dashboard() {
           </div>
         </aside>
       </main>
+
       <AnnouncementModal
         open={modalOpen}
         title={modalContent.title}

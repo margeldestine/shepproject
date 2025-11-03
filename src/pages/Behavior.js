@@ -3,9 +3,18 @@ import "./Dashboard.css"; // reuse shared layout styles
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import { LogOut, Settings } from "lucide-react";
 
 function Behavior() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    navigate("/");
+  };
+
+  const handleSettings = () => {
+    navigate("/settings");
+  };
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
@@ -19,13 +28,44 @@ function Behavior() {
         </div>
 
         <div className="about-actions">
-          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
+          <button
+            onClick={handleSettings}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
       </header>
 
       {/* Main grid (behavior layout) */}
       <main className="behavior-panel">
-        {/* ===== LEFT SIDEBAR ===== */}
         <aside className="dash-side">
           <div className="profile-card">
             <div className="profile-avatar" />
@@ -38,10 +78,8 @@ function Behavior() {
               <button className="pill" onClick={() => navigate("/forms")}>Forms</button>
             </div>
           </div>
-
         </aside>
 
-        {/* ===== RIGHT CONTENT ===== */}
         <section className="behavior-content-enter">
           <div className="record-shell">
             <div className="record-header">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Clock } from "lucide-react";
+import { LogOut, Clock, Settings } from "lucide-react";
 import "./TeacherDashboard.css";
 
 export default function TeacherDashboard() {
@@ -8,7 +8,11 @@ export default function TeacherDashboard() {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    navigate("/"); 
+    navigate("/");
+  };
+
+  const handleSettings = () => {
+    navigate("/settings");
   };
 
   const subjects = [
@@ -89,11 +93,50 @@ export default function TeacherDashboard() {
         </div>
       </aside>
 
-
       <main className="teacher-main">
-        <div className="top-right-actions" onClick={handleSignOut}>
-          <LogOut size={16} />
-          <span>Sign out</span>
+        <div
+          className="top-right-actions"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            gap: "1rem",
+            marginBottom: "1rem",
+          }}
+        >
+          <button
+            onClick={handleSettings}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
 
         <div className="sections-container">

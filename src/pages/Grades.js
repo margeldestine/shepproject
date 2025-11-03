@@ -1,8 +1,9 @@
 import "./Grades.css";
-import "./Dashboard.css"; // reuse shared layout styles
+import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import { subjectSlug } from "../data/subjectDetails";
+import { LogOut, Settings } from "lucide-react";
 
 function Grades() {
   const navigate = useNavigate();
@@ -21,27 +22,51 @@ function Grades() {
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
-
-      {/* Top bar */}
       <header className="dash-topbar">
         <div className="user-chip">
           <div className="avatar" />
           <span>Ritchie Marie</span>
         </div>
-
         <div className="about-actions">
-          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
+          <button
+            onClick={() => navigate("/settings")}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+          <button
+            onClick={() => navigate("/")}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
       </header>
-
-      {/* Main grid (grades layout) */}
       <main className="grades-panel">
-        {/* ===== LEFT SIDEBAR ===== */}
         <aside className="dash-side">
           <div className="profile-card">
             <div className="profile-avatar" />
             <h4>Francaryllese Dacabelam</h4>
-
             <div className="profile-actions">
               <button className="pill" onClick={() => navigate("/behavior")}>Behavior</button>
               <button className="pill" onClick={() => navigate("/attendance")}>Attendance</button>
@@ -49,17 +74,13 @@ function Grades() {
               <button className="pill" onClick={() => navigate("/forms")}>Forms</button>
             </div>
           </div>
-
         </aside>
-
-        {/* ===== RIGHT CONTENT ===== */}
         <section className="grades-content-enter">
           <div className="grades-shell">
             <div className="grades-header">
               <strong>Learner's Academic Performance</strong>
               <span>● ● ●</span>
             </div>
-
             <div className="grades-card">
               <p className="click-hint">Tip: Click any subject to view details</p>
               <table className="grades-table">
@@ -98,7 +119,6 @@ function Grades() {
                 </tbody>
               </table>
             </div>
-
             <button className="back-btn" onClick={() => navigate("/dashboard")}>Back</button>
           </div>
         </section>

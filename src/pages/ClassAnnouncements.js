@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LogOut, X } from "lucide-react";
+import { LogOut, Settings, X } from "lucide-react";
 import "./ClassAnnouncements.css";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,10 @@ export default function ClassAnnouncements() {
 
   const handleSignOut = () => {
     navigate("/");
+  };
+
+  const handleSettings = () => {
+    navigate("/settings");
   };
 
   const announcements = [
@@ -76,7 +80,7 @@ export default function ClassAnnouncements() {
         </div>
 
         <div className="sidebar-links">
-         <button onClick={() => navigate("/teacher-attendance/1")}>Attendance</button>
+          <button onClick={() => navigate("/teacher-attendance/1")}>Attendance</button>
           <button onClick={() => navigate("/teacher-grades")}>Grades</button>
           <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
           <button className="active" onClick={() => navigate("/class-announcements")}>
@@ -88,9 +92,49 @@ export default function ClassAnnouncements() {
       </aside>
 
       <main className="teacher-main">
-        <div className="top-right-actions" onClick={handleSignOut}>
-          <LogOut size={16} />
-          <span>Sign out</span>
+        <div
+          className="top-right-actions"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+            gap: "1rem",
+            marginBottom: "1rem",
+          }}
+        >
+          <button
+            onClick={handleSettings}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Settings size={16} />
+            <span>Settings</span>
+          </button>
+
+          <button
+            onClick={handleSignOut}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <LogOut size={16} />
+            <span>Sign out</span>
+          </button>
         </div>
 
         <div className="announcements-container">
