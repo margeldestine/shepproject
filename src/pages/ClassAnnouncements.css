@@ -205,3 +205,79 @@
   line-height: 1.5;
   font-size: 0.95rem;
 }
+
+/* --- New Announcement Modal Styles --- */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #630000;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #bda76a;
+  font-size: 0.9rem;
+  background-color: #fffdf6;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #ab8922;
+  background-color: #fff;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.back-btn {
+  background: #fff;
+  border: 1px solid #7a0000;
+  color: #7a0000;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #7a0000;
+  color: #fff;
+}
+
+.save-btn {
+  background: #ffd54f;
+  border: 1px solid #e6c200;
+  color: #630000;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn:hover {
+  background: #f1c93d;
+}

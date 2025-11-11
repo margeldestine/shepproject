@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 export default function Announcements() {
   const navigate = useNavigate();
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const [showNewModal, setShowNewModal] = useState(false);
+  const [editAnnouncement, setEditAnnouncement] = useState(null);
 
   const handleSignOut = () => {
     navigate("/");
@@ -22,7 +24,7 @@ export default function Announcements() {
       date: "Due Sep 26, 2025 — 11:59 PM",
       description: "Short Story Writing",
       fullDetails:
-        "Assignment in English\n\nWrite a short story (500–800 words) based on the theme 'Unexpected Friendship'. Make sure to include a clear beginning, middle, and ending. Submission: via Google Classroom before 11:59 PM, Sep 26, 2025.",
+        "Assignment in English\n\nWrite a short story (500–800 words) based on the theme 'Unexpected Friendship'. Submission via Google Classroom.",
     },
     {
       id: 2,
@@ -30,7 +32,7 @@ export default function Announcements() {
       date: "Due Sep 27, 2025 — 11:59 PM",
       description: "Parts of a Plant",
       fullDetails:
-        "Assignment in Science\n\nCreate a labeled diagram of a flowering plant and explain the function of each part. Use clean paper and colored labels. Submission: Science class drop box before 11:59 PM, Sep 27, 2025.",
+        "Assignment in Science\n\nCreate a labeled diagram of a flowering plant and explain each part. Submission: Science class drop box.",
     },
     {
       id: 3,
@@ -38,7 +40,7 @@ export default function Announcements() {
       date: "Due Sep 29, 2025 — 11:59 PM",
       description: "Problem Solving Exercise",
       fullDetails:
-        "Assignment in Math\n\nAnswer the problem-solving set on fractions and decimals (Worksheet #3). Show all solutions clearly. Submission: Google Classroom before 11:59 PM, Sep 29, 2025.",
+        "Assignment in Math\n\nAnswer the problem-solving set on fractions and decimals. Submission: Google Classroom.",
     },
   ];
 
@@ -81,16 +83,7 @@ export default function Announcements() {
         >
           <button
             onClick={handleSettings}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "inherit",
-              padding: "0.5rem",
-            }}
+            style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", color: "inherit", padding: "0.5rem" }}
           >
             <Settings size={16} />
             <span>Settings</span>
@@ -98,16 +91,7 @@ export default function Announcements() {
 
           <button
             onClick={handleSignOut}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "inherit",
-              padding: "0.5rem",
-            }}
+            style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", color: "inherit", padding: "0.5rem" }}
           >
             <LogOut size={16} />
             <span>Sign out</span>
@@ -117,7 +101,7 @@ export default function Announcements() {
         <div className="announcements-container">
           <div className="header-box">
             <h2>Announcements</h2>
-            <button>New Announcement</button>
+            <button onClick={() => setShowNewModal(true)}>New Announcement</button>
           </div>
 
           <div className="announcements-grid">
@@ -127,33 +111,60 @@ export default function Announcements() {
                 <p className="announcement-date">{item.date}</p>
                 <p className="announcement-desc">{item.description}</p>
                 <div className="announcement-actions">
-                  <button
-                    className="details-btn"
-                    onClick={() => setSelectedAnnouncement(item)}
-                  >
-                    Details
-                  </button>
-                  <button className="edit-btn">Edit</button>
+                  <button className="details-btn" onClick={() => setSelectedAnnouncement(item)}>Details</button>
+                  <button className="edit-btn" onClick={() => setEditAnnouncement(item)}>Edit</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Details Modal */}
         {selectedAnnouncement && (
           <div className="announcement-modal-overlay">
             <div className="announcement-modal">
               <div className="modal-header">
                 <h3>{selectedAnnouncement.title}</h3>
-                <button
-                  className="close-modal-btn"
-                  onClick={() => setSelectedAnnouncement(null)}
-                >
+                <button className="close-modal-btn" onClick={() => setSelectedAnnouncement(null)}>
                   <X size={20} />
                 </button>
               </div>
               <p className="modal-date">{selectedAnnouncement.date}</p>
               <pre className="modal-details">{selectedAnnouncement.fullDetails}</pre>
+            </div>
+          </div>
+        )}
+
+        {/* New Announcement Modal */}
+        {showNewModal && (
+          <div className="announcement-modal-overlay">
+            <div className="announcement-modal">
+              <div className="modal-header">
+                <h3>New Announcement</h3>
+                <button className="close-modal-btn" onClick={() => setShowNewModal(false)}>
+                  <X size={20} />
+                </button>
+              </div>
+              <input type="text" placeholder="Title" />
+              <textarea placeholder="Details"></textarea>
+              <button className="edit-btn" style={{ marginTop: "10px" }}>Create</button>
+            </div>
+          </div>
+        )}
+
+        {/* Edit Announcement Modal */}
+        {editAnnouncement && (
+          <div className="announcement-modal-overlay">
+            <div className="announcement-modal">
+              <div className="modal-header">
+                <h3>Edit Announcement</h3>
+                <button className="close-modal-btn" onClick={() => setEditAnnouncement(null)}>
+                  <X size={20} />
+                </button>
+              </div>
+              <input type="text" defaultValue={editAnnouncement.title} />
+              <textarea defaultValue={editAnnouncement.fullDetails}></textarea>
+              <button className="edit-btn" style={{ marginTop: "10px" }}>Save</button>
             </div>
           </div>
         )}

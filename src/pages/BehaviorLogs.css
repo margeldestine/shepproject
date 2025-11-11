@@ -304,3 +304,66 @@
   border-radius: 5px;
   border: 1px solid #bda76a;
 }
+
+.behavior-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+.behavior-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 500px;
+  max-width: 90%;
+  max-height: 75vh;
+  overflow-y: auto;
+  padding: 25px 30px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.modal-header h3 {
+  color: #5d1227; /* same as Grades modal header */
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.back-btn {
+  background: #f8e4eb; /* same look as Grades modal back button */
+  color: #5d1227;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.save-btn {
+  background: #5d1227;
+  color: #ffd54f;
+  font-weight: 700;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.behavior-modal form input,
+.behavior-modal form textarea,
+.behavior-modal form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #bda76a;
+  font-size: 0.9rem;
+}

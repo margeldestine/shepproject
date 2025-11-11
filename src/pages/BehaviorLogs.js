@@ -1,5 +1,5 @@
-import React from "react";
-import { LogOut, Settings } from "lucide-react";
+import React, { useState } from "react";
+import { LogOut, Settings, X } from "lucide-react";
 import "./BehaviorLogs.css";
 import { useNavigate } from "react-router-dom";
 
@@ -8,6 +8,9 @@ export default function Behavior() {
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
+
+  // ✅ Modal state
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="teacher-attendance-container">
@@ -75,7 +78,7 @@ export default function Behavior() {
         <div className="attendance-container">
           <div className="header-box">
             <h2>Behavior — G2 Faith</h2>
-            <button>Add Behavior</button>
+            <button onClick={() => setShowModal(true)}>Add Behavior</button>
           </div>
 
           <table className="attendance-table">
@@ -104,6 +107,43 @@ export default function Behavior() {
           </table>
         </div>
       </main>
+
+      {/* ✅ Modal moved OUTSIDE teacher-main */}
+      {showModal && (
+        <div className="behavior-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="behavior-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Add Behavior</h3>
+              <button
+                className="close-modal-btn"
+                onClick={() => setShowModal(false)}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <form className="modal-form">
+              <input type="date" placeholder="Date" />
+              <input type="text" placeholder="Student Name" />
+              <textarea placeholder="Incident"></textarea>
+              <textarea placeholder="Action Taken"></textarea>
+
+              {/* --- Buttons like Input Grades modal --- */}
+              <div className="modal-actions">
+                <button
+                  type="button"
+                  className="back-btn"
+                  onClick={() => setShowModal(false)}
+                >
+                  Back
+                </button>
+                <button type="submit" className="save-btn">
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

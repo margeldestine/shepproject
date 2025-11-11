@@ -1,17 +1,18 @@
-import React from "react";
-import { LogOut, Settings } from "lucide-react";
+import React, { useState } from "react";
+import { LogOut, Settings, X } from "lucide-react";
 import "./TeacherGrades.css";
 import { useNavigate } from "react-router-dom";
 
 export default function TeacherGrades() {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
 
   const handleSignOut = () => {
     navigate("/");
   };
 
   const handleSettings = () => {
-    navigate("/teacher-settings");
+    navigate("/settings");
   };
 
   return (
@@ -43,7 +44,6 @@ export default function TeacherGrades() {
       </aside>
 
       <main className="teacher-main">
-        {/* ✅ SETTINGS + SIGN OUT (Dashboard Style) */}
         <div
           className="top-right-actions"
           style={{
@@ -54,7 +54,6 @@ export default function TeacherGrades() {
             marginBottom: "1rem",
           }}
         >
-          {/* Settings button first */}
           <button
             onClick={handleSettings}
             style={{
@@ -72,7 +71,6 @@ export default function TeacherGrades() {
             <span>Settings</span>
           </button>
 
-          {/* Sign out button next */}
           <button
             onClick={handleSignOut}
             style={{
@@ -94,7 +92,9 @@ export default function TeacherGrades() {
         <div className="grades-container">
           <div className="grades-header header-box">
             <h2>Grades</h2>
-            <button className="input-grade-btn">Input grades</button>
+            <button className="input-grade-btn" onClick={() => setShowModal(true)}>
+              Input grades
+            </button>
           </div>
 
           <div className="filters">
@@ -146,6 +146,66 @@ export default function TeacherGrades() {
           </table>
         </div>
       </main>
+
+      {/* Modal moved outside teacher-main */}
+      {showModal && (
+        <div className="grade-modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="grade-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Input Grades</h3>
+              <button className="close-modal-btn" onClick={() => setShowModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="modal-content">
+              <div className="form-group">
+                <label>Student Name</label>
+                <select>
+                  <option>Select a student</option>
+                  <option>Karylle Amad</option>
+                  <option>Danise Bianca Catamco</option>
+                  <option>Margel Destine Krizia Galo</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Grading Period</label>
+                <select>
+                  <option>1st Grading</option>
+                  <option>2nd Grading</option>
+                  <option>3rd Grading</option>
+                  <option>4th Grading</option>
+                </select>
+              </div>
+
+              <div className="grades-input-grid">
+                <div className="form-group">
+                  <label>Science</label>
+                  <input type="number" min="0" max="100" placeholder="0-100" />
+                </div>
+                <div className="form-group">
+                  <label>Mathematics</label>
+                  <input type="number" min="0" max="100" placeholder="0-100" />
+                </div>
+                <div className="form-group">
+                  <label>Reading</label>
+                  <input type="number" min="0" max="100" placeholder="0-100" />
+                </div>
+                <div className="form-group">
+                  <label>Language</label>
+                  <input type="number" min="0" max="100" placeholder="0-100" />
+                </div>
+              </div>
+
+              <div className="modal-actions">
+                <button className="back-btn" onClick={() => setShowModal(false)}>Back</button>
+                <button className="save-btn">Save Grades</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export default function ClassAnnouncements() {
   const navigate = useNavigate();
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const [showNewAnnouncement, setShowNewAnnouncement] = useState(false); // NEW modal state
 
   const handleSignOut = () => {
     navigate("/");
@@ -140,7 +141,7 @@ export default function ClassAnnouncements() {
         <div className="announcements-container">
           <div className="header-box">
             <h2>Class Specific Announcements</h2>
-            <button>New Announcement</button>
+            <button onClick={() => setShowNewAnnouncement(true)}>New Announcement</button>
           </div>
 
           <div className="announcements-grid">
@@ -162,6 +163,7 @@ export default function ClassAnnouncements() {
           </div>
         </div>
 
+        {/* Read More Modal */}
         {selectedAnnouncement && (
           <div className="announcement-modal-overlay">
             <div className="announcement-modal">
@@ -179,6 +181,47 @@ export default function ClassAnnouncements() {
             </div>
           </div>
         )}
+
+        {/* New Announcement Modal */}
+        {showNewAnnouncement && (
+          <div className="announcement-modal-overlay">
+            <div className="announcement-modal">
+              <div className="modal-header">
+                <h3>New Announcement</h3>
+                <button
+                  className="close-modal-btn"
+                  onClick={() => setShowNewAnnouncement(false)}
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="modal-content">
+                <div className="form-group">
+                  <label>Title</label>
+                  <input type="text" placeholder="Enter announcement title" />
+                </div>
+                <div className="form-group">
+                  <label>Description</label>
+                  <input type="text" placeholder="Enter short description" />
+                </div>
+                <div className="form-group">
+                  <label>Details</label>
+                  <textarea placeholder="Enter full details" rows={6}></textarea>
+                </div>
+                <div className="modal-actions">
+                  <button
+                    className="back-btn"
+                    onClick={() => setShowNewAnnouncement(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button className="save-btn">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
       </main>
     </div>
   );
