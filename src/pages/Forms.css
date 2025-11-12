@@ -220,3 +220,106 @@
   .forms-panel { grid-template-columns: 1fr; }
   .meeting-grid { grid-template-columns: 1fr; }
 }
+
+/* Centered Reminders Modal Overlay */
+.reminders-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: center; /* horizontally center */
+  align-items: center;     /* vertically center */
+  z-index: 1000;
+}
+
+/* Reminders modal box */
+.reminders-modal {
+  width: 400px; /* adjust width */
+  background: #fff;
+  border-radius: 12px;
+  margin: 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header of modal */
+.reminders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.9rem;
+  background: #6f0d0d;
+  color: #ffd64d;
+  font-weight: 700;
+}
+
+/* Close button */
+.reminders-header .close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffd64d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal content wrapper */
+.reminders-content {
+  display: flex;
+  flex-direction: column;
+  padding: 0.6rem 0.8rem;
+  gap: 0.4rem;
+}
+
+/* Individual reminder item */
+.reminder-item {
+  display: flex;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.reminder-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* Left colored bar */
+.reminder-bar {
+  width: 6px;
+  background: currentColor;
+}
+
+/* Color codes */
+.reminder-item.yellow .reminder-bar { color: #ffd700; }
+.reminder-item.red .reminder-bar { color: #e74c3c; }
+.reminder-item.blue .reminder-bar { color: #3498db; }
+.reminder-item.gray .reminder-bar { color: #95a5a6; }
+
+/* Reminder text body */
+.reminder-body {
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.reminder-body strong {
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+}
+
+.reminder-body span {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.reminder-body small {
+  font-size: 0.75rem;
+  color: #888;
+}

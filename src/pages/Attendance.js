@@ -2,11 +2,13 @@ import "./Attendance.css";
 import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
-import React from "react";
-import { LogOut, Settings } from "lucide-react";
+import React, { useState } from "react";
+import { LogOut, Settings, Bell, X } from "lucide-react";
+import { announcements } from "../data/announcements";
 
 function Attendance() {
   const navigate = useNavigate();
+  const [remindersOpen, setRemindersOpen] = useState(false);
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
@@ -22,6 +24,23 @@ function Attendance() {
         </div>
 
         <div className="about-actions">
+          <button
+            onClick={() => setRemindersOpen(true)}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              color: "inherit",
+              padding: "0.5rem",
+            }}
+          >
+            <Bell size={16} />
+            <span>Reminders</span>
+          </button>
+
           <button
             onClick={handleSettings}
             style={{
@@ -149,6 +168,105 @@ function Attendance() {
           </div>
         </section>
       </main>
+
+      {remindersOpen && (
+        <div className="reminders-modal-overlay" onClick={() => setRemindersOpen(false)}>
+          <div className="reminders-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="reminders-header">
+              <h2>Reminders</h2>
+              <button className="close-btn" onClick={() => setRemindersOpen(false)}>×</button>
+            </div>
+            
+            <div className="reminders-content">
+              <div className="reminder-section">
+                <h3>Assignments</h3>
+                <div className="reminder-item yellow">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Assignment in English</strong>
+                    <span>Due Sep 26, 2025 (Friday)</span>
+                    <small>📖 English - Short Story Writing</small>
+                  </div>
+                </div>
+                <div className="reminder-item yellow">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Assignment in Science</strong>
+                    <span>Due Sep 26, 2025 (Friday)</span>
+                    <small>🔬 Science - Parts of a Plant</small>
+                  </div>
+                </div>
+                <div className="reminder-item yellow">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Assignment in Filipino</strong>
+                    <span>Due Oct 1, 2025 (Wednesday)</span>
+                    <small>🇵🇭 Filipino - Aking Paboritang Pagkain</small>
+                  </div>
+                </div>
+                <div className="reminder-item yellow">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Assignment in English</strong>
+                    <span>Due Oct 2, 2025 (Thursday)</span>
+                    <small>📖 English - My Favorite Animal</small>
+                  </div>
+                </div>
+              </div>
+
+              <div className="reminder-section">
+                <h3>Alerts</h3>
+                <div className="reminder-item red">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Attendance Alert</strong>
+                    <span>Your Child has 3 Recorded Absences in October.</span>
+                  </div>
+                </div>
+                <div className="reminder-item blue">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Permission Slip Due in 2 Days!</strong>
+                    <span>Please submit your child's signed permission slip before the deadline.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="reminder-section">
+                <h3>Upcoming Events</h3>
+                <div className="reminder-item red">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>September 9</strong>
+                    <span>Sergio Osmeña Day</span>
+                  </div>
+                </div>
+                <div className="reminder-item red">
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>September 23</strong>
+                    <span>Faculty-Admin Day</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="reminder-section">
+                <h3>Recent Announcements</h3>
+                {announcements.slice(0, 3).map((item) => (
+                  <div className="reminder-item gray" key={item.id}>
+                    <div className="reminder-bar" />
+                    <div className="reminder-body">
+                      <strong>{item.title}</strong>
+                      <span>{item.date}</span>
+                      <small>{item.preview}</small>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
