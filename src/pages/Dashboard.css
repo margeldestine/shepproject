@@ -187,7 +187,7 @@
   gap: 1rem;
 }
 .sidebar-panel .profile-card {
-  background: transparent; /* let gray wrapper show through */
+  background: transparent; 
   box-shadow: none;
   padding: 0.5rem 0.5rem 0.8rem;
 }
@@ -236,15 +236,15 @@
 }
 .events-card h4 {
   margin: 0 0 1rem;
-  color: #6f0d0d; /* maroon to match prototype */
+  color: #6f0d0d; 
   font-weight: 700;
 }
 .event {
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: #e9e9e9; /* lighter gray pill */
-  border-radius: 16px; /* rounder like prototype */
+  background: #e9e9e9; 
+  border-radius: 16px; 
   padding: 0.9rem 1rem;
 }
 .event + .event {
@@ -262,12 +262,12 @@
   background: #2ca86a;
 }
 .event-badge {
-  width: 22px;           /* slender vertical pill */
-  height: 36px;          /* smaller than row height */
-  background: #e00000;   /* bright red like prototype */
-  border-radius: 12px;   /* rounded corners */
+  width: 22px;          
+  height: 36px;         
+  background: #e00000;   
+  border-radius: 12px;  
   flex: 0 0 22px;
-  align-self: center;    /* center vertically inside row */
+  align-self: center;    
 }
 .event-body {
   display: flex;
@@ -498,3 +498,116 @@
     padding: 1rem;
   }
 }
+
+.reminders-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.reminders-modal {
+  background: #fff;
+  width: 600px;         
+  max-width: 90%;        
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+}
+
+.reminders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+
+.reminders-header h2 { margin: 0; }
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.reminders-content .reminder-section {
+  margin-bottom: 1rem;
+}
+
+.reminder-item {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.reminder-bar { width: 6px; border-radius: 3px; }
+.reminder-item.yellow .reminder-bar { background: #ffd700; }
+.reminder-item.red .reminder-bar { background: #ff4d4d; }
+.reminder-item.blue .reminder-bar { background: #4da6ff; }
+.reminder-item.gray .reminder-bar { background: #ccc; }
+
+.reminder-body strong { display: block; }
+.reminder-body span { display: block; font-size: 0.85rem; color: #555; }
+.reminder-body small { font-size: 0.75rem; color: #777; }
+
+
+.assignment-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.assignment-modal {
+  background: #fff;
+  width: 600px;
+  max-width: 95%;
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
+  overflow-y: auto;
+}
+
+.assignment-modal .reminders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.assignment-modal .close-btn {
+  background: #f0f0f0; 
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: maroon; 
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.assignment-modal .close-btn:hover {
+  background: maroon;
+  color: #fff;
+}
+
+.assignment-modal .reminders-content p {
+  margin-bottom: 0.7rem;
+  line-height: 1.5;
+}
+

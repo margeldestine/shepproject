@@ -127,7 +127,7 @@ export default function TeacherGrades() {
                 <td>91</td>
               </tr>
               <tr>
-                <td>Danise Bianca Catamco</td>
+                <td>Rusty Summer Daclan</td>
                 <td>95</td>
                 <td>90</td>
                 <td>89</td>
@@ -164,7 +164,7 @@ export default function TeacherGrades() {
                 <select>
                   <option>Select a student</option>
                   <option>Karylle Amad</option>
-                  <option>Danise Bianca Catamco</option>
+                  <option>Rusty Summer Daclan</option>
                   <option>Margel Destine Krizia Galo</option>
                 </select>
               </div>

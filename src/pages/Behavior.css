@@ -85,3 +85,126 @@
   }
 }
 
+/* =============================
+   REMINDERS MODAL STYLES
+   ============================= */
+   .reminders-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.35);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;       /* start from top instead of center */
+    padding: 2rem 0;               /* space from top & bottom */
+    overflow-y: auto;              /* scroll if modal taller than viewport */
+    z-index: 999;
+  }
+  
+  .reminders-modal {
+    background: #fff;
+    width: 1000px;
+    max-width: 95%;
+    max-height: 90vh;              /* prevent modal from exceeding viewport */
+    overflow-y: auto;              /* scroll inside modal if content exceeds max-height */
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  
+  .reminders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    position: sticky;              /* header stays visible while scrolling */
+    top: 0;
+    background: #fff;
+    padding-bottom: 0.5rem;
+    z-index: 10;
+  }
+  
+  .reminders-header h2 { margin: 0; }
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  
+  .reminders-content .reminder-section {
+    margin-bottom: 1rem;
+  }
+  
+  .reminder-item {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .reminder-bar { width: 6px; border-radius: 3px; }
+  .reminder-item.yellow .reminder-bar { background: #ffd700; }
+  .reminder-item.red .reminder-bar { background: #ff4d4d; }
+  .reminder-item.blue .reminder-bar { background: #4da6ff; }
+  .reminder-item.gray .reminder-bar { background: #ccc; }
+  
+  .reminder-body strong { display: block; }
+  .reminder-body span { display: block; font-size: 0.85rem; color: #555; }
+  .reminder-body small { font-size: 0.75rem; color: #777; }
+  
+  
+  /* =============================
+     ASSIGNMENT DETAILS MODAL
+     ============================= */
+  .assignment-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 100%;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;       /* top-aligned for scroll */
+    padding: 2rem 0;
+    overflow-y: auto;
+    z-index: 2000;
+  }
+  
+  .assignment-modal {
+    background: #fff;
+    width: 500px;
+    max-width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  }
+  
+  .assignment-modal .reminders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: sticky;            /* header stays visible while scrolling */
+    top: 0;
+    background: #fff;
+    z-index: 10;
+    padding-bottom: 0.5rem;
+    color: maroon; /* Title color */
+  }
+  
+  .assignment-modal .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: maroon; /* Title color */
+  }
+  
+  .assignment-modal .reminders-content p {
+    margin-bottom: 0.7rem;
+    line-height: 1.5;
+  }
+  

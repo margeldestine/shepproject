@@ -22,6 +22,27 @@ function Grades() {
     { area: "RHGP", q1: 100, q2: 100, q3: 100, q4: 96, final: 100, remark: "PASSED" },
   ];
 
+  // Assignment modal state
+  const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
+
+  // Detail modal state for alerts, events, announcements
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+  const [selectedDetail, setSelectedDetail] = useState(null);
+
+  const handleSignOut = () => navigate("/");
+  const handleSettings = () => navigate("/settings");
+
+  const openAssignmentDetails = (assignment) => {
+    setSelectedAssignment(assignment);
+    setAssignmentModalOpen(true);
+  };
+
+  const openDetailModal = (item) => {
+    setSelectedDetail(item);
+    setDetailModalOpen(true);
+  };
+
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
@@ -146,124 +167,218 @@ function Grades() {
         </section>
       </main>
 
-      {/* Reminders Modal */}
-{remindersOpen && (
-  <div className="reminders-modal-overlay" onClick={() => setRemindersOpen(false)}>
-    <div className="reminders-modal" onClick={(e) => e.stopPropagation()}>
-      <div className="reminders-header">
-        <h2>Reminders</h2>
-        <button className="close-btn" onClick={() => setRemindersOpen(false)}>×</button>
-      </div>
+      {/* REMINDERS MODAL */}
+    {remindersOpen && (
+        <div
+          className="reminders-modal-overlay"
+          onClick={() => setRemindersOpen(false)}
+        >
+          <div
+            className="reminders-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="reminders-header">
+              <h2>Reminders</h2>
+              <button
+                className="close-btn"
+                onClick={() => setRemindersOpen(false)}
+              >
+                ×
+              </button>
+            </div>
 
-      <div className="reminders-content">
-        {/* Assignments */}
-        <div className="reminder-section">
-          <h3>Assignments</h3>
-          <div className="reminder-item yellow">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Assignment in English</strong>
-              <span>Due Sep 26, 2025 (Friday)</span>
-              <small>📖 English - Short Story Writing</small>
-            </div>
-          </div>
-          <div className="reminder-item yellow">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Assignment in Science</strong>
-              <span>Due Sep 26, 2025 (Friday)</span>
-              <small>🔬 Science - Parts of a Plant</small>
-            </div>
-          </div>
-          <div className="reminder-item yellow">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Assignment in Filipino</strong>
-              <span>Due Oct 1, 2025 (Wednesday)</span>
-              <small>🇵🇭 Filipino - Aking Paboritang Pagkain</small>
-            </div>
-          </div>
-          <div className="reminder-item yellow">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Assignment in English</strong>
-              <span>Due Oct 2, 2025 (Thursday)</span>
-              <small>📖 English - My Favorite Animal</small>
+            <div className="reminders-content">
+              {/* ASSIGNMENTS */}
+              <div className="reminder-section">
+                <h3>Assignments</h3>
+
+                <div
+                  className="reminder-item yellow"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openAssignmentDetails({
+                      title: "Assignment in English",
+                      due: "Sep 26, 2025 — 11:59 PM",
+                      subject: "English - Short Story Writing",
+                      description:
+                        "Write a short story (500–800 words) based on the theme 'Unexpected Friendship'. Submission via Google Classroom.",
+                    });
+                  }}
+                >
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Assignment in English</strong>
+                    <span>Due Sep 26, 2025 (Friday)</span>
+                    <small>📖 English - Short Story Writing</small>
+                  </div>
+                </div>
+
+                <div
+                  className="reminder-item yellow"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openAssignmentDetails({
+                      title: "Assignment in Science",
+                      due: "Sep 27, 2025 — 11:59 PM",
+                      subject: "Science - Flowering Plant Diagram",
+                      description:
+                        "Create a labeled diagram of a flowering plant and explain each part. Submission: Science class drop box.",
+                    });
+                  }}
+                >
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Assignment in Science</strong>
+                    <span>Due Sep 27, 2025 (Saturday)</span>
+                    <small>🔬 Science - Flowering Plant Diagram</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* ALERTS */}
+              <div className="reminder-section">
+                <h3>Alerts</h3>
+                <div
+                  className="reminder-item red"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDetailModal({
+                      title: "Attendance Alert",
+                      date: "October 2025",
+                      description:
+                        "Your Child has 3 Recorded Absences in October.",
+                    });
+                  }}
+                >
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>Attendance Alert</strong>
+                    <span>Your Child has 3 Recorded Absences in October.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* EVENTS */}
+              <div className="reminder-section">
+                <h3>Upcoming Events</h3>
+                <div
+                  className="reminder-item blue"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openDetailModal({
+                      title: "Sergio Osmeña Day",
+                      date: "September 9, 2025",
+                      description:
+                        "School holiday: Sergio Osmeña Day celebration, observed annually on November 19 in honor of Sergio Osmeña, the fourth President of the Philippines. The day commemorates his contributions to Philippine history, particularly his role in leading the country during World War II and his efforts in restoring the Philippine Commonwealth government. Schools and government offices typically observe this holiday with educational activities, ceremonies, and reflections on his legacy.",
+                    });
+                  }}
+                >
+                  <div className="reminder-bar" />
+                  <div className="reminder-body">
+                    <strong>September 9</strong>
+                    <span>Sergio Osmeña Day</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* ANNOUNCEMENTS */}
+              <div className="reminder-section">
+                <h3>Recent Announcements</h3>
+                {announcements &&
+                  announcements
+                    .filter(
+                      (item) => item.title === "Parent-Teacher Meeting"
+                    )
+                    .slice(0, 1)
+                    .map((item) => (
+                      <div
+                        className="reminder-item gray"
+                        key={item.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDetailModal({
+                            title: "Parent-Teacher Meeting", 
+                            date: "September 9, 2025",
+                            description: "Join us for our quarterly Parent-Teacher Meeting where we will discuss student progress, address concerns, and share upcoming plans for the term. Your participation strengthens the partnership between home and school."
+                          })
+                        }}
+                      >
+                        <div className="reminder-bar" />
+                        <div className="reminder-body">
+                          <strong>{item.title}</strong>
+                          <span>{item.date}</span>
+                          <small>{item.preview}</small>
+                        </div>
+                      </div>
+                    ))}
+              </div>
             </div>
           </div>
         </div>
+      )}
 
-        {/* Alerts */}
-        <div className="reminder-section">
-          <h3>Alerts</h3>
-          <div className="reminder-item red">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Attendance Alert</strong>
-              <span>Your Child has 3 Recorded Absences in October.</span>
+      {/* ASSIGNMENT DETAIL MODAL */}
+      {assignmentModalOpen && selectedAssignment && (
+        <div
+          className="assignment-modal-overlay"
+          onClick={() => setAssignmentModalOpen(false)}
+        >
+          <div
+            className="assignment-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="reminders-header">
+              <h2>{selectedAssignment.title}</h2>
+              <button
+                className="close-btn"
+                onClick={() => setAssignmentModalOpen(false)}
+              >
+                ×
+              </button>
             </div>
-          </div>
-          <div className="reminder-item blue">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Permission Slip Due in 2 Days!</strong>
-              <span>Please submit your child's signed permission slip before the deadline.</span>
+            <div className="reminders-content">
+              <p>
+                <strong>Due:</strong> {selectedAssignment.due}
+              </p>
+              <p>
+                <strong>Subject:</strong> {selectedAssignment.subject}
+              </p>
+              <p>{selectedAssignment.description}</p>
             </div>
           </div>
         </div>
+      )}
 
-        {/* Upcoming Events */}
-        <div className="reminder-section">
-          <h3>Upcoming Events</h3>
-          <div className="reminder-item red">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>September 9</strong>
-              <span>Sergio Osmeña Day</span>
+      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {detailModalOpen && selectedDetail && (
+        <div
+          className="assignment-modal-overlay"
+          onClick={() => setDetailModalOpen(false)}
+        >
+          <div
+            className="assignment-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="reminders-header">
+              <h2>{selectedDetail.title}</h2>
+              <button
+                className="close-btn"
+                onClick={() => setDetailModalOpen(false)}
+              >
+                ×
+              </button>
             </div>
-          </div>
-          <div className="reminder-item red">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>September 23</strong>
-              <span>Faculty-Admin Day</span>
+            <div className="reminders-content">
+              {selectedDetail.date && (
+                <p>
+                  <strong>Date:</strong> {selectedDetail.date}
+                </p>
+              )}
+              <p>{selectedDetail.description}</p>
             </div>
           </div>
         </div>
-
-        {/* Recent Announcements */}
-        <div className="reminder-section">
-          <h3>Recent Announcements</h3>
-          <div className="reminder-item gray">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Parent-Teacher Meeting</strong>
-              <span>September 15, 2025</span>
-              <small>We invite all parents to our quarterly Parent Teacher Meeting to discuss student progress.</small>
-            </div>
-          </div>
-          <div className="reminder-item gray">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Parent-Teacher Meeting</strong>
-              <span>September 15, 2025</span>
-              <small>We invite all parents to our quarterly Parent Teacher Meeting to discuss student progress.</small>
-            </div>
-          </div>
-          <div className="reminder-item gray">
-            <div className="reminder-bar" />
-            <div className="reminder-body">
-              <strong>Parent-Teacher Meeting</strong>
-              <span>September 15, 2025</span>
-              <small>We invite all parents to our quarterly Parent Teacher Meeting to discuss student progress.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </div>
   );
 }
