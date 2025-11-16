@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\pages\Grades.js
 import "./Grades.css";
 import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
@@ -30,11 +29,10 @@ function Grades() {
     { area: "RHGP", q1: 100, q2: 100, q3: 100, q4: 96, final: 100, remark: "PASSED" },
   ];
 
-  // Assignment modal state
   const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // Detail modal state for alerts, events, announcements
+
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -58,7 +56,7 @@ function Grades() {
 
       <ParentLayout active="grades" panelClassName="grades-panel" contentClassName="grades-content-enter">
         <div className="grades-shell">
-          {/* Use shared parent-section-header for uniform sizing across pages */}
+          {}
           <ParentHeader title="Learner's Academic Performance" headerClassName="parent-section-header" />
           <div className="grades-card">
             <p className="click-hint">Tip: Click any subject to view details</p>
@@ -71,7 +69,7 @@ function Grades() {
         </div>
       </ParentLayout>
 
-      {/* REMINDERS MODAL */}
+      {}
     {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -82,7 +80,7 @@ function Grades() {
         />
       )}
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -91,7 +89,7 @@ function Grades() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

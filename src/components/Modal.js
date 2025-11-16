@@ -33,8 +33,6 @@ export default function Modal({
     </div>
   );
 
-  // Render the modal overlay at the document body level to avoid clipping
-  // from page containers with overflow/positioning.
   return typeof document !== "undefined"
     ? createPortal(overlay, document.body)
     : overlay;

@@ -1,6 +1,6 @@
 import React from "react";
 import "./Events.css";
-import "./Dashboard.css"; // reuse shared topbar/background styles
+import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import ParentTopbar from "../components/ParentTopbar";
@@ -10,7 +10,6 @@ import BackButton from "../components/BackButton";
 function Events() {
   const navigate = useNavigate();
 
-  // Static events data matching the prototype
   const events = [
     { id: 1, date: "August 6", title: "Cebu Provincial Founding Anniversary" },
     { id: 2, date: "August 7", title: "Start of Classes" },
@@ -32,10 +31,10 @@ function Events() {
 
       <ParentTopbar userName="Ritchie Marie" />
 
-      {/* Full-width content (no sidebar) */}
+      {}
       <main className="events-panel">
         <section className="events-content-enter">
-          {/* Title outside the shell to match screenshot */}
+          {}
           <h2 className="events-title">Upcoming Events for Academic Year 2025 - 2026</h2>
 
           <div className="events-shell">
@@ -44,7 +43,7 @@ function Events() {
                 <EventCard key={event.id} date={event.date} title={event.title} />
               ))}
             </div>
-            {/* Keep Next inside the container */}
+            {}
             <div className="events-footer">
               <button className="next-btn">Next →</button>
             </div>

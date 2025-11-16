@@ -113,16 +113,16 @@
 }
 
 .read-more-btn {
-  background-color: #ffffff;        /* white fill per prototype */
-  color: #6a1414;                   /* maroon text */
-  border: 2px solid #6a1414;        /* maroon outline */
-  border-radius: 12px;              /* rounded corners */
+  background-color: #ffffff;       
+  color: #6a1414;                  
+  border: 2px solid #6a1414;      
+  border-radius: 12px;             
   font-weight: 600;
   padding: 0.45rem 1rem;
   align-self: flex-start;
   cursor: pointer;
   transition: background 0.15s ease;
-  box-shadow: none;                 /* clean, flat look */
+  box-shadow: none;              
 }
 
 .announcement-modal-overlay {
@@ -164,16 +164,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem; /* add breathing room below header */
+  margin-bottom: 1rem;
 }
 
-/* Ensure spacing applies specifically for Class Announcements modal */
 .announcement-modal .modal-header {
   margin-bottom: 1.2rem;
 }
 
 .modal-header h3 {
-  color: #7d1f1f; /* lighter red to match Announcements header */
+  color: #7d1f1f;
   font-weight: 800;
   margin: 0;
   font-size: 1.2rem;
@@ -211,7 +210,6 @@
   font-size: 0.95rem;
 }
 
-/* --- New Announcement Modal Styles --- */
 .modal-content {
   display: flex;
   flex-direction: column;

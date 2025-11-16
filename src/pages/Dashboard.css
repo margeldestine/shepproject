@@ -1,4 +1,3 @@
-/* ===== Background + overlay ===== */
 .dash-bg {
   position: relative;
   min-height: 100vh;
@@ -6,21 +5,20 @@
   background-position: center;
   color: #2b2b2b;
 
-  background-color: rgba(0, 0, 0, 0.6); /* increased from 0.4 to 0.6 */
+  background-color: rgba(0, 0, 0, 0.6);
   background-blend-mode: overlay;
 }
 .dash-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.78); /* soft gray film over seal bg */
+  background: rgba(255, 255, 255, 0.78);
   z-index: 0;
 }
 
-/* ===== Top bar ===== */
 .dash-topbar {
   position: relative;
   z-index: 1;
-  background: #6f0d0d; /* maroon */
+  background: #6f0d0d; 
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -56,7 +54,6 @@
   opacity: 0.85;
 }
 
-/* ===== Main grid ===== */
 .dash-grid {
   position: relative;
   z-index: 1;
@@ -68,15 +65,13 @@
   gap: 1.5rem;
 }
 
-/* ===== Left column ===== */
 .dash-main {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
-  position: relative; /* for absolute illustration */
+  position: relative;
 }
 
-/* Text-only hero (no glass panel) */
 .hero {
   background: transparent;
   padding: 0 0 1rem;
@@ -92,7 +87,6 @@
   margin: 0 0 1.2rem;
 }
 
-/* About pill button */
 .about-btn-plain {
   background: #f4c542;
   color: #3b2b00;
@@ -106,14 +100,12 @@
   filter: brightness(0.96);
 }
 
-/* Keep announcements over the illustration */
 .section-header,
 .cards {
   position: relative;
   z-index: 1;
 }
 
-/* Announcements */
 .section-header {
   display: flex;
   align-items: center;
@@ -131,37 +123,36 @@
   cursor: pointer;
 }
 
-/* Cards */
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem; /* slightly wider spacing between large cards */
+  gap: 1.2rem;
 }
 .card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
   border-radius: 14px;
-  padding: 1.05rem 1.5rem; /* increase inner spacing so content isn’t too close */
+  padding: 1.05rem 1.5rem;
   color: #2b2b2b;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  min-height: 300px; /* align height with Upcoming Events panel */
+  min-height: 300px;
   display: flex;
   flex-direction: column;
-  gap: 0; /* control spacing via explicit margins to mirror prototype */
+  gap: 0;
 }
 .card h3 {
-  margin: 0 0 0.6rem; /* slightly more space below title */
-  color: #6f0d0d; /* site maroon for consistency with figma */
+  margin: 0 0 0.6rem;
+  color: #6f0d0d;
   font-size: 1.25rem;
   font-weight: 700;
 }
 .card small {
   color: #6b6b6b;
   display: block;
-  margin-bottom: 0.8rem; /* larger gap between date and description */
+  margin-bottom: 0.8rem;
   font-size: 0.9rem;
 }
 .card p {
-  margin: 0; /* rely on card height and button anchoring for balance */
+  margin: 0;
   color: #333;
 }
 .read-btn {
@@ -173,14 +164,13 @@
   padding: 0.6rem 1.1rem;
   font-size: 0.95rem;
   cursor: pointer;
-  margin-top: auto; /* anchor button to bottom for consistent layout */
+  margin-top: auto;
   align-self: flex-start;
 }
 .read-btn:hover {
   background: #ffc933;
 }
 
-/* ===== Shared parent section header (ensures consistent sizing across pages) ===== */
 .parent-section-header {
   display: flex;
   align-items: center;
@@ -192,7 +182,6 @@
   margin-bottom: 0.9rem;
 }
 
-/* ===== Right sidebar ===== */
 .dash-side {
   display: flex;
   flex-direction: column;
@@ -200,7 +189,7 @@
 
 }
 .sidebar-panel {
-  background: #dedede; /* light gray wrapper to match prototype */
+  background: #dedede;
   border-radius: 18px;
   padding: 1rem;
   display: flex;
@@ -248,7 +237,6 @@
   filter: brightness(1.05);
 }
 
-/* Upcoming events */
 .events-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 16px;
@@ -305,7 +293,7 @@
 }
 
 .desc{
-  font-size: 1rem; /* slightly larger for better readability */
+  font-size: 1rem;
   line-height: 1.6;
   color: #333;
 }
@@ -381,7 +369,6 @@
   transform: scale(0.95);
 }
 
-/* ===== Reminders Modal ===== */
 .reminders-modal-overlay {
   position: fixed;
   inset: 0;
@@ -594,7 +581,7 @@
   width: 600px;
   max-width: 95%;
   border-radius: 12px;
-  padding: 1.5rem 2rem; /* reverted to original content padding */
+  padding: 1.5rem 2rem;
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   position: relative;
   overflow-y: auto;
@@ -604,7 +591,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0; /* remove gap under title */
+  margin-bottom: 0;
   font-weight: bold;
   color: #333;
 }
@@ -630,20 +617,16 @@
 }
 
 .assignment-modal .reminders-content p {
-  margin-top: 0; /* remove gap under header */
+  margin-top: 0;
   margin-bottom: 0.7rem;
   line-height: 1.5;
 }
 
-/* Tighter content spacing only inside assignment details modal */
-/* Ensure the title does not add extra space */
 .assignment-modal .reminders-header h3 { margin: 0; }
 
-/* Reduce the top padding under the header specifically in assignment/detail modal */
 .assignment-modal .reminders-content {
   padding-top: 0.25rem;
 }
 
-/* Ensure Dashboard’s modal uses compact spacing even if other page CSS loads */
-/* removed dashboard-specific padding overrides */
+
 

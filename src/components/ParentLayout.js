@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\ParentLayout.js
 import React from "react";
 import ParentProfileCard from "./ParentProfileCard";
 

@@ -14,7 +14,7 @@ function FormDetail({ title = "Form Detail" }) {
 
       <ParentTopbar userName="Ritchie Marie" />
 
-      {/* Use shared ParentLayout to avoid duplicate grid/aside markup */}
+      {}
       <ParentLayout active="forms">
         <div className="cards">
           <article className="card" style={{ gridColumn: "1 / -1" }}>

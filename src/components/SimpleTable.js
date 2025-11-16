@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\SimpleTable.js
 import React from "react";
 
 export default function SimpleTable({ columns, data, onRowClick, tableClassName = "simple-table" }) {

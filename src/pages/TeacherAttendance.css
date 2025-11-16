@@ -234,7 +234,7 @@
 }
 
 .filters select {
-  padding: 0.5rem 0.8rem 0.5rem 0.35rem; /* reduce left padding to move text left */
+  padding: 0.5rem 0.8rem 0.5rem 0.35rem;
   border-radius: 6px;
   border: 1px solid #bda76a;
   font-size: 0.9rem;
@@ -277,7 +277,7 @@
 .attendance-table select,
 .attendance-table input {
   width: 90%;
-  padding: 0.35rem 0.35rem 0.35rem 0.3rem; /* tighter left padding for dropdowns */
+  padding: 0.35rem 0.35rem 0.35rem 0.3rem;
   border-radius: 5px;
   border: 1px solid #bda76a;
 }

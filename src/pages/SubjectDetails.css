@@ -4,7 +4,7 @@
 }
 .subject-content-enter { animation: slideLeftIn 420ms ease both; }
 
-.subject-panel { /* mirror two-column layout */
+.subject-panel {
   position: relative;
   z-index: 1;
   max-width: 1200px;

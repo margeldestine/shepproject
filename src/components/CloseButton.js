@@ -2,10 +2,6 @@ import React from "react";
 import { X } from "lucide-react";
 import "./CloseButton.css";
 
-/**
- * Reusable close button for modals and panels.
- * Defaults to a maroon X icon, matching ClassAnnouncements styling.
- */
 export default function CloseButton({ onClick, icon, size = 20, ariaLabel = "Close", className = "", style }) {
   const iconEl = icon ? icon : <X size={size} />;
 

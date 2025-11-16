@@ -11,9 +11,7 @@ import BackButton from "../components/BackButton";
 export default function ClassAnnouncements() {
   const navigate = useNavigate();
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
-  const [showNewAnnouncement, setShowNewAnnouncement] = useState(false); // NEW modal state
-
-  // Settings/Sign out handled globally by TeacherLayout’s TopRightActions
+  const [showNewAnnouncement, setShowNewAnnouncement] = useState(false);
 
   const announcements = [
     {
@@ -87,7 +85,7 @@ export default function ClassAnnouncements() {
           </div>
       </div>
 
-        {/* Read More Modal */}
+        {}
         {selectedAnnouncement && (
           <Modal
             open={!!selectedAnnouncement}
@@ -104,7 +102,7 @@ export default function ClassAnnouncements() {
           </Modal>
         )}
 
-        {/* New Announcement Modal */}
+        {}
         {showNewAnnouncement && (
           <Modal
             open={showNewAnnouncement}

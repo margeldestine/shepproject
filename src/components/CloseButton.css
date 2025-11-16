@@ -20,11 +20,10 @@
 }
 
 .shep-close-btn:focus-visible {
-  outline: 2px solid #ffd54f; /* soft gold focus ring */
+  outline: 2px solid #ffd54f;
   outline-offset: 2px;
 }
 
-/* Variant for use on dark headers */
 .shep-close-btn.light {
   color: #ffd64d;
 }

@@ -1,7 +1,5 @@
 import React from "react";
 
-// Generic table that supports per-column custom cell rendering.
-// Preserves existing styles via `tableClassName`.
 export default function DataTable({ columns, data, tableClassName = "simple-table" }) {
   return (
     <table className={tableClassName}>

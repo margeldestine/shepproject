@@ -1,11 +1,9 @@
-/* Content-only enter transition: slide in from right to left */
 @keyframes slideLeftIn {
   from { transform: translateX(100%); opacity: 0.01; }
   to { transform: translateX(0); opacity: 1; }
 }
 .grades-content-enter { animation: slideLeftIn 420ms ease both; }
 
-/* Panel layout similar to other sections */
 .grades-panel {
   position: relative;
   z-index: 1;
@@ -59,7 +57,7 @@
 .subject-name .chev { color: #6f0d0d; font-weight: 800; }
 .grades-table tbody tr:last-child td { border-bottom: none; }
 .grades-table thead th + th, .grades-table tbody td + td {
-  border-left: 1px solid rgba(0,0,0,0.06); /* vertical separators */
+  border-left: 1px solid rgba(0,0,0,0.06);
 }
 .remark-pass { color: #2ca86a; font-weight: 700; }
 
@@ -80,20 +78,18 @@
   .grades-table { font-size: 0.95rem; }
 }
 
-/* Centered Reminders Modal Overlay */
 .reminders-modal-overlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
   display: flex;
-  justify-content: center; /* horizontally center */
-  align-items: center;     /* vertically center */
+  justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
-/* Reminders modal box */
 .reminders-modal {
-  width: 400px; /* adjust width */
+  width: 400px;
   background: #fff;
   border-radius: 12px;
   margin: 0;
@@ -103,7 +99,6 @@
   overflow: hidden;
 }
 
-/* Header of modal */
 .reminders-header {
   display: flex;
   justify-content: space-between;
@@ -114,7 +109,6 @@
   font-weight: 700;
 }
 
-/* Close button */
 .reminders-header .close-btn {
   background: none;
   border: none;
@@ -125,7 +119,6 @@
   justify-content: center;
 }
 
-/* Modal content wrapper */
 .reminders-content {
   display: flex;
   flex-direction: column;
@@ -133,7 +126,6 @@
   gap: 0.4rem;
 }
 
-/* Individual reminder item */
 .reminder-item {
   display: flex;
   border-radius: 8px;
@@ -149,19 +141,16 @@
   box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
-/* Left colored bar */
 .reminder-bar {
   width: 6px;
   background: currentColor;
 }
 
-/* Color codes */
 .reminder-item.yellow .reminder-bar { color: #ffd700; }
 .reminder-item.red .reminder-bar { color: #e74c3c; }
 .reminder-item.blue .reminder-bar { color: #3498db; }
 .reminder-item.gray .reminder-bar { color: #95a5a6; }
 
-/* Reminder text body */
 .reminder-body {
   padding: 0.6rem;
   display: flex;
@@ -196,8 +185,8 @@
 
 .assignment-modal {
   background: #fff;
-  width: 700px;       /* Wider modal */
-  max-width: 95%;     /* Responsive */
+  width: 700px;     
+  max-width: 95%;    
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 16px;

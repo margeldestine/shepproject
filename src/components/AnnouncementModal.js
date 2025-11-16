@@ -14,7 +14,7 @@ function AnnouncementModal({ open, title, date, description, onClose }) {
 
         <div className="announce-modal-body">
           <p>{description}</p>
-          {/* Back button now inside the rectangle, below content */}
+          {}
           <button className="back-pill" onClick={onClose}>
             ‹ Back
           </button>

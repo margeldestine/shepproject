@@ -8,9 +8,7 @@ import SimpleTable from "../components/SimpleTable";
 import BackButton from "../components/BackButton";
 
 export default function Behavior() {
-  // Settings/Sign out handled globally by TeacherLayout’s TopRightActions
 
-  // ✅ Modal state
   const [showModal, setShowModal] = useState(false);
 
   const columns = [

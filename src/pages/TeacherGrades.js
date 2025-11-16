@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { LogOut, Settings, X } from "lucide-react";
 import "./TeacherGrades.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
@@ -82,7 +81,7 @@ export default function TeacherGrades() {
       </div>
     </TeacherLayout>
 
-      {/* Modal moved outside teacher-main */}
+      {}
       {showModal && (
         <Modal
           open={showModal}

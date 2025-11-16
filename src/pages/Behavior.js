@@ -1,5 +1,5 @@
 import "./Behavior.css";
-import "./Dashboard.css"; // reuse shared layout styles
+import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
@@ -16,7 +16,6 @@ function Behavior() {
   const navigate = useNavigate();
   const [remindersOpen, setRemindersOpen] = useState(false);
 
-  // Detail modal state for alerts, events, announcements
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -25,7 +24,6 @@ function Behavior() {
     setAssignmentModalOpen(true);
   };
 
-  // Assignment modal state
   const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
@@ -48,7 +46,7 @@ function Behavior() {
 
       <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => setRemindersOpen(true)} />
 
-      {/* Main grid (behavior layout) */}
+      {}
       <ParentLayout active="behavior" panelClassName="behavior-panel" contentClassName="behavior-content-enter">
         <div className="record-shell">
           <ParentHeader title="Behavior Record" headerClassName="parent-section-header" />
@@ -67,7 +65,7 @@ function Behavior() {
         </div>
       </ParentLayout>
 
-      {/* REMINDERS MODAL */}
+      {}
       {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -79,7 +77,7 @@ function Behavior() {
       )}
 
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -88,7 +86,7 @@ function Behavior() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

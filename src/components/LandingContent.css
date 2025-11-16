@@ -3,7 +3,7 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* spread text and image */
+  justify-content: space-between;
 }
 
 .landing-left h1 {
@@ -28,7 +28,7 @@
 .landing-left img {
   max-width: 200%;
   height: auto;
-  margin-top: -120px;   /* moves image up */
-  margin-bottom: -50px; /* moves image down */
+  margin-top: -120px;
+  margin-bottom: -50px;
   align-self: center;
 }

@@ -20,11 +20,9 @@ function Forms() {
   const [remindersOpen, setRemindersOpen] = useState(false); 
   const [selectedReminder, setSelectedReminder] = useState(null);
 
- // Assignment modal state
  const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
  const [selectedAssignment, setSelectedAssignment] = useState(null);
 
- // Detail modal state for alerts, events, announcements
  const [detailModalOpen, setDetailModalOpen] = useState(false);
  const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -172,7 +170,7 @@ function Forms() {
         </div>
       </ParentLayout>
 
-    {/* REMINDERS MODAL */}
+    {}
     {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -184,7 +182,7 @@ function Forms() {
       )}
 
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -193,7 +191,7 @@ function Forms() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

@@ -17,11 +17,9 @@ function Attendance() {
   const navigate = useNavigate();
   const [remindersOpen, setRemindersOpen] = useState(false);
 
-  // Assignment modal state
   const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // Detail modal state for alerts, events, announcements
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -44,13 +42,13 @@ function Attendance() {
 
       <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => setRemindersOpen(true)} />
 
-      {/* MAIN CONTENT */}
+      {}
       <ParentLayout active="attendance" panelClassName="attendance-panel" contentClassName="attendance-content-enter">
         <div className="att-shell">
           <ParentHeader title="Report on Learner's Attendance Record" />
 
           <div className="att-body">
-            {/* CALENDAR */}
+            {}
             <div className="calendar-card">
               <div className="calendar-top">
                 <span>‹</span>
@@ -77,7 +75,7 @@ function Attendance() {
               </div>
             </div>
 
-            {/* STATUS CARD */}
+            {}
             <div className="status-card">
               <div className="status-title">Attendance Status</div>
               <div className="status-row">
@@ -102,7 +100,7 @@ function Attendance() {
         </div>
       </ParentLayout>
 
-      {/* REMINDERS MODAL */}
+      {}
       {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -113,9 +111,7 @@ function Attendance() {
         />
       )}
 
-
-
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -124,7 +120,7 @@ function Attendance() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

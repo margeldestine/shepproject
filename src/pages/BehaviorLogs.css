@@ -306,7 +306,7 @@
 }
 
 .modal-header h3 {
-  color: #5d1227; /* same as Grades modal header */
+  color: #5d1227;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -318,7 +318,7 @@
 }
 
 .back-btn {
-  background: #f8e4eb; /* same look as Grades modal back button */
+  background: #f8e4eb;
   color: #5d1227;
   border: none;
   padding: 6px 12px;

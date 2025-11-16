@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\TopRightActions.js
 import React, { memo } from "react";
 import { LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";

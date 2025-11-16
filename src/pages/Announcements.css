@@ -1,9 +1,8 @@
 .announcements-container {
-    padding: 28px; /* slightly tighter container padding */
+    padding: 28px;
     font-family: "Poppins", sans-serif;
   }
   
-  /* --- Header --- */
   .announcements-header {
     display: flex;
     justify-content: space-between;
@@ -37,7 +36,6 @@
     background: #e5b80f;
   }
   
-  /* --- Grid Layout --- */
 .announcements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -45,14 +43,13 @@
     margin-top: 20px;
   }
 
-  /* --- Card --- */
   .announcement-card {
     background: #fffdfd;
     border: 1px solid #d3b7b7;
     border-radius: 12px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    padding: 16px 18px; /* increase inner spacing */
-    display: flex;            /* ensure consistent vertical rhythm */
+    padding: 16px 18px;
+    display: flex;
     flex-direction: column;
     gap: 0.4rem;
     transition: all 0.2s ease-in-out;
@@ -62,57 +59,50 @@
     transform: translateY(-3px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
   }
-  
-  /* --- Title (Assignments, etc.) --- */
+
   .announcement-header h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: #7a0000; /* ✅ MAROON COLOR */
+    color: #7a0000;
     margin-bottom: 4px;
   }
   
-  /* --- Title for default announcement card --- */
   .announcement-title {
     font-size: 1.05rem;
     font-weight: 700;
-    color: #7a0000; /* maroon */
-    margin: 0 0 0.25rem; /* small separation from date */
-  }
-  
-  /* --- Date --- */
-  .announcement-date {
-    display: block;
-    font-size: 0.9rem;            /* slightly larger for readability */
-    color: #666;                  /* subtle, consistent with body text */
-    font-weight: normal;
-    line-height: 1.4;             /* align baseline with other text */
-    margin: 0 0 8px;              /* remove default top margin on <p> */
-    padding-left: 0;              /* ensure no left indentation */
-    text-indent: 0;               /* normalize paragraph start position */
-    background: none;
+    color: #7a0000;
+    margin: 0 0 0.25rem;
   }
 
-  /* --- Description --- */
+  .announcement-date {
+    display: block;
+    font-size: 0.9rem;         
+    color: #666;                 
+    font-weight: normal;
+    line-height: 1.4;             
+    margin: 0 0 8px;            
+    padding-left: 0;              
+    text-indent: 0;              
+    background: none;
+  }
   .announcement-desc {
     font-size: 0.95rem;
     color: #222;
-    margin: 0 0 14px;     /* remove default top margin for tighter alignment */
-    padding-left: 0;      /* ensure no left indentation */
+    margin: 0 0 14px;    
+    padding-left: 0;     
     text-indent: 0;       
     line-height: 1.5;
   }
 
-  /* --- Buttons --- */
   .announcement-actions {
     display: flex;
     gap: 8px;
     justify-content: flex-start;
-    margin-top: auto; /* anchor actions to the bottom for consistency */
-    align-self: flex-start;       /* ensure left edge aligns with text column */
-    margin-left: 0;               /* keep aligned with date and description */
+    margin-top: auto;
+    align-self: flex-start;       
+    margin-left: 0;            
   }
 
-  /* Read More button — match Class Announcements prototype: white with maroon border */
   .read-more-btn {
     background: #ffffff;
     border: 1px solid #6a1414;
@@ -127,10 +117,9 @@
   }
 
   .read-more-btn:hover {
-    background: #ffffff; /* keep flat on hover */
+    background: #ffffff;
   }
 
-  /* Ensure exact styling within announcement cards */
   .announcement-card .read-more-btn {
     background: #ffffff;
     border: 1px solid #6a1414;
@@ -141,8 +130,7 @@
     border-radius: 8px;
     box-shadow: none;
   }
-  
-  /* Edit Button */
+ 
   .edit-btn {
     background: #fdd835;
     border: 1px solid #e6c200;
@@ -162,7 +150,6 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.15);
   }
   
-  /* --- Modal Overlay (Centered) --- */
   .announcement-modal-overlay {
     position: fixed;
     top: 0;
@@ -176,7 +163,6 @@
     z-index: 1000;
   }
   
-  /* --- Modal Box --- */
   .announcement-modal {
     background: #fff;
     border-radius: 10px;
@@ -189,7 +175,6 @@
     animation: fadeIn 0.2s ease-in-out;
   }
   
-  /* Modal Header */
   .modal-header {
     display: flex;
     justify-content: space-between;
@@ -199,11 +184,10 @@
   
   .modal-header h3 {
     font-size: 1.1rem;
-    color: #7d1f1f; /* align modal header text with page header's lighter red */
+    color: #7d1f1f;
     margin: 0;
   }
   
-  /* Modal Content */
   .modal-date {
     font-size: 0.9rem;
     color: #777;
@@ -217,7 +201,6 @@
     line-height: 1.5;
   }
   
-  /* Close Button */
   .close-modal-btn {
     background: none;
     border: none;
@@ -231,7 +214,6 @@
     transform: scale(1.1);
   }
   
-  /* Fade-in Animation */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -243,34 +225,31 @@
     }
   }
   
-  /* --- Modal Inputs --- */
 .announcement-modal input,
 .announcement-modal textarea {
   width: 100%;
   padding: 8px 10px;
   margin-bottom: 10px;
   border-radius: 6px;
-  border: 1px solid #bda76a; /* subtle gold border */
+  border: 1px solid #bda76a;
   font-size: 0.95rem;
   font-family: "Poppins", sans-serif;
   resize: vertical;
   box-sizing: border-box;
 }
 
-/* Input focus effect */
 .announcement-modal input:focus,
 .announcement-modal textarea:focus {
   outline: none;
-  border-color: #7a0000; /* maroon */
+  border-color: #7a0000;
   box-shadow: 0 0 5px rgba(122, 0, 0, 0.5);
 }
 
-/* Modal Buttons (Create / Save) */
 .announcement-modal .edit-btn {
   width: 100%;
-  background-color: #fdd835; /* yellow */
+  background-color: #fdd835;
   border: 1px solid #e6c200;
-  color: #4a0000; /* dark maroon text */
+  color: #4a0000;
   font-weight: 600;
   font-size: 0.95rem;
   padding: 8px 0;
@@ -280,12 +259,11 @@
 }
 
 .announcement-modal .edit-btn:hover {
-  background-color: #fbc02d; /* darker yellow */
+  background-color: #fbc02d;
   color: #3b0000;
   transform: scale(1.02);
 }
 
-/* Adjust modal textarea height */
 .announcement-modal textarea {
   min-height: 100px;
 }

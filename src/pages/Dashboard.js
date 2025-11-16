@@ -26,11 +26,9 @@ function Dashboard() {
   };
   const closeModal = () => setModalOpen(false);
 
-  // Assignment modal state
   const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // Detail modal state for alerts, events, announcements
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -104,7 +102,7 @@ function Dashboard() {
           <div className="sidebar-panel">
             <ParentProfileCard />
 
-            {/* Upcoming Events (static prototype) */}
+            {}
             <EventsCard onClick={() => navigate("/events")} />
           </div>
         </aside>
@@ -118,7 +116,7 @@ function Dashboard() {
         onClose={closeModal}
       />
 
-      {/* REMINDERS MODAL */}
+      {}
       {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -129,7 +127,7 @@ function Dashboard() {
         />
       )}
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -138,7 +136,7 @@ function Dashboard() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

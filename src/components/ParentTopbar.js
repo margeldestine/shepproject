@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\ParentTopbar.js
 import React from "react";
 import { Bell, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";

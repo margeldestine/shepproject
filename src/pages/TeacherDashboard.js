@@ -8,8 +8,6 @@ export default function TeacherDashboard() {
   const [activeSubject, setActiveSubject] = useState("Science");
   const navigate = useNavigate();
 
-  // Settings/Sign out handled via shared TopRightActions
-
   const subjects = [
     { name: "Science", schedule: "MWF • 7:30 - 8:30 AM", tag: "SCI" },
     { name: "Mathematics", schedule: "TTh • 9:00 - 10:00 AM", tag: "MATH" },

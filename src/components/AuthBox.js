@@ -26,8 +26,8 @@ function AuthBox() {
 
     "& .MuiInputLabel-root": { color: "#f5f5dc" },
     "& .MuiInputLabel-root.Mui-focused": { color: "white" },
-    "& .MuiInputLabel-root.Mui-focused": { color: "white" }, // when field is focused
-    "& .MuiInputLabel-root.Mui-error": { color: "#ff7777ff" }, // when invalid
+    "& .MuiInputLabel-root.Mui-focused": { color: "white" },
+    "& .MuiInputLabel-root.Mui-error": { color: "#ff7777ff" },
     "& .MuiFormHelperText-root.Mui-error": { color: "#ff7777ff" },
   };
 
@@ -36,7 +36,6 @@ function AuthBox() {
       /^(?![._-])(?!.*[._-]{2})[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!value) return "Email is required.";
     if (!emailRegex.test(value)) return "Invalid email format.";
-    // Enforce gmail domain strictly during sign-up
     if (isSignUp && !value.toLowerCase().endsWith("@gmail.com")) {
       return "Email must be a valid address account (eg. user@gmail.com)";
     }
@@ -72,10 +71,8 @@ function AuthBox() {
   if (emailErr || passErr || confirmErr) return;
 
   if (isSignUp) {
-    // ✅ Go to Role Selection page after successful registration
     navigate("/role-selection");
   } else {
-    // ✅ For login, maybe go to dashboard
     navigate("/dashboard");
   }
 };

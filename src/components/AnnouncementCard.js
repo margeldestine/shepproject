@@ -1,7 +1,6 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\AnnouncementCard.js
+
 import React from "react";
 
-// Generic AnnouncementCard with a variant for dashboard styling
 export default function AnnouncementCard({
   item,
   onDetails,

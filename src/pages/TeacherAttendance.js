@@ -9,8 +9,6 @@ import DataTable from "../components/DataTable";
 export default function TeacherAttendance() {
   const navigate = useNavigate();
 
-  // Top-right actions handled by TeacherLayout
-
   return (
     <TeacherLayout active="attendance" containerClassName="teacher-attendance-container">
       <div className="attendance-container">

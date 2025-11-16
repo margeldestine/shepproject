@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\TeacherLayout.js
 import React from "react";
 import TeacherSidebar from "./TeacherSidebar";
 import TopRightActions from "./TopRightActions";

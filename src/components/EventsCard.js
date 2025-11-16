@@ -1,6 +1,5 @@
 import React from "react";
 
-// Single event entry for Events page grid (uses Events.css classes)
 export function EventCard({ date, title }) {
   return (
     <div className="event-card">
@@ -13,8 +12,6 @@ export function EventCard({ date, title }) {
   );
 }
 
-// Sidebar "Upcoming Events" card using existing Dashboard.css classes
-// Sidebar Upcoming Events card (uses Dashboard.css classes)
 export default function EventsCard({ onClick }) {
   return (
     <div className="events-card" onClick={onClick} style={{ cursor: "pointer" }}>

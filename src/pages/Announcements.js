@@ -22,7 +22,6 @@ export default function Announcements() {
     navigate("/settings");
   };
 
-
   return (
     <TeacherLayout active="announcements" containerClassName="teacher-attendance-container">
       <div className="announcements-container">

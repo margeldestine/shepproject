@@ -14,7 +14,6 @@ const TeacherSettings = () => {
     email: ""
   });
 
-  
   useEffect(() => {
     const registeredUser = JSON.parse(localStorage.getItem("registeredUser"));
     if (registeredUser) {

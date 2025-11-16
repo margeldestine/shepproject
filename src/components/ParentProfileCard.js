@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\ParentProfileCard.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
 

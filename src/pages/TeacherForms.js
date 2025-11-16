@@ -13,8 +13,8 @@ export default function TeacherForms() {
   const navigate = useNavigate();
 
   const [showNewFormModal, setShowNewFormModal] = useState(false);
-  const [showViewModal, setShowViewModal] = useState(null); // store row data
-  const [showEditModal, setShowEditModal] = useState(null); // store row data
+  const [showViewModal, setShowViewModal] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(null);
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
@@ -54,7 +54,7 @@ export default function TeacherForms() {
           />
         </div>
 
-        {/* --- New Form Modal --- */}
+        {}
         {showNewFormModal && (
           <Modal
             open={showNewFormModal}
@@ -79,7 +79,7 @@ export default function TeacherForms() {
           </Modal>
         )}
 
-        {/* --- View Modal --- */}
+        {}
         {showViewModal && (
           <Modal
             open={!!showViewModal}
@@ -98,7 +98,7 @@ export default function TeacherForms() {
           </Modal>
         )}
 
-        {/* --- Edit Modal --- */}
+        {}
         {showEditModal && (
           <Modal
             open={!!showEditModal}
