@@ -23,7 +23,6 @@
   padding: 1rem 1rem 1.4rem;
 }
 
-
 .att-body {
   display: grid;
   grid-template-columns: 1fr 360px;
@@ -96,7 +95,6 @@
 .status-key { color: #6b6b6b; font-size: 0.9rem; }
 .status-value { color: #333; font-weight: 700; font-size: 0.95rem; }
 
-/* Inline status icon next to text */
 .status-icon {
   width: 18px;
   height: 18px;
@@ -122,10 +120,6 @@
   .att-body { grid-template-columns: 1fr; }
 }
 
-/* Removed unused .maroon-title */
-
-
-/* Reminders Modal Styles */
 .reminders-modal-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -139,8 +133,8 @@
 
 .reminders-modal {
   background: #fff;
-  width: 600px;          /* Increased width */
-  max-width: 90%;        /* Responsive on smaller screens */
+  width: 600px;         
+  max-width: 90%;       
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 16px;
@@ -182,7 +176,6 @@
 .reminder-body span { display: block; font-size: 0.85rem; color: #555; }
 .reminder-body small { font-size: 0.75rem; color: #777; }
 
-/* Assignment Details Modal */
 .assignment-modal-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -196,8 +189,8 @@
 
 .assignment-modal {
   background: #fff;
-  width: 700px;       /* Wider modal */
-  max-width: 95%;     /* Responsive */
+  width: 700px;       
+  max-width: 95%;     
   max-height: 90vh;
   overflow-y: auto;
   border-radius: 16px;
@@ -209,7 +202,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  color: maroon; /* Title color */
+  color: maroon;
 }
 
 .assignment-modal .close-btn {
@@ -217,7 +210,7 @@
   border: none;
   font-size: 1.4rem;
   cursor: pointer;
-  color: maroon;  /* X button color */
+  color: maroon;
 }
 
 .assignment-modal .reminders-content p {
