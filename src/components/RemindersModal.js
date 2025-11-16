@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\RemindersModal.js
 import React from "react";
 import CloseButton from "./CloseButton";
 
