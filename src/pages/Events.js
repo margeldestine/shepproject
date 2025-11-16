@@ -3,6 +3,7 @@ import "./Events.css";
 import "./Dashboard.css"; // reuse shared topbar/background styles
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
+import ParentTopbar from "../components/ParentTopbar";
 
 function Events() {
   const navigate = useNavigate();
@@ -27,18 +28,7 @@ function Events() {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      {/* Top bar */}
-      <header className="dash-topbar">
-        <div className="user-chip">
-          <div className="avatar" />
-          <span>Ritchie Marie</span>
-        </div>
-
-        <div className="top-actions">
-          <button className="icon-btn" aria-label="Notifications">🔔</button>
-          <button className="icon-btn" aria-label="Settings">⚙️</button>
-        </div>
-      </header>
+      <ParentTopbar userName="Ritchie Marie" />
 
       {/* Full-width content (no sidebar) */}
       <main className="events-panel">

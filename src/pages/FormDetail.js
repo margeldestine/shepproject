@@ -2,6 +2,8 @@ import React from "react";
 import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
+import ParentTopbar from "../components/ParentTopbar";
+import ParentProfileCard from "../components/ParentProfileCard";
 
 function FormDetail({ title = "Form Detail" }) {
   const navigate = useNavigate();
@@ -9,16 +11,7 @@ function FormDetail({ title = "Form Detail" }) {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      {/* Top bar remains visible */}
-      <header className="dash-topbar">
-        <div className="user-chip">
-          <div className="avatar" />
-          <span>Ritchie Marie</span>
-        </div>
-        <div className="about-actions">
-          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
-        </div>
-      </header>
+      <ParentTopbar userName="Ritchie Marie" />
 
       {/* Keep layout consistent; simple placeholder content */}
       <main className="dash-grid">
@@ -32,16 +25,7 @@ function FormDetail({ title = "Form Detail" }) {
           </div>
         </section>
         <aside className="dash-side">
-          <div className="profile-card">
-            <div className="profile-avatar" />
-            <h4>Francaryllese Dacabelam</h4>
-            <div className="profile-actions">
-              <button className="pill" onClick={() => navigate("/behavior")}>Behavior</button>
-              <button className="pill" onClick={() => navigate("/attendance")}>Attendance</button>
-              <button className="pill" onClick={() => navigate("/grades")}>View Grades</button>
-              <button className="pill active" onClick={() => navigate("/forms")}>Forms</button>
-            </div>
-          </div>
+          <ParentProfileCard active="forms" />
         </aside>
       </main>
     </div>

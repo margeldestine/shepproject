@@ -4,6 +4,8 @@ import './SubjectDetails.css';
 import '../pages/Dashboard.css';
 import shepbg from '../assets/shepbg.png';
 import { subjectDetails } from '../data/subjectDetails';
+import ParentTopbar from "../components/ParentTopbar";
+import ParentProfileCard from "../components/ParentProfileCard";
 
 const SubjectDetails = () => {
   const navigate = useNavigate();
@@ -15,32 +17,12 @@ const SubjectDetails = () => {
       <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
         <div className="dash-overlay" />
 
-        {/* Top bar stays visible */}
-        <header className="dash-topbar">
-          <div className="user-chip">
-            <div className="avatar" />
-            <span>Ritchie Marie</span>
-          </div>
-          <div className="top-actions">
-            <button className="icon-btn" aria-label="Notifications">🔔</button>
-            <button className="icon-btn" aria-label="Settings">⚙️</button>
-          </div>
-        </header>
+        <ParentTopbar userName="Ritchie Marie" />
 
         {/* Grid with sidebar and right content */}
         <main className="subject-panel">
           <aside className="dash-side">
-            <div className="profile-card">
-              <div className="profile-avatar" />
-              <h4>Francaryllese Dacabelam</h4>
-
-              <div className="profile-actions">
-                <button className="pill" onClick={() => navigate('/behavior')}>Behavior</button>
-                <button className="pill" onClick={() => navigate('/attendance')}>Attendance</button>
-                <button className="pill active" onClick={() => {}}>View Grades</button>
-                <button className="pill" onClick={() => navigate('/forms')}>Forms</button>
-              </div>
-            </div>
+            <ParentProfileCard active="grades" />
 
             <div className="events-card">
               <h4>Reminders</h4>
@@ -77,17 +59,7 @@ const SubjectDetails = () => {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      {/* Top bar stays visible */}
-      <header className="dash-topbar">
-        <div className="user-chip">
-          <div className="avatar" />
-          <span>Ritchie Marie</span>
-        </div>
-        <div className="top-actions">
-          <button className="icon-btn" aria-label="Notifications">🔔</button>
-          <button className="icon-btn" aria-label="Settings">⚙️</button>
-        </div>
-      </header>
+      <ParentTopbar userName="Ritchie Marie" />
 
       {/* Main grid with sidebar intact */}
       <main className="subject-panel">

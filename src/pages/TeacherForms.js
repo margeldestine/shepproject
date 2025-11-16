@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { LogOut, Settings, X } from "lucide-react";
 import "./TeacherForms.css";
 import { useNavigate } from "react-router-dom";
+import TeacherLayout from "../components/TeacherLayout";
+import Modal from "../components/Modal";
 
 export default function TeacherForms() {
   const navigate = useNavigate();
@@ -22,54 +24,8 @@ export default function TeacherForms() {
   ];
 
   return (
-    <div className="teacher-attendance-container">
-      <aside className="teacher-sidebar">
-        <div className="sidebar-header">
-          <h1>SHEP</h1>
-          <p>Teacher Dashboard</p>
-        </div>
-
-        <div className="teacher-info">
-          <div className="avatar" />
-          <div>
-            <p className="teacher-name">Francaryllese Dacabaleam</p>
-            <p className="teacher-role">Teacher</p>
-          </div>
-        </div>
-
-        <div className="sidebar-links">
-          <button onClick={() => navigate("/teacher-attendance/1")}>Attendance</button>
-          <button onClick={() => navigate("/teacher-grades")}>Grades</button>
-          <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
-          <button onClick={() => navigate("/class-announcements")}>Class Announcements</button>
-          <button className="active" onClick={() => navigate("/teacher-forms")}>Forms</button>
-          <button onClick={() => navigate("/announcements")}>Announcements</button>
-        </div>
-      </aside>
-
-      <main className="teacher-main">
-        <div
-          className="top-right-actions"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <button onClick={handleSettings} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", color: "inherit", padding: "0.5rem" }}>
-            <Settings size={16} />
-            <span>Settings</span>
-          </button>
-
-          <button onClick={handleSignOut} style={{ background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "0.5rem", color: "inherit", padding: "0.5rem" }}>
-            <LogOut size={16} />
-            <span>Sign out</span>
-          </button>
-        </div>
-
-        <div className="attendance-container">
+    <TeacherLayout active="forms" containerClassName="teacher-attendance-container">
+      <div className="attendance-container">
           <div className="header-box">
             <h2>Teacher Forms — G2 Faith</h2>
             <button onClick={() => setShowNewFormModal(true)}>Create New Form</button>
@@ -104,71 +60,73 @@ export default function TeacherForms() {
 
         {/* --- New Form Modal --- */}
         {showNewFormModal && (
-          <div className="form-modal-overlay">
-            <div className="form-modal">
-              <div className="modal-header">
-                <h3>Create New Form</h3>
-                <button className="close-modal-btn" onClick={() => setShowNewFormModal(false)}><X size={20} /></button>
-              </div>
-              <div className="modal-content">
-                <label>Title</label>
-                <input type="text" placeholder="Form title" />
-                <label>Category</label>
-                <input type="text" placeholder="Category" />
-                <label>Status</label>
-                <input type="text" placeholder="Status" />
-                <div className="modal-actions">
-                  <button className="back-btn" onClick={() => setShowNewFormModal(false)}>Cancel</button>
-                  <button className="save-btn">Save</button>
-                </div>
+          <Modal
+            open={showNewFormModal}
+            title="Create New Form"
+            onClose={() => setShowNewFormModal(false)}
+            overlayClassName="form-modal-overlay"
+            modalClassName="form-modal"
+            headerClassName="modal-header"
+          >
+            <div className="modal-content">
+              <label>Title</label>
+              <input type="text" placeholder="Form title" />
+              <label>Category</label>
+              <input type="text" placeholder="Category" />
+              <label>Status</label>
+              <input type="text" placeholder="Status" />
+              <div className="modal-actions">
+                <button className="back-btn" onClick={() => setShowNewFormModal(false)}>Cancel</button>
+                <button className="save-btn">Save</button>
               </div>
             </div>
-          </div>
+          </Modal>
         )}
 
         {/* --- View Modal --- */}
         {showViewModal && (
-          <div className="form-modal-overlay">
-            <div className="form-modal">
-              <div className="modal-header">
-                <h3>View Form</h3>
-                <button className="close-modal-btn" onClick={() => setShowViewModal(null)}><X size={20} /></button>
-              </div>
-              <div className="modal-content">
-                <p><strong>Title:</strong> {showViewModal.title}</p>
-                <p><strong>Category:</strong> {showViewModal.category}</p>
-                <p><strong>Status:</strong> {showViewModal.status}</p>
-                <p><strong>Responses:</strong> {showViewModal.responses}</p>
-              </div>
+          <Modal
+            open={!!showViewModal}
+            title="View Form"
+            onClose={() => setShowViewModal(null)}
+            overlayClassName="form-modal-overlay"
+            modalClassName="form-modal"
+            headerClassName="modal-header"
+          >
+            <div className="modal-content">
+              <p><strong>Title:</strong> {showViewModal.title}</p>
+              <p><strong>Category:</strong> {showViewModal.category}</p>
+              <p><strong>Status:</strong> {showViewModal.status}</p>
+              <p><strong>Responses:</strong> {showViewModal.responses}</p>
             </div>
-          </div>
+          </Modal>
         )}
 
         {/* --- Edit Modal --- */}
         {showEditModal && (
-          <div className="form-modal-overlay">
-            <div className="form-modal">
-              <div className="modal-header">
-                <h3>Edit Form</h3>
-                <button className="close-modal-btn" onClick={() => setShowEditModal(null)}><X size={20} /></button>
-              </div>
-              <div className="modal-content">
-                <label>Title</label>
-                <input type="text" defaultValue={showEditModal.title} />
-                <label>Category</label>
-                <input type="text" defaultValue={showEditModal.category} />
-                <label>Status</label>
-                <input type="text" defaultValue={showEditModal.status} />
-                <div className="modal-actions">
-                  <button className="back-btn" onClick={() => setShowEditModal(null)}>Cancel</button>
-                  <button className="save-btn">Save</button>
-                </div>
+          <Modal
+            open={!!showEditModal}
+            title="Edit Form"
+            onClose={() => setShowEditModal(null)}
+            overlayClassName="form-modal-overlay"
+            modalClassName="form-modal"
+            headerClassName="modal-header"
+          >
+            <div className="modal-content">
+              <label>Title</label>
+              <input type="text" defaultValue={showEditModal.title} />
+              <label>Category</label>
+              <input type="text" defaultValue={showEditModal.category} />
+              <label>Status</label>
+              <input type="text" defaultValue={showEditModal.status} />
+              <div className="modal-actions">
+                <button className="back-btn" onClick={() => setShowEditModal(null)}>Cancel</button>
+                <button className="save-btn">Save</button>
               </div>
             </div>
-          </div>
+          </Modal>
         )}
 
-      </main>
-    </div>
+    </TeacherLayout>
   );
 }

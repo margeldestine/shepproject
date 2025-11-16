@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./About.css";
+import "./Dashboard.css";
+import ParentTopbar from "../components/ParentTopbar";
 
 import campusHero from "../assets/campus-hero.png"; // your campus hero image
 
@@ -9,15 +11,7 @@ export default function About() {
   return (
     <div className="about-page">
       {/* Top bar */}
-      <header className="about-topbar">
-        <div className="about-user">
-          <div className="pfp" />
-          <span>Ritchie Marie</span>
-        </div>
-        <div className="about-actions">
-          <button className="icon" aria-label="Settings" onClick={() => navigate("/settings")}>⚙️</button>
-        </div>
-      </header>
+      <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => navigate("/dashboard")} />
 
       {/* ===== HERO CONTENT (no separate section) ===== */}
       <div className="hero-content">
