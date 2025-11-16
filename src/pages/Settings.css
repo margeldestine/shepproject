@@ -98,20 +98,21 @@
     filter: brightness(1.1);
   }
 
-  .back-btn {
-    margin-top: .5rem;
-    background: #a93a3a;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 0.65rem 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  
-  .back-btn:hover {
-    background: #c64e4e;
-  }
+.back-btn {
+  margin-top: .5rem;
+  background-color: #ffd54f; /* yellow */
+  color: #4a0000;            /* maroon text */
+  border: none;
+  border-radius: 12px;
+  padding: 0.65rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
+
+.back-btn:hover {
+  background-color: #f1c93d;
+}
   
 
   @media (max-width: 480px) {

@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import { LogOut, Settings, X } from "lucide-react";
+import { X } from "lucide-react";
 import "./ClassAnnouncements.css";
 import { useNavigate } from "react-router-dom";
+import TeacherLayout from "../components/TeacherLayout";
+import AnnouncementsHeader from "../components/AnnouncementsHeader";
+import Modal from "../components/Modal";
+import ModalActions from "../components/ModalActions";
+import BackButton from "../components/BackButton";
 
 export default function ClassAnnouncements() {
   const navigate = useNavigate();
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
   const [showNewAnnouncement, setShowNewAnnouncement] = useState(false); // NEW modal state
 
-  const handleSignOut = () => {
-    navigate("/");
-  };
-
-  const handleSettings = () => {
-    navigate("/settings");
-  };
+  // Settings/Sign out handled globally by TeacherLayout’s TopRightActions
 
   const announcements = [
     {
@@ -65,84 +64,9 @@ export default function ClassAnnouncements() {
   ];
 
   return (
-    <div className="teacher-attendance-container">
-      <aside className="teacher-sidebar">
-        <div className="sidebar-header">
-          <h1>SHEP</h1>
-          <p>Teacher Dashboard</p>
-        </div>
-
-        <div className="teacher-info">
-          <div className="avatar" />
-          <div>
-            <p className="teacher-name">Francaryllese Dacabaleam</p>
-            <p className="teacher-role">Teacher</p>
-          </div>
-        </div>
-
-        <div className="sidebar-links">
-          <button onClick={() => navigate("/teacher-attendance/1")}>Attendance</button>
-          <button onClick={() => navigate("/teacher-grades")}>Grades</button>
-          <button onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
-          <button className="active" onClick={() => navigate("/class-announcements")}>
-            Class Announcements
-          </button>
-          <button onClick={() => navigate("/teacher-forms")}>Forms</button>
-          <button onClick={() => navigate("/announcements")}>Announcements</button>
-        </div>
-      </aside>
-
-      <main className="teacher-main">
-        <div
-          className="top-right-actions"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <button
-            onClick={handleSettings}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "inherit",
-              padding: "0.5rem",
-            }}
-          >
-            <Settings size={16} />
-            <span>Settings</span>
-          </button>
-
-          <button
-            onClick={handleSignOut}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "inherit",
-              padding: "0.5rem",
-            }}
-          >
-            <LogOut size={16} />
-            <span>Sign out</span>
-          </button>
-        </div>
-
-        <div className="announcements-container">
-          <div className="header-box">
-            <h2>Class Specific Announcements</h2>
-            <button onClick={() => setShowNewAnnouncement(true)}>New Announcement</button>
-          </div>
+    <TeacherLayout active="class-announcements" containerClassName="teacher-attendance-container">
+      <div className="announcements-container">
+          <AnnouncementsHeader title="Class Specific Announcements" onCreateNew={() => setShowNewAnnouncement(true)} />
 
           <div className="announcements-grid">
             {announcements.map((item) => (
@@ -161,68 +85,63 @@ export default function ClassAnnouncements() {
               </div>
             ))}
           </div>
-        </div>
+      </div>
 
         {/* Read More Modal */}
         {selectedAnnouncement && (
-          <div className="announcement-modal-overlay">
-            <div className="announcement-modal">
-              <div className="modal-header">
-                <h3>{selectedAnnouncement.title}</h3>
-                <button
-                  className="close-modal-btn"
-                  onClick={() => setSelectedAnnouncement(null)}
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              <p className="modal-date">{selectedAnnouncement.date}</p>
-              <pre className="modal-details">{selectedAnnouncement.fullDetails}</pre>
-            </div>
-          </div>
+          <Modal
+            open={!!selectedAnnouncement}
+            title={selectedAnnouncement.title}
+            onClose={() => setSelectedAnnouncement(null)}
+            overlayClassName="announcement-modal-overlay"
+            modalClassName="announcement-modal"
+            headerClassName="modal-header"
+            closeIcon={<X size={20} />}
+            closeOnOverlayClick={false}
+          >
+            <p className="modal-date">{selectedAnnouncement.date}</p>
+            <pre className="modal-details">{selectedAnnouncement.fullDetails}</pre>
+          </Modal>
         )}
 
         {/* New Announcement Modal */}
         {showNewAnnouncement && (
-          <div className="announcement-modal-overlay">
-            <div className="announcement-modal">
-              <div className="modal-header">
-                <h3>New Announcement</h3>
-                <button
-                  className="close-modal-btn"
+          <Modal
+            open={showNewAnnouncement}
+            title="New Announcement"
+            onClose={() => setShowNewAnnouncement(false)}
+            overlayClassName="announcement-modal-overlay"
+            modalClassName="announcement-modal"
+            headerClassName="modal-header"
+            closeIcon={<X size={20} />}
+            closeOnOverlayClick={false}
+          >
+            <div className="modal-content">
+              <div className="form-group">
+                <label>Title</label>
+                <input type="text" placeholder="Enter announcement title" />
+              </div>
+              <div className="form-group">
+                <label>Description</label>
+                <input type="text" placeholder="Enter short description" />
+              </div>
+              <div className="form-group">
+                <label>Details</label>
+                <textarea placeholder="Enter full details" rows={6}></textarea>
+              </div>
+              <ModalActions>
+                <BackButton
+                  className="back-btn"
                   onClick={() => setShowNewAnnouncement(false)}
                 >
-                  <X size={20} />
-                </button>
-              </div>
-              <div className="modal-content">
-                <div className="form-group">
-                  <label>Title</label>
-                  <input type="text" placeholder="Enter announcement title" />
-                </div>
-                <div className="form-group">
-                  <label>Description</label>
-                  <input type="text" placeholder="Enter short description" />
-                </div>
-                <div className="form-group">
-                  <label>Details</label>
-                  <textarea placeholder="Enter full details" rows={6}></textarea>
-                </div>
-                <div className="modal-actions">
-                  <button
-                    className="back-btn"
-                    onClick={() => setShowNewAnnouncement(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button className="save-btn">Save</button>
-                </div>
-              </div>
+                  Cancel
+                </BackButton>
+                <button className="save-btn">Save</button>
+              </ModalActions>
             </div>
-          </div>
+          </Modal>
         )}
 
-      </main>
-    </div>
+    </TeacherLayout>
   );
 }

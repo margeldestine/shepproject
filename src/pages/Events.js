@@ -4,6 +4,8 @@ import "./Dashboard.css"; // reuse shared topbar/background styles
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import ParentTopbar from "../components/ParentTopbar";
+import { EventCard } from "../components/EventsCard";
+import BackButton from "../components/BackButton";
 
 function Events() {
   const navigate = useNavigate();
@@ -39,22 +41,16 @@ function Events() {
           <div className="events-shell">
             <div className="events-grid">
               {events.map((event) => (
-                <div key={event.id} className="event-card">
-                  <div className="event-card-badge" />
-                  <div className="event-card-content">
-                    <strong>{event.date}</strong>
-                    <span>{event.title}</span>
-                  </div>
-                </div>
+                <EventCard key={event.id} date={event.date} title={event.title} />
               ))}
             </div>
-
+            {/* Keep Next inside the container */}
             <div className="events-footer">
               <button className="next-btn">Next →</button>
             </div>
           </div>
 
-          <button className="back-btn" onClick={() => navigate("/dashboard")}>Back</button>
+          <BackButton onClick={() => navigate("/dashboard")} />
         </section>
       </main>
     </div>

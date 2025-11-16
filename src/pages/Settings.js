@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./TeacherSettings.css";
+import "./Settings.css";
+import SettingsCard from "../components/SettingsCard";
+import BackButton from "../components/BackButton";
 
 const TeacherSettings = () => {
   const navigate = useNavigate();
@@ -64,23 +66,26 @@ const TeacherSettings = () => {
 
         {activePage === "main" && (
           <div className="settings-items">
-            <div className="settings-box">
-              <h3>Edit Profile</h3>
-              <p>Update your name or personal information.</p>
-              <button onClick={() => setActivePage("editProfile")}>Edit</button>
-            </div>
+            <SettingsCard
+              title="Edit Profile"
+              description="Update your name or personal information."
+              actionLabel="Edit"
+              onAction={() => setActivePage("editProfile")}
+            />
 
-            <div className="settings-box">
-              <h3>Change Password</h3>
-              <p>Keep your account secure with a new password.</p>
-              <button onClick={() => setActivePage("changePassword")}>Change</button>
-            </div>
+            <SettingsCard
+              title="Change Password"
+              description="Keep your account secure with a new password."
+              actionLabel="Change"
+              onAction={() => setActivePage("changePassword")}
+            />
 
-            <div className="settings-box">
-              <h3>Help & Support</h3>
-              <p>Contact us if you need help</p>
-              <button onClick={() => setActivePage("helpSupport")}>Contact</button>
-            </div>
+            <SettingsCard
+              title="Help & Support"
+              description="Contact us if you need help"
+              actionLabel="Contact"
+              onAction={() => setActivePage("helpSupport")}
+            />
           </div>
         )}
 
@@ -141,14 +146,13 @@ const TeacherSettings = () => {
                 🔗 <strong>@SHEP</strong> on Facebook & Instagram
             </p>
             </div>
-            <button onClick={goBack}>Back</button>
         </div>
         )}
 
 
-        <button className="back-btn" onClick={goBack}>
+        <BackButton className="back-btn" onClick={goBack}>
           Back
-        </button>
+        </BackButton>
       </div>
     </div>
   );

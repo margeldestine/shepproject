@@ -4,6 +4,10 @@ import "./TeacherForms.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import Modal from "../components/Modal";
+import BackButton from "../components/BackButton";
+import ModalActions from "../components/ModalActions";
+import TeacherHeader from "../components/TeacherHeader";
+import DataTable from "../components/DataTable";
 
 export default function TeacherForms() {
   const navigate = useNavigate();
@@ -26,36 +30,28 @@ export default function TeacherForms() {
   return (
     <TeacherLayout active="forms" containerClassName="teacher-attendance-container">
       <div className="attendance-container">
-          <div className="header-box">
-            <h2>Teacher Forms — G2 Faith</h2>
-            <button onClick={() => setShowNewFormModal(true)}>Create New Form</button>
-          </div>
+          <TeacherHeader
+            title="Teacher Forms — G2 Faith"
+            buttonLabel="Create New Form"
+            onButtonClick={() => setShowNewFormModal(true)}
+          />
 
-          <table className="attendance-table">
-            <thead>
-              <tr>
-                <th>Form Title</th>
-                <th>Category</th>
-                <th>Status</th>
-                <th>Responses</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {forms.map((f, i) => (
-                <tr key={i}>
-                  <td>{f.title}</td>
-                  <td>{f.category}</td>
-                  <td>{f.status}</td>
-                  <td>{f.responses}</td>
-                  <td>
-                    <button className="view-btn" onClick={() => setShowViewModal(f)}>View</button>
-                    <button className="edit-btn" onClick={() => setShowEditModal(f)}>Edit</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <DataTable
+            tableClassName="attendance-table"
+            columns={[
+              { key: "title", label: "Form Title" },
+              { key: "category", label: "Category" },
+              { key: "status", label: "Status" },
+              { key: "responses", label: "Responses" },
+              { key: "action", label: "Action", render: (row) => (
+                <>
+                  <button className="view-btn" onClick={() => setShowViewModal(row)}>View</button>
+                  <button className="edit-btn" onClick={() => setShowEditModal(row)}>Edit</button>
+                </>
+              ) }
+            ]}
+            data={forms}
+          />
         </div>
 
         {/* --- New Form Modal --- */}
@@ -75,10 +71,10 @@ export default function TeacherForms() {
               <input type="text" placeholder="Category" />
               <label>Status</label>
               <input type="text" placeholder="Status" />
-              <div className="modal-actions">
-                <button className="back-btn" onClick={() => setShowNewFormModal(false)}>Cancel</button>
+              <ModalActions>
+                <BackButton className="back-btn" onClick={() => setShowNewFormModal(false)}>Cancel</BackButton>
                 <button className="save-btn">Save</button>
-              </div>
+              </ModalActions>
             </div>
           </Modal>
         )}
@@ -119,10 +115,10 @@ export default function TeacherForms() {
               <input type="text" defaultValue={showEditModal.category} />
               <label>Status</label>
               <input type="text" defaultValue={showEditModal.status} />
-              <div className="modal-actions">
-                <button className="back-btn" onClick={() => setShowEditModal(null)}>Cancel</button>
+              <ModalActions>
+                <BackButton className="back-btn" onClick={() => setShowEditModal(null)}>Cancel</BackButton>
                 <button className="save-btn">Save</button>
-              </div>
+              </ModalActions>
             </div>
           </Modal>
         )}

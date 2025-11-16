@@ -1,5 +1,5 @@
 .announcements-container {
-    padding: 30px;
+    padding: 28px; /* slightly tighter container padding */
     font-family: "Poppins", sans-serif;
   }
   
@@ -38,20 +38,23 @@
   }
   
   /* --- Grid Layout --- */
-  .announcements-grid {
+.announcements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
+    gap: 24px; /* a touch more breathing room between cards */
     margin-top: 20px;
   }
-  
+
   /* --- Card --- */
   .announcement-card {
     background: #fffdfd;
     border: 1px solid #d3b7b7;
     border-radius: 12px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    padding: 10px 10px;
+    padding: 16px 18px; /* increase inner spacing */
+    display: flex;            /* ensure consistent vertical rhythm */
+    flex-direction: column;
+    gap: 0.4rem;
     transition: all 0.2s ease-in-out;
   }
   
@@ -68,50 +71,75 @@
     margin-bottom: 4px;
   }
   
+  /* --- Title for default announcement card --- */
+  .announcement-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #7a0000; /* maroon */
+    margin: 0 0 0.25rem; /* small separation from date */
+  }
+  
   /* --- Date --- */
   .announcement-date {
     display: block;
-    font-size: 0.85rem;
-    color: #555;
+    font-size: 0.9rem;            /* slightly larger for readability */
+    color: #666;                  /* subtle, consistent with body text */
     font-weight: normal;
-    margin-bottom: 10px;
+    line-height: 1.4;             /* align baseline with other text */
+    margin: 0 0 8px;              /* remove default top margin on <p> */
+    padding-left: 0;              /* ensure no left indentation */
+    text-indent: 0;               /* normalize paragraph start position */
     background: none;
   }
-  
+
   /* --- Description --- */
   .announcement-desc {
     font-size: 0.95rem;
     color: #222;
-    margin-bottom: 12px;
-    line-height: 1.4;
+    margin: 0 0 14px;     /* remove default top margin for tighter alignment */
+    padding-left: 0;      /* ensure no left indentation */
+    text-indent: 0;       
+    line-height: 1.5;
   }
-  
+
   /* --- Buttons --- */
   .announcement-actions {
     display: flex;
     gap: 8px;
     justify-content: flex-start;
+    margin-top: auto; /* anchor actions to the bottom for consistency */
+    align-self: flex-start;       /* ensure left edge aligns with text column */
+    margin-left: 0;               /* keep aligned with date and description */
   }
-  
-  /* Details Button */
+
+  /* Read More button — match Class Announcements prototype: white with maroon border */
   .read-more-btn {
-    background: #fff;
-    border: 1px solid #7a0000;
-    color: #7a0000;
-    font-weight: 500;
+    background: #ffffff;
+    border: 1px solid #6a1414;
+    color: #6a1414;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 0.9rem;
-    padding: 6px 14px;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    font-size: 0.95rem;
+    padding: 6px 16px;
+    border-radius: 12px;
+    transition: background 0.1s ease;
+    box-shadow: none;
   }
-  
+
   .read-more-btn:hover {
-    background: #7a0000;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    background: #ffffff; /* keep flat on hover */
+  }
+
+  /* Ensure exact styling within announcement cards */
+  .announcement-card .read-more-btn {
+    background: #ffffff;
+    border: 1px solid #6a1414;
+    color: #6a1414;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 6px 16px;
+    border-radius: 8px;
+    box-shadow: none;
   }
   
   /* Edit Button */
@@ -171,7 +199,7 @@
   
   .modal-header h3 {
     font-size: 1.1rem;
-    color: #7a0000;
+    color: #7d1f1f; /* align modal header text with page header's lighter red */
     margin: 0;
   }
   

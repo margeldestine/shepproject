@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import ParentTopbar from "../components/ParentTopbar";
 import ParentLayout from "../components/ParentLayout";
+import ParentHeader from "../components/ParentHeader";
+import BackButton from "../components/BackButton";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
@@ -49,10 +51,7 @@ function Behavior() {
       {/* Main grid (behavior layout) */}
       <ParentLayout active="behavior" panelClassName="behavior-panel" contentClassName="behavior-content-enter">
         <div className="record-shell">
-          <div className="record-header">
-            <strong>Behavior Record</strong>
-            <span>● ● ●</span>
-          </div>
+          <ParentHeader title="Behavior Record" headerClassName="parent-section-header" />
           <div className="record-card">
             <div className="record-title">September 19, 2025</div>
             <div className="record-meta">Incident: Left class without permission</div>
@@ -64,7 +63,7 @@ function Behavior() {
               <p>Action: Counseled</p>
             </div>
           </div>
-          <button className="back-btn" onClick={() => navigate("/dashboard")}>Back</button>
+          <BackButton onClick={() => navigate("/dashboard")} />
         </div>
       </ParentLayout>
 

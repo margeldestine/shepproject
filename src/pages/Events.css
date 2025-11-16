@@ -35,8 +35,8 @@
   background: rgba(255, 255, 255, 0.92);
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  padding: 1.2rem 1.2rem 1.8rem; /* more breathing room */
-  min-height: 70vh; /* occupy more height */
+  padding: 1.2rem 1.2rem 1.4rem; /* balanced spacing without excess */
+  /* let content determine height to avoid awkward empty space */
 }
 
 /* header removed in favor of external title */
@@ -99,8 +99,8 @@
 /* Events footer with Next button */
 .events-footer {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
+  justify-content: flex-end; /* keep aligned right, outside panel */
+  margin-top: 0.8rem; /* spacing below the white container */
 }
 
 .next-btn {

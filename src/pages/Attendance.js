@@ -5,10 +5,13 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import ParentTopbar from "../components/ParentTopbar";
 import ParentLayout from "../components/ParentLayout";
+import ParentHeader from "../components/ParentHeader";
+import BackButton from "../components/BackButton";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
 import { announcements } from "../data/announcements";
+import presentIcon from "../assets/present.png";
 
 function Attendance() {
   const navigate = useNavigate();
@@ -44,10 +47,7 @@ function Attendance() {
       {/* MAIN CONTENT */}
       <ParentLayout active="attendance" panelClassName="attendance-panel" contentClassName="attendance-content-enter">
         <div className="att-shell">
-          <div className="att-header">
-            <strong>Report on Learner's Attendance Record</strong>
-            <span>● ● ●</span>
-          </div>
+          <ParentHeader title="Report on Learner's Attendance Record" />
 
           <div className="att-body">
             {/* CALENDAR */}
@@ -86,7 +86,10 @@ function Attendance() {
               </div>
               <div className="status-row">
                 <span className="status-key">Status:</span>
-                <span className="status-value">Present ✅</span>
+                <span className="status-value">
+                  Present
+                  <img src={presentIcon} alt="Present" className="status-icon" />
+                </span>
               </div>
               <div className="status-row">
                 <span className="status-key">Remarks:</span>
@@ -95,9 +98,7 @@ function Attendance() {
             </div>
           </div>
 
-          <button className="back-btn" onClick={() => navigate("/dashboard")}>
-            Back
-          </button>
+          <BackButton onClick={() => navigate("/dashboard")} />
         </div>
       </ParentLayout>
 

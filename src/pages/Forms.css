@@ -96,7 +96,8 @@
   border: 1px solid rgba(0,0,0,0.12);
 }
 .subitem:hover { background: rgba(111,13,13,0.06); }
-.subitem .arrow { color: #6f0d0d; font-weight: 900; }
+.subitem .arrow { color: #6f0d0d; font-weight: 900; transition: transform 160ms ease; }
+.subitem.open .arrow { transform: rotate(90deg); }
 
 .meeting-panel {
   position: relative;

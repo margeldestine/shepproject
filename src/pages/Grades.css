@@ -23,16 +23,6 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
   padding: 1rem 1rem 1.4rem;
 }
-.grades-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #6f0d0d;
-  color: #ffd64d;
-  border-radius: 12px;
-  padding: 0.6rem 0.9rem;
-  margin-bottom: 0.9rem;
-}
 
 .grades-card {
   background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));

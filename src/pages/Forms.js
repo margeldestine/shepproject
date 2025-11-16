@@ -8,6 +8,7 @@ import ParentLayout from "../components/ParentLayout";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal.js";
 import DetailModal from "../components/DetailModal";
+import BackButton from "../components/BackButton";
 import { announcements } from "../data/announcements";
 
 function Forms() {
@@ -69,7 +70,7 @@ function Forms() {
               {eventsOpen && (
                 <>
                   <div
-                    className="subitem"
+                    className={`subitem ${showMeeting ? "open" : ""}`}
                     onClick={() => {
                       setShowMeeting((v) => {
                         const next = !v;
@@ -166,7 +167,7 @@ function Forms() {
                 </>
               )}
 
-              <button className="back-btn" onClick={() => navigate("/dashboard")}>Back</button>
+              <BackButton onClick={() => navigate("/dashboard")} />
             </div>
         </div>
       </ParentLayout>

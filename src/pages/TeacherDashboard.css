@@ -180,29 +180,6 @@
     z-index: 1;
   }
   
-  .top-right-actions {
-    position: absolute;
-    top: 1.5rem;
-    right: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-    color: #630000;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 0.3rem 0.8rem;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-  }
-  
-  .top-right-actions:hover {
-    border-color: #ab8922;
-    background-color: #fff7d1;
-    color: #4a0000;
-  }
-  
   
   /* HEADER BOX INSIDE MAIN */
   .sections-container {
@@ -263,6 +240,17 @@
     font-size: 0.8rem;
     color: #555;
     margin-top: 0.3rem;
+    display: flex;                   /* block-level so next element drops below */
+    align-items: center;             /* vertically center icon and text */
+    gap: 6px;                        /* spacing between icon and text */
+    line-height: 1.2;                /* keep text height consistent */
+    margin-bottom: 0.4rem;           /* add space before Open button */
+  }
+
+  /* Ensure the clock icon doesn’t distort line height */
+  .schedule-info svg {
+    flex-shrink: 0;
+    display: block;
   }
   
   .open-btn {

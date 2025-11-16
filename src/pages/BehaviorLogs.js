@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { LogOut, Settings, X } from "lucide-react";
 import "./BehaviorLogs.css";
-import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
+import TeacherHeader from "../components/TeacherHeader";
 import Modal from "../components/Modal";
+import ModalActions from "../components/ModalActions";
 import SimpleTable from "../components/SimpleTable";
+import BackButton from "../components/BackButton";
 
 export default function Behavior() {
-  const navigate = useNavigate();
-
-  const handleSignOut = () => navigate("/");
-  const handleSettings = () => navigate("/settings");
+  // Settings/Sign out handled globally by TeacherLayout’s TopRightActions
 
   // ✅ Modal state
   const [showModal, setShowModal] = useState(false);
@@ -31,10 +29,11 @@ export default function Behavior() {
     <>
     <TeacherLayout active="behavior-logs" containerClassName="teacher-attendance-container">
       <div className="attendance-container">
-          <div className="header-box">
-            <h2>Behavior — G2 Faith</h2>
-            <button onClick={() => setShowModal(true)}>Add Behavior</button>
-          </div>
+          <TeacherHeader
+            title="Behavior — G2 Faith"
+            buttonLabel="Add Behavior"
+            onButtonClick={() => setShowModal(true)}
+          />
 
           <SimpleTable columns={columns} data={data} tableClassName="attendance-table" />
         </div>
@@ -55,10 +54,12 @@ export default function Behavior() {
             <textarea placeholder="Incident"></textarea>
             <textarea placeholder="Action Taken"></textarea>
 
-            <div className="modal-actions">
-              <button type="button" className="back-btn" onClick={() => setShowModal(false)}>Back</button>
+            <ModalActions>
+              <BackButton type="button" className="back-btn" onClick={() => setShowModal(false)}>
+                Back
+              </BackButton>
               <button type="submit" className="save-btn">Save</button>
-            </div>
+            </ModalActions>
           </form>
         </Modal>
       )}

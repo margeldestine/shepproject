@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LogOut, Clock, Settings } from "lucide-react";
+import { Clock } from "lucide-react";
+import TopRightActions from "../components/TopRightActions";
 import "./TeacherDashboard.css";
 
 export default function TeacherDashboard() {
   const [activeSubject, setActiveSubject] = useState("Science");
   const navigate = useNavigate();
 
-  const handleSignOut = () => {
-    navigate("/");
-  };
-
-  const handleSettings = () => {
-    navigate("/settings");
-  };
+  // Settings/Sign out handled via shared TopRightActions
 
   const subjects = [
     { name: "Science", schedule: "MWF • 7:30 - 8:30 AM", tag: "SCI" },
@@ -94,50 +89,7 @@ export default function TeacherDashboard() {
       </aside>
 
       <main className="teacher-main">
-        <div
-          className="top-right-actions"
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          <button
-            onClick={handleSettings}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "inherit",
-              padding: "0.5rem",
-            }}
-          >
-            <Settings size={16} />
-            <span>Settings</span>
-          </button>
-
-          <button
-            onClick={handleSignOut}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              color: "inherit",
-              padding: "0.5rem",
-            }}
-          >
-            <LogOut size={16} />
-            <span>Sign out</span>
-          </button>
-        </div>
+        <TopRightActions />
 
         <div className="sections-container">
           <h2>

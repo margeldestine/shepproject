@@ -1,26 +1,25 @@
 import React from "react";
-import { LogOut, Settings } from "lucide-react";
 import "./TeacherAttendance.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
+import TeacherHeader from "../components/TeacherHeader";
+import FiltersBar from "../components/FiltersBar";
+import DataTable from "../components/DataTable";
 
 export default function TeacherAttendance() {
   const navigate = useNavigate();
 
-  const handleSignOut = () => {
-    navigate("/");
-  };
-
-  const handleSettings = () => {
-    navigate("/settings");
-  };
+  // Top-right actions handled by TeacherLayout
 
   return (
     <TeacherLayout active="attendance" containerClassName="teacher-attendance-container">
       <div className="attendance-container">
-          <h2 className="attendance-header header-box">Attendance — G2 Faith</h2>
+          <TeacherHeader
+            title="Attendance — G2 Faith"
+            headerClassName="attendance-header header-box"
+          />
 
-          <div className="filters">
+          <FiltersBar>
             <select>
               <option>Date</option>
             </select>
@@ -28,45 +27,28 @@ export default function TeacherAttendance() {
               <option>Grade-2 Faith</option>
             </select>
             <button className="mark-all-btn">Mark All Present</button>
-          </div>
+          </FiltersBar>
 
-          <table className="attendance-table">
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Status</th>
-                <th>Remarks</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Juan Dela Cruz</td>
-                <td>
-                  <select>
-                    <option>Present</option>
-                    <option>Absent</option>
-                    <option>Late</option>
-                  </select>
-                </td>
-                <td>
-                  <input type="text" placeholder="Add remark..." />
-                </td>
-              </tr>
-              <tr>
-                <td>Maria Santos</td>
-                <td>
-                  <select>
-                    <option>Present</option>
-                    <option>Absent</option>
-                    <option>Late</option>
-                  </select>
-                </td>
-                <td>
-                  <input type="text" placeholder="Add remark..." />
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <DataTable
+            tableClassName="attendance-table"
+            columns={[
+              { key: "name", label: "Student Name" },
+              { key: "status", label: "Status", render: () => (
+                <select>
+                  <option>Present</option>
+                  <option>Absent</option>
+                  <option>Late</option>
+                </select>
+              ) },
+              { key: "remarks", label: "Remarks", render: () => (
+                <input type="text" placeholder="Add remark..." />
+              ) }
+            ]}
+            data={[
+              { name: "Juan Dela Cruz" },
+              { name: "Maria Santos" }
+            ]}
+          />
         </div>
     </TeacherLayout>
   );

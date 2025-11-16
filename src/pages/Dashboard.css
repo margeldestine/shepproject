@@ -135,27 +135,33 @@
 .cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.2rem; /* slightly wider spacing between large cards */
 }
 .card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
   border-radius: 14px;
-  padding: 1rem;
+  padding: 1.05rem 1.5rem; /* increase inner spacing so content isn’t too close */
   color: #2b2b2b;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  height: 250px;
+  min-height: 300px; /* align height with Upcoming Events panel */
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* control spacing via explicit margins to mirror prototype */
 }
 .card h3 {
-  margin: 0 0 0.25rem;
-  color: #3a2b2b;
+  margin: 0 0 0.6rem; /* slightly more space below title */
+  color: #6f0d0d; /* site maroon for consistency with figma */
+  font-size: 1.25rem;
+  font-weight: 700;
 }
 .card small {
   color: #6b6b6b;
   display: block;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.8rem; /* larger gap between date and description */
+  font-size: 0.9rem;
 }
 .card p {
-  margin: 0 0 0.9rem;
+  margin: 0; /* rely on card height and button anchoring for balance */
   color: #333;
 }
 .read-btn {
@@ -164,11 +170,26 @@
   font-weight: 700;
   border: none;
   border-radius: 10px;
-  padding: 0.45rem 0.9rem;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.95rem;
   cursor: pointer;
+  margin-top: auto; /* anchor button to bottom for consistent layout */
+  align-self: flex-start;
 }
 .read-btn:hover {
   background: #ffc933;
+}
+
+/* ===== Shared parent section header (ensures consistent sizing across pages) ===== */
+.parent-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #6f0d0d;
+  color: #ffd64d;
+  border-radius: 12px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.9rem;
 }
 
 /* ===== Right sidebar ===== */
@@ -284,7 +305,9 @@
 }
 
 .desc{
-    font-size: 14px;
+  font-size: 1rem; /* slightly larger for better readability */
+  line-height: 1.6;
+  color: #333;
 }
 
 
@@ -571,7 +594,7 @@
   width: 600px;
   max-width: 95%;
   border-radius: 12px;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 2rem; /* reverted to original content padding */
   box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   position: relative;
   overflow-y: auto;
@@ -581,7 +604,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0; /* remove gap under title */
   font-weight: bold;
   color: #333;
 }
@@ -607,7 +630,20 @@
 }
 
 .assignment-modal .reminders-content p {
+  margin-top: 0; /* remove gap under header */
   margin-bottom: 0.7rem;
   line-height: 1.5;
 }
+
+/* Tighter content spacing only inside assignment details modal */
+/* Ensure the title does not add extra space */
+.assignment-modal .reminders-header h3 { margin: 0; }
+
+/* Reduce the top padding under the header specifically in assignment/detail modal */
+.assignment-modal .reminders-content {
+  padding-top: 0.25rem;
+}
+
+/* Ensure Dashboard’s modal uses compact spacing even if other page CSS loads */
+/* removed dashboard-specific padding overrides */
 

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./About.css";
 import "./Dashboard.css";
 import ParentTopbar from "../components/ParentTopbar";
+import BackButton from "../components/BackButton";
 
 import campusHero from "../assets/campus-hero.png"; // your campus hero image
 
@@ -56,10 +57,10 @@ export default function About() {
           </p>
         </div>
 
-        {/* Back pill */}
-        <button className="back-pill" onClick={() => navigate(-1)}>
-          ‹&nbsp;Back
-        </button>
+        {/* Back pill using shared BackButton component */}
+        <BackButton className="back-pill" onClick={() => navigate(-1)}>
+          ‹ Back
+        </BackButton>
       </section>
     </div>
   );

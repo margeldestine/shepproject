@@ -18,9 +18,8 @@ import TeacherAttendance from "./pages/TeacherAttendance";
 import TeacherGrades from "./pages/TeacherGrades";
 import BehaviorLogs from "./pages/BehaviorLogs";
 import ClassAnnouncements from "./pages/ClassAnnouncements";
-import TeacherForms from "./pages/TeacherForms";
 import Announcements from "./pages/Announcements";
-import TeacherSettings from "./pages/TeacherSettings";
+import TeacherForms from "./pages/TeacherForms";
 
 function App() {
   return (
@@ -46,7 +45,6 @@ function App() {
         <Route path="/class-announcements" element={<ClassAnnouncements/>} />
         <Route path="/teacher-forms" element={<TeacherForms/>} />
         <Route path="/announcements" element={<Announcements/>} />
-        <Route path="/teacher-settings" element={<TeacherSettings />} />
       </Routes>
     </Router>
   );

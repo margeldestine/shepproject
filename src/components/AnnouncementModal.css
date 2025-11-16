@@ -70,6 +70,7 @@
   line-height: 1.7;
   color: #2b2b2b;
   font-size: 1rem;
+  white-space: pre-line; /* preserve newlines in full description */
 }
 
 /* ===== Back button inside modal ===== */
