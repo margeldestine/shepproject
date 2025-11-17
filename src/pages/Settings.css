@@ -9,13 +9,10 @@
     justify-content: center;
     align-items: center;
     z-index: 999;
-  
-
     background-color: rgba(0, 0, 0, 0.4); 
     background-blend-mode: overlay;      
   }
   
- 
   .settings-modal {
     background: rgba(240, 240, 240, 0.9); 
     border-radius: 18px;
@@ -28,7 +25,6 @@
     color: #2b2b2b;
     animation: popUp 0.25s ease;
   }
-  
   
   @keyframes popUp {
     from {
@@ -52,7 +48,6 @@
     margin-bottom: .5rem;
   }
   
-  
   .settings-items {
     display: flex;
     flex-direction: column;
@@ -63,7 +58,6 @@
     background: transparent; 
 }
 
-  
   .settings-box {
     background: rgba(255, 255, 255, 0.75);
     border-left: 5px solid #6f0d0d;
@@ -98,22 +92,22 @@
     filter: brightness(1.1);
   }
 
-  .back-btn {
-    margin-top: .5rem;
-    background: #a93a3a;
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 0.65rem 1.2rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  
-  .back-btn:hover {
-    background: #c64e4e;
-  }
-  
+.back-btn {
+  margin-top: .5rem;
+  background-color: #ffd54f; 
+  color: #4a0000;          
+  border: none;
+  border-radius: 12px;
+  padding: 0.65rem 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+}
 
+.back-btn:hover {
+  background-color: #f1c93d;
+}
+  
   @media (max-width: 480px) {
     .settings-modal {
       padding: 1.5rem 1rem;
@@ -160,7 +154,6 @@
     overflow: hidden;
   }
   
-
   .modern-section::before,
   .modern-section::after {
     content: "";

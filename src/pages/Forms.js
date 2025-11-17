@@ -8,6 +8,7 @@ import ParentLayout from "../components/ParentLayout";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal.js";
 import DetailModal from "../components/DetailModal";
+import BackButton from "../components/BackButton";
 import { announcements } from "../data/announcements";
 
 function Forms() {
@@ -19,11 +20,9 @@ function Forms() {
   const [remindersOpen, setRemindersOpen] = useState(false); 
   const [selectedReminder, setSelectedReminder] = useState(null);
 
- // Assignment modal state
  const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
  const [selectedAssignment, setSelectedAssignment] = useState(null);
 
- // Detail modal state for alerts, events, announcements
  const [detailModalOpen, setDetailModalOpen] = useState(false);
  const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -69,7 +68,7 @@ function Forms() {
               {eventsOpen && (
                 <>
                   <div
-                    className="subitem"
+                    className={`subitem ${showMeeting ? "open" : ""}`}
                     onClick={() => {
                       setShowMeeting((v) => {
                         const next = !v;
@@ -166,12 +165,12 @@ function Forms() {
                 </>
               )}
 
-              <button className="back-btn" onClick={() => navigate("/dashboard")}>Back</button>
+              <BackButton onClick={() => navigate("/dashboard")} />
             </div>
         </div>
       </ParentLayout>
 
-    {/* REMINDERS MODAL */}
+    {}
     {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -183,7 +182,7 @@ function Forms() {
       )}
 
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -192,7 +191,7 @@ function Forms() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

@@ -3,23 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import shepbg from "../assets/shepbg.png";
-import "./RoleSelection.css"; // using same style file
+import "./RoleSelection.css";
 
 function ParentIdInput() {
   const navigate = useNavigate();
 
-  // state for input and error
   const [schoolId, setSchoolId] = useState("");
   const [error, setError] = useState("");
 
-  // regex for valid formats
-  const validPattern1 = /^\d{4}-\d{5}$/; // ****-*****
-  const validPattern2 = /^\d{2}-\d{4}-\d{3}$/; // **-****-***
+  const validPattern1 = /^\d{4}-\d{5}$/;
+  const validPattern2 = /^\d{2}-\d{4}-\d{3}$/;
 
   const handleChange = (e) => {
     const value = e.target.value;
 
-    // Allow only numbers and hyphens while typing
     if (/^[\d-]*$/.test(value)) {
       setSchoolId(value);
     }
@@ -37,7 +34,7 @@ function ParentIdInput() {
     }
 
     setError("");
-    navigate("/dashboard"); // ✅ go to dashboard when valid
+    navigate("/dashboard");
   };
 
   return (
@@ -47,14 +44,14 @@ function ParentIdInput() {
         backgroundImage: `url(${shepbg})`,
       }}
     >
-      {/* Overlay */}
+      {}
       <div className="role-overlay"></div>
 
-      {/* Main content */}
+      {}
       <div className="role-container">
         <h2>Please enter your child’s school ID number</h2>
 
-        {/* Input field */}
+        {}
         <div className="role-input-box">
           <TextField
             variant="outlined"
@@ -89,7 +86,7 @@ function ParentIdInput() {
           />
         </div>
 
-        {/* Button */}
+        {}
         <Button className="role-btn" onClick={handleNavigate}>
           Enter
         </Button>

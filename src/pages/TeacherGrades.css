@@ -146,29 +146,6 @@
   z-index: 1;
 }
 
-.top-right-actions {
-  position: absolute;
-  top: 1.5rem;
-  right: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  color: #630000;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.top-right-actions:hover {
-  border-color: #ab8922;
-  background-color: #fff7d1;
-  color: #4a0000;
-}
-
 .grades-container {
   max-width: 950px;
   min-height: 200px;
@@ -202,11 +179,22 @@
 }
 
 .filters select {
-  padding: 0.5rem 0.8rem;
+  padding: 0.5rem 2rem 0.5rem 0.8rem;
   border-radius: 6px;
   border: 1px solid #bda76a;
   font-size: 0.9rem;
   background-color: #fffdf6;
+  color: #4a0000;
+  line-height: 1.35;
+  min-width: 165px;               
+  box-sizing: border-box;       
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23630000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.6rem center;
+  background-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .grades-table {
@@ -320,4 +308,59 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95) translateY(-20px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.grades-input-grid .form-group input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-content .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.grade-modal .form-group select {
+  width: 100%;
+  padding: 0.7rem 0.8rem;  
+  border-radius: 6px;
+  border: 1px solid #000;   
+  background-color: #ffffff;  
+  font-size: 0.95rem;
+  color: #111;             
+  line-height: 1.35;        
+  box-sizing: border-box;
+  padding-right: 2rem;     
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center; 
+  background-size: 14px;
+  appearance: none;        
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.grade-modal .form-group input {
+  width: 100%;
+  padding: 0.7rem 0.8rem;  
+  border-radius: 6px;
+  border: 1px solid #bda76a;
+  background-color: #fffdf6; 
+  font-size: 0.95rem;
+  color: #4a0000;     
+  box-sizing: border-box;
+}
+
+.grade-modal .form-group select:focus {
+  outline: none;
+  border-color: #000;    
+  background-color: #fff;
+}
+
+.grade-modal .form-group input:focus {
+  outline: none;
+  border-color: #ab8922;
+  background-color: #fff;
 }

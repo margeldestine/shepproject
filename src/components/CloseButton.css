@@ -1,0 +1,32 @@
+/* Consistent close button styling used across all modals */
+.shep-close-btn {
+  background: none;
+  border: none;
+  color: #7a1212; /* maroon tone consistent with ClassAnnouncements */
+  cursor: pointer;
+  padding: 6px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: color 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+}
+
+.shep-close-btn:hover {
+  color: #b00000;
+  transform: scale(1.05);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.shep-close-btn:focus-visible {
+  outline: 2px solid #ffd54f;
+  outline-offset: 2px;
+}
+
+.shep-close-btn.light {
+  color: #ffd64d;
+}
+.shep-close-btn.light:hover {
+  color: #ffe27a;
+}

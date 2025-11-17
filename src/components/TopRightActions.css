@@ -1,0 +1,35 @@
+.top-right-actions {
+  position: absolute;
+  top: 1.5rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #630000;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.top-right-actions button {
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  padding: 0.5rem;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+
+.top-right-actions button:hover {
+  background-color: #fff7d1;
+  color: #4a0000;
+  border: 1px solid #ab8922;
+}

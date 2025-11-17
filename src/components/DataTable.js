@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function SimpleTable({ columns, data, onRowClick, tableClassName = "simple-table" }) {
+export default function DataTable({ columns, data, tableClassName = "simple-table" }) {
   return (
     <table className={tableClassName}>
       <thead>
@@ -12,9 +12,9 @@ export default function SimpleTable({ columns, data, onRowClick, tableClassName 
       </thead>
       <tbody>
         {data.map((row, idx) => (
-          <tr key={idx} onClick={onRowClick ? () => onRowClick(row) : undefined}>
+          <tr key={idx}>
             {columns.map((c) => (
-              <td key={c.key}>{row[c.key]}</td>
+              <td key={c.key}>{c.render ? c.render(row) : row[c.key]}</td>
             ))}
           </tr>
         ))}

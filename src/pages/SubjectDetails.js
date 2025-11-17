@@ -6,6 +6,7 @@ import shepbg from '../assets/shepbg.png';
 import { subjectDetails } from '../data/subjectDetails';
 import ParentTopbar from "../components/ParentTopbar";
 import ParentProfileCard from "../components/ParentProfileCard";
+import BackButton from "../components/BackButton";
 
 const SubjectDetails = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const SubjectDetails = () => {
                 <p>We couldn't find details for this subject.</p>
               </div>
 
-              <button className="back-btn" onClick={() => navigate('/grades')}>Back</button>
+              <BackButton onClick={() => navigate('/grades')} />
             </div>
           </section>
         </main>
@@ -111,7 +112,7 @@ const SubjectDetails = () => {
                 </tbody>
               </table>
             </div>
-            <button className="back-btn" onClick={() => navigate('/grades')}>Back</button>
+            <BackButton onClick={() => navigate('/grades')} />
           </div>
         </section>
       </main>

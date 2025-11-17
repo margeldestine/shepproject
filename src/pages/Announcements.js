@@ -3,6 +3,7 @@ import { LogOut, Settings, X } from "lucide-react";
 import "./Announcements.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
+import AnnouncementsHeader from "../components/AnnouncementsHeader";
 import Modal from "../components/Modal";
 import AnnouncementCard from "../components/AnnouncementCard";
 import { announcements } from "../data/announcements";
@@ -21,14 +22,10 @@ export default function Announcements() {
     navigate("/settings");
   };
 
-
   return (
     <TeacherLayout active="announcements" containerClassName="teacher-attendance-container">
       <div className="announcements-container">
-        <div className="header-box">
-          <h2>Announcements</h2>
-          <button onClick={() => setShowNewModal(true)}>New Announcement</button>
-        </div>
+        <AnnouncementsHeader title="Announcements" onCreateNew={() => setShowNewModal(true)} />
 
         <div className="announcements-grid">
           {announcements.map((item) => (

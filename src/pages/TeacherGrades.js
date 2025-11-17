@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { LogOut, Settings, X } from "lucide-react";
 import "./TeacherGrades.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import Modal from "../components/Modal";
+import BackButton from "../components/BackButton";
+import ModalActions from "../components/ModalActions";
+import TeacherHeader from "../components/TeacherHeader";
+import FiltersBar from "../components/FiltersBar";
 
 export default function TeacherGrades() {
   const navigate = useNavigate();
@@ -21,21 +24,21 @@ export default function TeacherGrades() {
     <> 
     <TeacherLayout active="grades" containerClassName="teacher-grades-container">
       <div className="grades-container">
-        <div className="grades-header header-box">
-          <h2>Grades</h2>
-          <button className="input-grade-btn" onClick={() => setShowModal(true)}>
-            Input grades
-          </button>
-        </div>
+        <TeacherHeader
+          title="Grades"
+          headerClassName="grades-header header-box"
+          buttonLabel="Input grades"
+          onButtonClick={() => setShowModal(true)}
+        />
 
-        <div className="filters">
+        <FiltersBar>
           <select>
             <option>1st Grading</option>
             <option>2nd Grading</option>
             <option>3rd Grading</option>
             <option>4th Grading</option>
           </select>
-        </div>
+        </FiltersBar>
 
         <table className="grades-table">
           <thead>
@@ -78,7 +81,7 @@ export default function TeacherGrades() {
       </div>
     </TeacherLayout>
 
-      {/* Modal moved outside teacher-main */}
+      {}
       {showModal && (
         <Modal
           open={showModal}
@@ -128,10 +131,10 @@ export default function TeacherGrades() {
               </div>
             </div>
 
-            <div className="modal-actions">
-              <button className="back-btn" onClick={() => setShowModal(false)}>Back</button>
+            <ModalActions>
+              <BackButton className="back-btn" onClick={() => setShowModal(false)}>Back</BackButton>
               <button className="save-btn">Save Grades</button>
-            </div>
+            </ModalActions>
           </div>
         </Modal>
       )}

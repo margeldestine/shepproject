@@ -179,29 +179,6 @@
   z-index: 1;
 }
 
-.top-right-actions {
-  position: absolute;
-  top: 1.5rem;
-  right: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.9rem;
-  color: #630000;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.3rem 0.8rem;
-  border: 1px solid transparent;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.top-right-actions:hover {
-  border-color: #ab8922;
-  background-color: #fff7d1;
-  color: #4a0000;
-}
-
 .attendance-container {
   max-width: 950px;
   min-height: 200px;
@@ -325,10 +302,12 @@
   padding: 25px 30px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   position: relative;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .modal-header h3 {
-  color: #5d1227; /* same as Grades modal header */
+  color: #5d1227;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .modal-actions {
@@ -339,7 +318,7 @@
 }
 
 .back-btn {
-  background: #f8e4eb; /* same look as Grades modal back button */
+  background: #f8e4eb;
   color: #5d1227;
   border: none;
   padding: 6px 12px;
@@ -361,9 +340,11 @@
 .behavior-modal form textarea,
 .behavior-modal form select {
   width: 100%;
+  box-sizing: border-box;
   padding: 8px;
   margin-bottom: 12px;
   border-radius: 6px;
   border: 1px solid #bda76a;
   font-size: 0.9rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

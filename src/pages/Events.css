@@ -1,4 +1,3 @@
-/* Content-only enter transition: slide in from right to left */
 @keyframes slideLeftIn {
   from {
     transform: translateX(100%);
@@ -13,21 +12,18 @@
 .events-content-enter {
   animation: slideLeftIn 420ms ease both;
 }
-
-/* Panel layout (mirrors other detail pages) */
 .events-panel {
   position: relative;
   z-index: 1;
-  max-width: 1360px; /* occupy more width like prototype */
+  max-width: 1360px;
   margin: 1.8rem auto;
   padding: 0 1.2rem;
 }
 
-/* Page title outside container to match screenshot */
 .events-title {
   font-size: 1.7rem;
   font-weight: 800;
-  color: #620000; /* match prototype headline color */
+  color: #620000;
   margin: 0 0 1rem 0;
 }
 
@@ -35,31 +31,26 @@
   background: rgba(255, 255, 255, 0.92);
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  padding: 1.2rem 1.2rem 1.8rem; /* more breathing room */
-  min-height: 70vh; /* occupy more height */
+  padding: 1.2rem 1.2rem 1.4rem;
 }
 
-/* header removed in favor of external title */
-
-/* Events grid - 3 columns as shown in prototype */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem; /* increase spacing between cards */
+  gap: 1.2rem;
   margin-bottom: 1.5rem;
 }
 
-/* Individual event cards */
 .event-card {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  padding: 1.2rem 1.3rem; /* larger internal spacing */
+  padding: 1.2rem 1.3rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  min-height: 92px; /* increase visual size to occupy container */
+  min-height: 92px;
 }
 
 .event-card:hover {
@@ -67,16 +58,14 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Red badge for event cards */
 .event-card-badge {
   width: 26px;
-  height: 56px; /* noticeably taller accent line */
+  height: 56px;
   background: #e00000;
   border-radius: 16px;
   flex-shrink: 0;
 }
 
-/* Event card content */
 .event-card-content {
   display: flex;
   flex-direction: column;
@@ -96,11 +85,10 @@
   line-height: 1.35;
 }
 
-/* Events footer with Next button */
 .events-footer {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1rem;
+  margin-top: 0.8rem;
 }
 
 .next-btn {
@@ -119,7 +107,6 @@
   background: #8b1111;
 }
 
-/* Back button (reuses existing styles from Dashboard.css) */
 .back-btn {
   background: linear-gradient(135deg, #6f0d0d, #8b1111);
   color: white;
@@ -138,7 +125,6 @@
   box-shadow: 0 4px 12px rgba(111, 13, 13, 0.3);
 }
 
-/* Responsive adjustments */
 @media (max-width: 1024px) {
   
   .events-grid {

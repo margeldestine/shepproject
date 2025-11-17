@@ -1,5 +1,7 @@
 // c:\Users\Margel\Desktop\shepproject\src\components\Modal.js
 import React from "react";
+import { createPortal } from "react-dom";
+import CloseButton from "./CloseButton";
 
 export default function Modal({
   open,
@@ -8,19 +10,30 @@ export default function Modal({
   overlayClassName = "modal-overlay",
   modalClassName = "modal",
   headerClassName = "modal-header",
-  children
+  children,
+  closeIcon,
+  closeOnOverlayClick = true,
 }) {
   if (!open) return null;
 
-  return (
-    <div className={overlayClassName} onClick={onClose} role="dialog" aria-modal="true">
+  const overlay = (
+    <div
+      className={overlayClassName}
+      onClick={closeOnOverlayClick ? onClose : undefined}
+      role="dialog"
+      aria-modal="true"
+    >
       <div className={modalClassName} onClick={(e) => e.stopPropagation()}>
         <div className={headerClassName}>
           <h3>{title}</h3>
-          <button className="close-modal-btn" onClick={onClose}>×</button>
+          <CloseButton onClick={onClose} icon={closeIcon} />
         </div>
         {children}
       </div>
     </div>
   );
+
+  return typeof document !== "undefined"
+    ? createPortal(overlay, document.body)
+    : overlay;
 }

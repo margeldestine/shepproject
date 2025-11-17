@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\pages\Grades.js
 import "./Grades.css";
 import "./Dashboard.css";
 import shepbg from "../assets/shepbg.png";
@@ -6,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { subjectSlug } from "../data/subjectDetails";
 import ParentTopbar from "../components/ParentTopbar";
 import ParentLayout from "../components/ParentLayout";
+import ParentHeader from "../components/ParentHeader";
+import BackButton from "../components/BackButton";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal.js";
 import DetailModal from "../components/DetailModal";
@@ -28,11 +29,10 @@ function Grades() {
     { area: "RHGP", q1: 100, q2: 100, q3: 100, q4: 96, final: 100, remark: "PASSED" },
   ];
 
-  // Assignment modal state
   const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // Detail modal state for alerts, events, announcements
+
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -56,10 +56,8 @@ function Grades() {
 
       <ParentLayout active="grades" panelClassName="grades-panel" contentClassName="grades-content-enter">
         <div className="grades-shell">
-          <div className="grades-header">
-            <strong>Learner's Academic Performance</strong>
-            <span>● ● ●</span>
-          </div>
+          {}
+          <ParentHeader title="Learner's Academic Performance" headerClassName="parent-section-header" />
           <div className="grades-card">
             <p className="click-hint">Tip: Click any subject to view details</p>
             <GradesTable
@@ -67,11 +65,11 @@ function Grades() {
               onRowClick={(area) => navigate(`/grades/${subjectSlug(area)}`)}
             />
           </div>
-          <button className="back-btn" onClick={() => navigate("/dashboard")}>Back</button>
+          <BackButton onClick={() => navigate("/dashboard")} />
         </div>
       </ParentLayout>
 
-      {/* REMINDERS MODAL */}
+      {}
     {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -82,7 +80,7 @@ function Grades() {
         />
       )}
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -91,7 +89,7 @@ function Grades() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

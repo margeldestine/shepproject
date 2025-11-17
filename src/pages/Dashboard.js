@@ -9,6 +9,9 @@ import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
 import ParentProfileCard from "../components/ParentProfileCard";
+import AnnouncementCard from "../components/AnnouncementCard";
+import EventsCard from "../components/EventsCard";
+import BackButton from "../components/BackButton";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -23,11 +26,9 @@ function Dashboard() {
   };
   const closeModal = () => setModalOpen(false);
 
-  // Assignment modal state
   const [assignmentModalOpen, setAssignmentModalOpen] = useState(false);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
 
-  // Detail modal state for alerts, events, announcements
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [selectedDetail, setSelectedDetail] = useState(null);
 
@@ -79,28 +80,21 @@ function Dashboard() {
 
           <div className="cards">
             {(showAll ? announcements : announcements.slice(0, 3)).map((item) => (
-              <article className="card" key={item.id}>
-                <h3><br />
-                  {item.title}
-                </h3>
-                <small>{item.date}</small>
-                <br />
-                <p className="desc">{item.preview}</p>
-                <br />
-                <button
-                  className="read-btn"
-                  onClick={() => openModal(item.title, item.date, item.full)}
-                >
-                  Read More
-                </button>
-              </article>
+              <AnnouncementCard
+                key={item.id}
+                item={item}
+                variant="dashboard"
+                showEdit={false}
+                detailsLabel="Read More"
+                onDetails={() => openModal(item.title, item.date, item.full)}
+              />
             ))}
           </div>
 
           {showAll && (
-            <button className="back-pill" onClick={() => setShowAll(false)}>
+            <BackButton className="back-pill" onClick={() => setShowAll(false)}>
               Back
-            </button>
+            </BackButton>
           )}
         </section>
 
@@ -108,24 +102,8 @@ function Dashboard() {
           <div className="sidebar-panel">
             <ParentProfileCard />
 
-            {/* Upcoming Events (static prototype) */}
-            <div className="events-card" onClick={() => navigate("/events")} style={{ cursor: "pointer" }}>
-              <h4>Upcoming Events</h4>
-              <div className="event">
-                <div className="event-badge" />
-                <div className="event-body">
-                  <strong>September 9</strong>
-                  <span>Sergio Osmeña Day</span>
-                </div>
-              </div>
-              <div className="event">
-                <div className="event-badge" />
-                <div className="event-body">
-                  <strong>September 23</strong>
-                  <span>Faculty-Admin Day</span>
-                </div>
-              </div>
-            </div>
+            {}
+            <EventsCard onClick={() => navigate("/events")} />
           </div>
         </aside>
       </main>
@@ -138,7 +116,7 @@ function Dashboard() {
         onClose={closeModal}
       />
 
-      {/* REMINDERS MODAL */}
+      {}
       {remindersOpen && (
         <RemindersModal
           open={remindersOpen}
@@ -149,7 +127,7 @@ function Dashboard() {
         />
       )}
 
-      {/* ASSIGNMENT DETAIL MODAL */}
+      {}
       {assignmentModalOpen && selectedAssignment && (
         <AssignmentModal
           open={assignmentModalOpen}
@@ -158,7 +136,7 @@ function Dashboard() {
         />
       )}
 
-      {/* DETAIL MODAL FOR ALERTS, EVENTS, ANNOUNCEMENTS */}
+      {}
       {detailModalOpen && selectedDetail && (
         <DetailModal
           open={detailModalOpen}

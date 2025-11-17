@@ -1,5 +1,5 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\RemindersModal.js
 import React from "react";
+import CloseButton from "./CloseButton";
 
 export default function RemindersModal({
   open,
@@ -15,7 +15,7 @@ export default function RemindersModal({
       <div className="reminders-modal" onClick={(e) => e.stopPropagation()}>
         <div className="reminders-header">
           <h2>Reminders</h2>
-          <button className="close-btn" onClick={onClose}>×</button>
+          <CloseButton className="light" onClick={onClose} />
         </div>
 
         <div className="reminders-content">

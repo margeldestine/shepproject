@@ -2,18 +2,19 @@ import { useNavigate } from "react-router-dom";
 import "./About.css";
 import "./Dashboard.css";
 import ParentTopbar from "../components/ParentTopbar";
+import BackButton from "../components/BackButton";
 
-import campusHero from "../assets/campus-hero.png"; // your campus hero image
+import campusHero from "../assets/campus-hero.png";
 
 export default function About() {
   const navigate = useNavigate();
 
   return (
     <div className="about-page">
-      {/* Top bar */}
+      {}
       <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => navigate("/dashboard")} />
 
-      {/* ===== HERO CONTENT (no separate section) ===== */}
+      {}
       <div className="hero-content">
         <h1>Cebu Institute of Technology - University</h1>
         <p>
@@ -24,7 +25,7 @@ export default function About() {
         </p>
       </div>
 
-      {/* ===== VISION / MISSION BAND ===== */}
+      {}
       <section className="about-band">
         <div className="band-inner">
           <div className="vm-block">
@@ -43,7 +44,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ===== SH-EP DESCRIPTION ===== */}
+      {}
       <section className="about-section">
         <div className="about-container">
           <h2>School-to-Home-Engagement Platform</h2>
@@ -56,10 +57,10 @@ export default function About() {
           </p>
         </div>
 
-        {/* Back pill */}
-        <button className="back-pill" onClick={() => navigate(-1)}>
-          ‹&nbsp;Back
-        </button>
+        {}
+        <BackButton className="back-pill" onClick={() => navigate(-1)}>
+          ‹ Back
+        </BackButton>
       </section>
     </div>
   );

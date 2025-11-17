@@ -1,15 +1,13 @@
-/* ===== Backdrop ===== */
 .announce-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(40, 40, 40, 0.55); /* dimmed overlay */
+  background: rgba(40, 40, 40, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
-/* ===== Modal container ===== */
 .announce-modal {
   width: min(900px, 92vw);
   border-radius: 20px;
@@ -20,14 +18,13 @@
   overflow: hidden;
 }
 
-/* Decorative gold corners */
 .announce-modal::before,
 .announce-modal::after {
   content: "";
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 3px solid #d4a017; /* gold tone */
+  border: 3px solid #d4a017;
   border-radius: 8px;
 }
 
@@ -45,11 +42,10 @@
   border-top: none;
 }
 
-/* Header */
 .announce-modal-header h3 {
   margin: 0;
   font-weight: 700;
-  color: #6a1414; /* maroon tone */
+  color: #6a1414; 
   font-size: 1.4rem;
 }
 
@@ -60,7 +56,6 @@
   font-size: 0.9rem;
 }
 
-/* Body */
 .announce-modal-body {
   margin-top: 1rem;
 }
@@ -70,13 +65,13 @@
   line-height: 1.7;
   color: #2b2b2b;
   font-size: 1rem;
+  white-space: pre-line;
 }
 
-/* ===== Back button inside modal ===== */
 .back-pill {
-  display: inline-block;      /* flows inside content */
-  margin-top: 1.5rem;         /* spacing from text */
-  background: #6a1414;        /* maroon color */
+  display: inline-block;      
+  margin-top: 1.5rem;         
+  background: #6a1414;        
   color: #fff;
   border: none;
   border-radius: 10px;

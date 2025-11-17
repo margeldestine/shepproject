@@ -1,14 +1,10 @@
-/* ================== GLOBAL TWEAK KNOBS ================== */
 :root{
-  --seal-size: 1150px;   /* scale of the watermark */
+  --seal-size: 1150px; 
 }
-
-/* ============= Page background (campus image) ============= */
 .about-page{
   position:relative;
   min-height:100vh;
 
-  /* campus background image */
   background-image: url('../assets/campus-hero.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -16,7 +12,6 @@
   background-attachment: fixed;
 }
 
-/* Add overlay for better text readability */
 .about-page::before {
   content: '';
   position: fixed;
@@ -29,12 +24,10 @@
   z-index: 0;
 }
 
-/* Keep all main sections above any page-wide overlays */
 .about-topbar, .hero-content, .about-band, .about-section{
   position:relative; z-index:1;
 }
 
-/* ======================= Top bar (same theme) ====================== */
 .about-topbar{
   background:#6f0d0d;
   color:#fff;
@@ -49,7 +42,6 @@
 .about-actions .icon{ background:transparent; border:none; color:#fff; font-size:1.15rem; cursor:pointer; }
 .about-actions .icon:hover{ opacity:.9; }
 
-/* ============================= HERO CONTENT ================================ */
 .hero-content{
   max-width:1000px; 
   margin:0 auto;
@@ -73,14 +65,12 @@
   text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
 }
 
-/* ======================== VISION / MISSION ======================== */
 .about-band{
-  /* Use the rectangle image to match prototype */
+
   background-image: url('../assets/rectangle.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* Fallback color under the image */
   background-color:#6f0d0d;
   color:#fff;
   padding:1.6rem 1rem;
@@ -103,7 +93,6 @@
 .vm-block .line{ margin:.15rem 0; font-size:1.02rem; color:#F4C430; }
 .vm-block .strong{ font-weight:800; color:#F4C430; }
 
-/* ========================= SH-EP SECTION ========================== */
 .about-section{ padding:2.2rem 1rem 3.6rem; }
 .about-container{ max-width:1000px; margin:0 auto; text-align:center; }
 .about-container h2{
@@ -116,7 +105,6 @@
   font-size:1.03rem; line-height:1.75; color:#2c2c2c;
 }
 
-/* =========================== Back pill ============================ */
 .back-pill{
   position:fixed; left:16px; bottom:16px;
   background:#6f0d0d; color:#fff;
@@ -127,7 +115,6 @@
 }
 .back-pill:hover{ filter:brightness(1.05); }
 
-/* ============================ Responsive ========================== */
 @media (max-width: 1200px){
   :root{ --seal-size: 1000px; }
 }

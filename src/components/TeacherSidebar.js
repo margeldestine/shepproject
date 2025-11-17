@@ -1,4 +1,3 @@
-// c:\Users\Margel\Desktop\shepproject\src\components\TeacherSidebar.js
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
