@@ -6,22 +6,10 @@ import Modal from "../components/Modal";
 import ModalActions from "../components/ModalActions";
 import SimpleTable from "../components/SimpleTable";
 import BackButton from "../components/BackButton";
+import { BehaviorLogs, BehaviorLogsColumns } from "../data/behaviorLogs";
 
 export default function Behavior() {
-
   const [showModal, setShowModal] = useState(false);
-
-  const columns = [
-    { key: "date", label: "Date" },
-    { key: "student", label: "Student" },
-    { key: "incident", label: "Incident" },
-    { key: "action", label: "Action Taken" }
-  ];
-
-  const data = [
-    { date: "Sep 19, 2025", student: "Francis Abelgas", incident: "Left class without permission", action: "Counseled" },
-    { date: "Sep 20, 2025", student: "Danise Bianca Catamco", incident: "Disturbing other students", action: "Warning Issued" }
-  ];
 
   return (
     <>
@@ -33,7 +21,7 @@ export default function Behavior() {
             onButtonClick={() => setShowModal(true)}
           />
 
-          <SimpleTable columns={columns} data={data} tableClassName="attendance-table" />
+          <SimpleTable columns={BehaviorLogsColumns} data={BehaviorLogs} tableClassName="attendance-table" />
         </div>
       </TeacherLayout>
 
