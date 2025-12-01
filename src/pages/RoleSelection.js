@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import shepbg from "../assets/shepbg.png";
-import "./RoleSelection.css";
+import "../styles/RoleSelection.css";
 
 function RoleSelection() {
   const navigate = useNavigate();

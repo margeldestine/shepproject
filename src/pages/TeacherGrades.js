@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import "./TeacherGrades.css";
+import "../styles/TeacherGrades.css";
+import "../styles/Add.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
-import Modal from "../components/Modal";
-import BackButton from "../components/BackButton";
-import ModalActions from "../components/ModalActions";
 import TeacherHeader from "../components/TeacherHeader";
 import FiltersBar from "../components/FiltersBar";
-
 import { students, gradingPeriods } from "../data/grades";
 
 export default function TeacherGrades() {
@@ -64,49 +61,66 @@ export default function TeacherGrades() {
       </TeacherLayout>
 
       {showModal && (
-        <Modal
-          open={showModal}
-          title="Input Grades"
-          onClose={() => setShowModal(false)}
-          overlayClassName="grade-modal-overlay"
-          modalClassName="grade-modal"
-          headerClassName="modal-header"
-        >
-          <div className="modal-content">
-            <div className="form-group">
-              <label>Student Name</label>
-              <select>
-                <option>Select a student</option>
-                {students.map((s) => (
-                  <option key={s.id}>{s.name}</option>
-                ))}
-              </select>
+        <div className="action-modal-overlay">
+          <div className="action-modal">
+            <div className="modal-header">
+              <h3>Input Grades</h3>
+              <button
+                className="close-modal-btn"
+                onClick={() => setShowModal(false)}
+              >
+                ×
+              </button>
             </div>
 
-            <div className="form-group">
-              <label>Grading Period</label>
-              <select>
-                {gradingPeriods.map((period, index) => (
-                  <option key={index}>{period}</option>
-                ))}
-              </select>
-            </div>
+            <div className="modal-content">
+              <div className="form-group">
+                <label>Student Name</label>
+                <select>
+                  <option>Select a student</option>
+                  {students.map((s) => (
+                    <option key={s.id}>{s.name}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="grades-input-grid">
-              {["Science", "Mathematics", "Reading", "Language"].map((subject) => (
-                <div className="form-group" key={subject}>
-                  <label>{subject}</label>
-                  <input type="number" min="0" max="100" placeholder="0-100" />
-                </div>
-              ))}
-            </div>
+              <div className="form-group">
+                <label>Grading Period</label>
+                <select>
+                  {gradingPeriods.map((period, index) => (
+                    <option key={index}>{period}</option>
+                  ))}
+                </select>
+              </div>
 
-            <ModalActions>
-              <BackButton className="back-btn" onClick={() => setShowModal(false)}>Back</BackButton>
-              <button className="save-btn">Save Grades</button>
-            </ModalActions>
+              <div className="grades-input-grid">
+                {["Science", "Mathematics", "Reading", "Language"].map(
+                  (subject) => (
+                    <div className="form-group" key={subject}>
+                      <label>{subject}</label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        placeholder="0-100"
+                      />
+                    </div>
+                  )
+                )}
+              </div>
+
+              <div className="modal-actions">
+                <button
+                  className="action-btn action-btn-sm"
+                  onClick={() => setShowModal(false)}
+                >
+                  Back
+                </button>
+                <button className="action-btn-dark action-btn-sm">Save</button>
+              </div>
+            </div>
           </div>
-        </Modal>
+        </div>
       )}
     </>
   );

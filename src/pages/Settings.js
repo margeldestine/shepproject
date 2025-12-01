@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Settings.css";
+import "../styles/Settings.css";
 import SettingsCard from "../components/SettingsCard";
 import BackButton from "../components/BackButton";
 

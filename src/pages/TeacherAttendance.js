@@ -1,5 +1,5 @@
 import React from "react";
-import "./TeacherAttendance.css";
+import "../styles/TeacherAttendance.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import TeacherHeader from "../components/TeacherHeader";

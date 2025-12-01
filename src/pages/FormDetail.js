@@ -1,5 +1,5 @@
 import React from "react";
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import ParentTopbar from "../components/ParentTopbar";

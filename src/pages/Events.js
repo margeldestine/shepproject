@@ -1,6 +1,6 @@
 import React from "react";
-import "./Events.css";
-import "./Dashboard.css";
+import "../styles/Events.css";
+import "../styles/Dashboard.css"; 
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import ParentTopbar from "../components/ParentTopbar";

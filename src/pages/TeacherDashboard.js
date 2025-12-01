@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Clock } from "lucide-react";
 import TopRightActions from "../components/TopRightActions";
-import "./TeacherDashboard.css";
+import "../styles/TeacherDashboard.css";
 
 import { subjects, sections } from "../data/teacherDashboard";
 

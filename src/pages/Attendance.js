@@ -1,8 +1,9 @@
-import "./Attendance.css";
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import "../styles/Attendance.css";
+import "../styles/Reminders.css";
 import ParentTopbar from "../components/ParentTopbar";
 import ParentLayout from "../components/ParentLayout";
 import ParentHeader from "../components/ParentHeader";

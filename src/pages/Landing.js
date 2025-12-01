@@ -1,6 +1,6 @@
 import LandingContent from "../components/LandingContent";
 import AuthBox from "../components/AuthBox";
-import "./Landing.css";
+import "../styles/Landing.css";
 import shepbg from "../assets/shepbg.png";
 
 function Landing() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import './SubjectDetails.css';
-import '../pages/Dashboard.css';
+import "../styles/SubjectDetails.css";
+import "../styles/Dashboard.css";
 import shepbg from '../assets/shepbg.png';
 import { subjectDetails } from '../data/subjectDetails';
 import ParentTopbar from "../components/ParentTopbar";
@@ -20,7 +20,6 @@ const SubjectDetails = () => {
 
         <ParentTopbar userName="Ritchie Marie" />
 
-        {/* Grid with sidebar and right content */}
         <main className="subject-panel">
           <aside className="dash-side">
             <ParentProfileCard active="grades" />
@@ -62,9 +61,8 @@ const SubjectDetails = () => {
 
       <ParentTopbar userName="Ritchie Marie" />
 
-      {/* Main grid with sidebar intact */}
       <main className="subject-panel">
-        {/* LEFT SIDEBAR (unchanged) */}
+  
         <aside className="dash-side">
           <div className="profile-card">
             <div className="profile-avatar" />
@@ -80,7 +78,6 @@ const SubjectDetails = () => {
 
         </aside>
 
-        {/* RIGHT CONTENT ONLY updates */}
         <section className="subject-content-enter">
           <div className="subject-shell">
             <div className="subject-header">

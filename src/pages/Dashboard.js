@@ -1,4 +1,5 @@
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
+import "../styles/Reminders.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

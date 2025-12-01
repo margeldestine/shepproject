@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import { LogOut, Settings, X } from "lucide-react";
-import "./TeacherForms.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import Modal from "../components/Modal";
-import BackButton from "../components/BackButton";
-import ModalActions from "../components/ModalActions";
 import TeacherHeader from "../components/TeacherHeader";
 import DataTable from "../components/DataTable";
+import "../styles/Add.css"; 
 
 export default function TeacherForms() {
   const navigate = useNavigate();
@@ -15,9 +12,6 @@ export default function TeacherForms() {
   const [showNewFormModal, setShowNewFormModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(null);
   const [showEditModal, setShowEditModal] = useState(null);
-
-  const handleSignOut = () => navigate("/");
-  const handleSettings = () => navigate("/settings");
 
   const forms = [
     { title: "Parent-Teacher Meeting Form", category: "Meeting", status: "Active", responses: 12 },
@@ -27,102 +21,145 @@ export default function TeacherForms() {
     { title: "Classroom Observation Form", category: "Observation", status: "Active", responses: 20 },
   ];
 
+  const handleSave = (closeModal) => {
+    alert("Form saved!");
+    if (closeModal) closeModal();
+  };
+
   return (
     <TeacherLayout active="forms" containerClassName="teacher-attendance-container">
       <div className="attendance-container">
-          <TeacherHeader
-            title="Teacher Forms — G2 Faith"
-            buttonLabel="Create New Form"
-            onButtonClick={() => setShowNewFormModal(true)}
-          />
+        <TeacherHeader
+          title="Teacher Forms — G2 Faith"
+          buttonLabel="Create New Form"
+          onButtonClick={() => setShowNewFormModal(true)}
+        />
 
-          <DataTable
-            tableClassName="attendance-table"
-            columns={[
-              { key: "title", label: "Form Title" },
-              { key: "category", label: "Category" },
-              { key: "status", label: "Status" },
-              { key: "responses", label: "Responses" },
-              { key: "action", label: "Action", render: (row) => (
+        <DataTable
+          tableClassName="attendance-table"
+          columns={[
+            { key: "title", label: "Form Title" },
+            { key: "category", label: "Category" },
+            { key: "status", label: "Status" },
+            { key: "responses", label: "Responses" },
+            {
+              key: "action",
+              label: "Action",
+              render: (row) => (
                 <>
-                  <button className="view-btn" onClick={() => setShowViewModal(row)}>View</button>
-                  <button className="edit-btn" onClick={() => setShowEditModal(row)}>Edit</button>
+                  <button className="table-action-btn" onClick={() => setShowViewModal(row)}>View</button>
+                  <button className="table-action-btn-dark" onClick={() => setShowEditModal(row)}>Edit</button>
                 </>
-              ) }
-            ]}
-            data={forms}
-          />
-        </div>
+              ),
+            },
+          ]}
+          data={forms}
+        />
+      </div>
 
-        {}
-        {showNewFormModal && (
-          <Modal
-            open={showNewFormModal}
-            title="Create New Form"
-            onClose={() => setShowNewFormModal(false)}
-            overlayClassName="form-modal-overlay"
-            modalClassName="form-modal"
-            headerClassName="modal-header"
-          >
-            <div className="modal-content">
-              <label>Title</label>
-              <input type="text" placeholder="Form title" />
-              <label>Category</label>
-              <input type="text" placeholder="Category" />
-              <label>Status</label>
-              <input type="text" placeholder="Status" />
-              <ModalActions>
-                <BackButton className="back-btn" onClick={() => setShowNewFormModal(false)}>Cancel</BackButton>
-                <button className="save-btn">Save</button>
-              </ModalActions>
+      {/* New Form Modal */}
+      {showNewFormModal && (
+        <Modal
+          open={showNewFormModal}
+          title="Create New Form"
+          onClose={() => setShowNewFormModal(false)}
+          overlayClassName="action-modal-overlay"
+          modalClassName="action-modal"
+          headerClassName="modal-header"
+        >
+          <div className="modal-content">
+            <label>Title</label>
+            <input type="text" placeholder="Form title" />
+            <label>Category</label>
+            <input type="text" placeholder="Category" />
+            <label>Status</label>
+            <input type="text" placeholder="Status" />
+
+            <div className="modal-actions">
+              <button
+                className="action-btn action-btn-sm"
+                onClick={() => setShowNewFormModal(false)}
+              >
+                Back
+              </button>
+              <button
+                className="action-btn-dark action-btn-sm"
+                onClick={() => handleSave(() => setShowNewFormModal(false))}
+              >
+                Save
+              </button>
             </div>
-          </Modal>
-        )}
+          </div>
+        </Modal>
+      )}
 
-        {}
-        {showViewModal && (
-          <Modal
-            open={!!showViewModal}
-            title="View Form"
-            onClose={() => setShowViewModal(null)}
-            overlayClassName="form-modal-overlay"
-            modalClassName="form-modal"
-            headerClassName="modal-header"
-          >
-            <div className="modal-content">
-              <p><strong>Title:</strong> {showViewModal.title}</p>
-              <p><strong>Category:</strong> {showViewModal.category}</p>
-              <p><strong>Status:</strong> {showViewModal.status}</p>
-              <p><strong>Responses:</strong> {showViewModal.responses}</p>
+      {/* View Form Modal */}
+      {showViewModal && (
+        <Modal
+          open={!!showViewModal}
+          title="View Form"
+          onClose={() => setShowViewModal(null)}
+          overlayClassName="action-modal-overlay"
+          modalClassName="action-modal"
+          headerClassName="modal-header"
+        >
+          <div className="modal-content">
+            <label>Title</label>
+            <input type="text" value={showViewModal.title} readOnly />
+            <label>Category</label>
+            <input type="text" value={showViewModal.category} readOnly />
+            <label>Status</label>
+            <input type="text" value={showViewModal.status} readOnly />
+            <label>Responses</label>
+            <input type="text" value={showViewModal.responses} readOnly />
+
+            <div className="modal-actions">
+              <button
+                className="action-btn action-btn-sm"
+                onClick={() => setShowViewModal(null)}
+              >
+                Back
+              </button>
             </div>
-          </Modal>
-        )}
+          </div>
+        </Modal>
+      )}
 
-        {}
-        {showEditModal && (
-          <Modal
-            open={!!showEditModal}
-            title="Edit Form"
-            onClose={() => setShowEditModal(null)}
-            overlayClassName="form-modal-overlay"
-            modalClassName="form-modal"
-            headerClassName="modal-header"
-          >
-            <div className="modal-content">
-              <label>Title</label>
-              <input type="text" defaultValue={showEditModal.title} />
-              <label>Category</label>
-              <input type="text" defaultValue={showEditModal.category} />
-              <label>Status</label>
-              <input type="text" defaultValue={showEditModal.status} />
-              <ModalActions>
-                <BackButton className="back-btn" onClick={() => setShowEditModal(null)}>Cancel</BackButton>
-                <button className="save-btn">Save</button>
-              </ModalActions>
+
+      {showEditModal && (
+        <Modal
+          open={!!showEditModal}
+          title="Edit Form"
+          onClose={() => setShowEditModal(null)}
+          overlayClassName="action-modal-overlay"
+          modalClassName="action-modal"
+          headerClassName="modal-header"
+        >
+          <div className="modal-content">
+            <label>Title</label>
+            <input type="text" defaultValue={showEditModal.title} />
+            <label>Category</label>
+            <input type="text" defaultValue={showEditModal.category} />
+            <label>Status</label>
+            <input type="text" defaultValue={showEditModal.status} />
+
+            <div className="modal-actions">
+              <button
+                className="action-btn action-btn-sm"
+                onClick={() => setShowEditModal(null)}
+              >
+                Back
+              </button>
+              <button
+                className="action-btn-dark action-btn-sm"
+                onClick={() => handleSave(() => setShowEditModal(null))}
+              >
+                Save
+              </button>
             </div>
-          </Modal>
-        )}
-
+          </div>
+        </Modal>
+      )}
     </TeacherLayout>
   );
 }

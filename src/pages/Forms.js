@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./Forms.css";
-import "./Dashboard.css";
+import "../styles/Forms.css";
+import "../styles/Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import ParentTopbar from "../components/ParentTopbar";
@@ -40,7 +40,7 @@ function Forms() {
     setDetailModalOpen(true);
   };
 
-  const meeting = events[0]; // Only PTA meeting for now
+  const meeting = events[0];
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>

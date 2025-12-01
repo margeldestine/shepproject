@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, TextField, InputAdornment } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import shepbg from "../assets/shepbg.png";
-import "./RoleSelection.css";
+import "../styles/RoleSelection.css";
 
 function ParentIdInput() {
   const navigate = useNavigate();
