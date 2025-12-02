@@ -1,16 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Clock } from "lucide-react";
 import TopRightActions from "../components/TopRightActions";
 import "../styles/TeacherDashboard.css";
 
 import { subjects, sections } from "../data/teacherDashboard";
-import { teacherUser } from "../data/users";
 import { teacherDashboardCopy } from "../data/copy";
+import { useAuth } from "../context/AuthContext";
 
 export default function TeacherDashboard() {
   const [activeSubject, setActiveSubject] = useState("Science");
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const location = useLocation();
+
+  const displayName = (user?.firstName || user?.lastName)
+    ? `${user?.firstName || ""}${user?.firstName && user?.lastName ? " " : ""}${user?.lastName || ""}`.trim()
+    : user?.name || user?.email || "Teacher";
+  const displayRole = location.pathname.startsWith("/teacher")
+    ? "Teacher"
+    : (user?.role || "TEACHER").toString().toUpperCase().includes("TEACH")
+    ? "Teacher"
+    : "Parent";
 
   const handleOpenSection = (sectionId) => {
     navigate(`/teacher-attendance/${sectionId}`);
@@ -27,8 +38,8 @@ export default function TeacherDashboard() {
         <div className="teacher-info">
           <div className="avatar" />
           <div>
-            <p className="teacher-name">{teacherUser.name}</p>
-            <p className="teacher-role">{teacherUser.role}</p>
+            <p className="teacher-name">{displayName}</p>
+            <p className="teacher-role">{displayRole}</p>
           </div>
         </div>
 

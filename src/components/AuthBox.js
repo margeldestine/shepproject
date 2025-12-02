@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import "./AuthBox.css";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 
 
 function AuthBox() {
@@ -13,6 +15,7 @@ function AuthBox() {
   const [passwordError, setPasswordError] = useState("");
   const [confirmError, setConfirmError] = useState("");
   const navigate = useNavigate();
+  const { loginUser } = useAuth();
 
 
   const textFieldStyles = {
@@ -57,25 +60,55 @@ function AuthBox() {
     return "";
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const emailErr = validateEmail(email);
-  const passErr = validatePassword(password);
-  const confirmErr = isSignUp ? validateConfirmPassword(confirmPassword) : "";
+    const emailErr = validateEmail(email);
+    const passErr = validatePassword(password);
+    const confirmErr = isSignUp ? validateConfirmPassword(confirmPassword) : "";
 
-  setEmailError(emailErr);
-  setPasswordError(passErr);
-  setConfirmError(confirmErr);
+    setEmailError(emailErr);
+    setPasswordError(passErr);
+    setConfirmError(confirmErr);
 
-  if (emailErr || passErr || confirmErr) return;
+    if (emailErr || passErr || confirmErr) return;
 
-  if (isSignUp) {
-    navigate("/role-selection");
-  } else {
-    navigate("/dashboard");
-  }
-};
+    if (isSignUp) {
+      navigate("/signup");
+      return;
+    }
+
+    try {
+      const authData = await login(email, password);
+      loginUser(authData);
+      const extracted = [];
+      if (authData?.role) extracted.push(authData.role);
+      if (Array.isArray(authData?.roles)) extracted.push(
+        ...authData.roles.map((r) => (typeof r === "string" ? r : r?.name))
+      );
+      if (Array.isArray(authData?.authorities)) extracted.push(
+        ...authData.authorities.map((a) => (typeof a === "string" ? a : a?.authority))
+      );
+      const all = extracted.filter(Boolean).map((v) => String(v).trim().toUpperCase());
+      let selectedRole = "";
+      try { selectedRole = String(localStorage.getItem("selectedRole") || "").trim().toUpperCase(); } catch {}
+      const payloadStr = JSON.stringify(authData || {}).toUpperCase();
+      const payloadTeacher = payloadStr.includes("TEACH");
+      const payloadParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
+      const isTeacher = selectedRole === "TEACHER" || payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"));
+      const isParent = selectedRole === "PARENT" || (!isTeacher && (payloadParent || all.some((v) => v.includes("PARENT") || v.includes("GUARDIAN"))));
+      if (isTeacher) {
+        navigate("/teacher");
+      } else if (isParent) {
+        navigate("/dashboard");
+      } else {
+        navigate("/role-selection");
+      }
+    } catch (err) {
+      const msg = err?.message || "Login failed. Please check your credentials.";
+      setPasswordError(msg);
+    }
+  };
 
 
   const handleToggle = () => {

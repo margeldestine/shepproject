@@ -8,6 +8,7 @@ import { announcements } from "../data/announcements";
 import { dashboardCopy } from "../data/copy";
 import ParentTopbar from "../components/ParentTopbar";
 import { parentUser } from "../data/users";
+import { useAuth } from "../context/AuthContext";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
@@ -18,6 +19,7 @@ import BackButton from "../components/BackButton";
 
 function Dashboard() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState({ title: "", date: "", description: "" });
   const [showAll, setShowAll] = useState(false);
@@ -52,7 +54,7 @@ function Dashboard() {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      <ParentTopbar userName={parentUser.name} showReminders onOpenReminders={() => setRemindersOpen(true)} />
+      <ParentTopbar userName={user ? `${user.firstName} ${user.lastName}` : "Parent Name"} showReminders onOpenReminders={() => setRemindersOpen(true)} />
 
       <main className="dash-grid">
         <section className="dash-main">

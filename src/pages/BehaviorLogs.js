@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/BehaviorLogs.css";
 import "../styles/Add.css"; // <-- Add.css for reusable modal/buttons
 import TeacherLayout from "../components/TeacherLayout";
@@ -7,9 +7,24 @@ import Modal from "../components/Modal";
 import BackButton from "../components/BackButton";
 import SimpleTable from "../components/SimpleTable";
 import { BehaviorLogs, BehaviorLogsColumns } from "../data/behaviorLogs";
+import { getAllBehaviorLogs } from "../api/behaviorLogsApi";
 
 export default function Behavior() {
   const [showModal, setShowModal] = useState(false);
+  const [data, setData] = useState(BehaviorLogs);
+
+  useEffect(() => {
+    let mounted = true;
+    getAllBehaviorLogs()
+      .then((list) => {
+        if (!mounted) return;
+        setData(Array.isArray(list) ? list : BehaviorLogs);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const handleSaveBehavior = (e) => {
     e.preventDefault();
@@ -32,7 +47,7 @@ export default function Behavior() {
 
           <SimpleTable
             columns={BehaviorLogsColumns}
-            data={BehaviorLogs}
+            data={data}
             tableClassName="attendance-table"
           />
         </div>

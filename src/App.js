@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import RoleSelection from "./pages/RoleSelection";
+import RoleChoice from "./pages/RoleChoice";
 import Dashboard from "./pages/Dashboard";
 import Behavior from "./pages/Behavior";
 import Attendance from "./pages/Attendance";
@@ -26,8 +27,10 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/role-selection" element={<RoleSelection />} />
+        <Route path="/role-selection" element={<RoleChoice />} />
+        <Route path="/signup" element={<RoleSelection />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/parent" element={<Dashboard />} />
         <Route path="/behavior" element={<Behavior />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/grades" element={<Grades />} />

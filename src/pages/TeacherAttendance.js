@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/TeacherAttendance.css";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
@@ -6,9 +6,24 @@ import TeacherHeader from "../components/TeacherHeader";
 import FiltersBar from "../components/FiltersBar";
 import DataTable from "../components/DataTable";
 import { students as attendanceStudents } from "../data/students";
+import { getAllAttendance } from "../api/attendanceApi";
 
 export default function TeacherAttendance() {
   const navigate = useNavigate();
+  const [rows, setRows] = useState(attendanceStudents);
+
+  useEffect(() => {
+    let mounted = true;
+    getAllAttendance()
+      .then((list) => {
+        if (!mounted) return;
+        setRows(Array.isArray(list) ? list : attendanceStudents);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <TeacherLayout active="attendance" containerClassName="teacher-attendance-container">
@@ -43,7 +58,7 @@ export default function TeacherAttendance() {
                 <input type="text" placeholder="Add remark..." />
               ) }
             ]}
-            data={attendanceStudents}
+            data={rows}
           />
         </div>
     </TeacherLayout>
