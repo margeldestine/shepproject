@@ -18,8 +18,15 @@ export async function register(payload) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
-  if (!res.ok) {
-    throw new Error("Registration failed");
+  let data = null;
+  try {
+    data = await res.json();
+  } catch {
+    data = null;
   }
-  return res.json();
+  if (!res.ok) {
+    const message = (data && (data.message || data.error)) || "Registration failed";
+    throw new Error(message);
+  }
+  return data;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, TextField, InputAdornment } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import shepbg from "../assets/shepbg.png";
@@ -7,6 +7,8 @@ import "../styles/RoleSelection.css";
 
 function ParentIdInput() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const role = String(location.state?.role || "PARENT").trim().toUpperCase();
 
   const [schoolId, setSchoolId] = useState("");
   const [error, setError] = useState("");
@@ -24,7 +26,7 @@ function ParentIdInput() {
 
   const handleNavigate = () => {
     if (!schoolId.trim()) {
-      setError("Please enter your child’s school ID number.");
+      setError(role.includes("TEACHER") ? "Please enter your school ID number." : "Please enter your child’s school ID number.");
       return;
     }
 
@@ -34,7 +36,7 @@ function ParentIdInput() {
     }
 
     setError("");
-    navigate("/dashboard");
+    navigate(role.includes("TEACHER") ? "/teacher" : "/dashboard");
   };
 
   return (
@@ -49,7 +51,7 @@ function ParentIdInput() {
 
       {}
       <div className="role-container">
-        <h2>Please enter your child’s school ID number</h2>
+        <h2>{role.includes("TEACHER") ? "Please enter your ID number" : "Please enter your child’s school ID number"}</h2>
 
         {}
         <div className="role-input-box">
