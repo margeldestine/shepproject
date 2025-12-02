@@ -3,7 +3,6 @@ import { Button, TextField } from "@mui/material";
 import "./AuthBox.css";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/authApi";
-import { getTeacherData } from "../api/teacherApi";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -93,13 +92,10 @@ function AuthBox() {
       const all = extracted.filter(Boolean).map((v) => String(v).trim().toUpperCase());
       let selectedRole = "";
       try { selectedRole = String(localStorage.getItem("selectedRole") || "").trim().toUpperCase(); } catch {}
-      let teacherProbe = null;
-      try { teacherProbe = await getTeacherData(); } catch {}
-      const teacherProbeIsTeacher = String(teacherProbe?.role || teacherProbe?.userType || teacherProbe?.designation || "").trim().toUpperCase().includes("TEACH");
       const payloadStr = JSON.stringify(authData || {}).toUpperCase();
       const payloadTeacher = payloadStr.includes("TEACH");
       const payloadParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
-      const isTeacher = selectedRole === "TEACHER" || teacherProbeIsTeacher || payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"));
+      const isTeacher = selectedRole === "TEACHER" || payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"));
       const isParent = selectedRole === "PARENT" || (!isTeacher && (payloadParent || all.some((v) => v.includes("PARENT") || v.includes("GUARDIAN"))));
       if (isTeacher) {
         navigate("/teacher");
@@ -109,7 +105,8 @@ function AuthBox() {
         navigate("/role-selection");
       }
     } catch (err) {
-      setPasswordError("Login failed. Please check your credentials.");
+      const msg = err?.message || "Login failed. Please check your credentials.";
+      setPasswordError(msg);
     }
   };
 
