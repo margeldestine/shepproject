@@ -1,5 +1,6 @@
 import React from "react";
 import CloseButton from "./CloseButton";
+import { assignments, alerts, upcomingEvents } from "../data/reminders";
 
 export default function RemindersModal({
   open,
@@ -21,91 +22,63 @@ export default function RemindersModal({
         <div className="reminders-content">
           <div className="reminder-section">
             <h3>Assignments</h3>
-
-            <div
-              className="reminder-item yellow"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenAssignmentDetails({
-                  title: "Assignment in English",
-                  due: "2025-09-26T23:59:00Z",
-                  subject: "English - Short Story Writing",
-                  description:
-                    "Write a short story (500–800 words) based on the theme 'Unexpected Friendship'. Submission via Google Classroom.",
-                });
-              }}
-            >
-              <div className="reminder-bar" />
-              <div className="reminder-body">
-                <strong>Assignment in English</strong>
-                <span>Due Sep 26, 2025 (Friday)</span>
-                <small>📖 English - Short Story Writing</small>
+            {assignments.map((item, idx) => (
+              <div
+                key={idx}
+                className="reminder-item yellow"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenAssignmentDetails(item);
+                }}
+              >
+                <div className="reminder-bar" />
+                <div className="reminder-body">
+                  <strong>{item.title}</strong>
+                  <span>{item.dueLabel}</span>
+                  <small>{item.subtitle}</small>
+                </div>
               </div>
-            </div>
-
-            <div
-              className="reminder-item yellow"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenAssignmentDetails({
-                  title: "Assignment in Science",
-                  due: "2025-09-27T23:59:00Z",
-                  subject: "Science - Flowering Plant Diagram",
-                  description:
-                    "Create a labeled diagram of a flowering plant and explain each part. Submission: Science class drop box.",
-                });
-              }}
-            >
-              <div className="reminder-bar" />
-              <div className="reminder-body">
-                <strong>Assignment in Science</strong>
-                <span>Due Sep 27, 2025 (Saturday)</span>
-                <small>🔬 Science - Flowering Plant Diagram</small>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="reminder-section">
             <h3>Alerts</h3>
-            <div
-              className="reminder-item red"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenDetail({
-                  title: "Attendance Alert",
-                  date: "October 2025",
-                  description: "Your Child has 3 Recorded Absences in October.",
-                });
-              }}
-            >
-              <div className="reminder-bar" />
-              <div className="reminder-body">
-                <strong>Attendance Alert</strong>
-                <span>Your Child has 3 Recorded Absences in October.</span>
+            {alerts.map((item, idx) => (
+              <div
+                key={idx}
+                className="reminder-item red"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenDetail(item);
+                }}
+              >
+                <div className="reminder-bar" />
+                <div className="reminder-body">
+                  <strong>{item.title}</strong>
+                  <span>{item.description}</span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="reminder-section">
             <h3>Upcoming Events</h3>
-            <div
-              className="reminder-item blue"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpenDetail({
-                  title: "Sergio Osmeña Day",
-                  date: "September 9, 2025",
-                  description:
-                    "School holiday: Sergio Osmeña Day celebration...",
-                });
-              }}
-            >
-              <div className="reminder-bar" />
-              <div className="reminder-body">
-                <strong>September 9</strong>
-                <span>Sergio Osmeña Day</span>
+            {upcomingEvents.map((item, idx) => (
+              <div
+                key={idx}
+                className="reminder-item blue"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenDetail(item);
+                }}
+              >
+                <div className="reminder-bar" />
+                <div className="reminder-body">
+                  <strong>{item.date}</strong>
+                  <span>{item.title}</span>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="reminder-section">

@@ -13,6 +13,8 @@
   import DetailModal from "../components/DetailModal";
   import { announcements } from "../data/announcements";
   import { behavior } from "../data/behavior";
+  import { behaviorCopy } from "../data/copy";
+  import { parentUser } from "../data/users";
 
   function Behavior() {
     const navigate = useNavigate();
@@ -46,7 +48,7 @@
         <div className="dash-overlay" />
 
         <ParentTopbar
-          userName="Ritchie Marie"
+          userName={parentUser.name}
           showReminders
           onOpenReminders={() => setRemindersOpen(true)}
           onSignOut={handleSignOut}
@@ -59,7 +61,7 @@
         >
           <div className="record-shell">
             <ParentHeader
-              title="Behavior Record"
+              title={behaviorCopy.headerTitle}
               headerClassName="parent-section-header"
             />
 

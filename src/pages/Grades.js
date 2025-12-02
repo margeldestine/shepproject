@@ -15,6 +15,8 @@ import GradesTable from "../components/GradesTable";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
+import { parentUser } from "../data/users";
+import { gradesCopy } from "../data/copy";
 
 function Grades() {
   const navigate = useNavigate();
@@ -42,7 +44,7 @@ function Grades() {
       <div className="dash-overlay" />
 
       <ParentTopbar
-        userName="Ritchie Marie"
+        userName={parentUser.name}
         showReminders
         onOpenReminders={() => setRemindersOpen(true)}
       />
@@ -54,13 +56,13 @@ function Grades() {
       >
         <div className="grades-shell">
           <ParentHeader
-            title="Learner's Academic Performance"
+            title={gradesCopy.headerTitle}
             headerClassName="parent-section-header"
           />
 
           <div className="grades-card">
             <p className="click-hint">
-              Tip: Click any subject to view details
+              {gradesCopy.hint}
             </p>
 
             <GradesTable

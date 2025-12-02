@@ -10,7 +10,9 @@ import AssignmentModal from "../components/AssignmentModal.js";
 import DetailModal from "../components/DetailModal";
 import BackButton from "../components/BackButton";
 import { announcements } from "../data/announcements";
-import { events } from "../data/forms";
+import { formEvents } from "../data/forms";
+import { parentUser } from "../data/users";
+import { formsCopy } from "../data/copy";
 
 function Forms() {
   const navigate = useNavigate();
@@ -40,17 +42,17 @@ function Forms() {
     setDetailModalOpen(true);
   };
 
-  const meeting = events[0];
+  const meeting = formEvents[0];
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
-      <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => setRemindersOpen(true)} />
+      <ParentTopbar userName={parentUser.name} showReminders onOpenReminders={() => setRemindersOpen(true)} />
 
       <ParentLayout active="forms" panelClassName="forms-panel" contentClassName="forms-content-enter">
         <div className="forms-shell">
           <div className="forms-header">
-            <strong>Parental Consent and Authorization Forms</strong>
+            <strong>{formsCopy.headerTitle}</strong>
             <span>● ● ●</span>
           </div>
 

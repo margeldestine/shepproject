@@ -1,6 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getAllGrades } from "../api/gradesApi";
 
 export default function GradesTable({ rows, onRowClick }) {
+  const [data, setData] = useState(rows || []);
+  useEffect(() => {
+    if (rows && rows.length) {
+      setData(rows);
+      return;
+    }
+    let mounted = true;
+    getAllGrades()
+      .then((list) => {
+        if (!mounted) return;
+        setData(Array.isArray(list) ? list : []);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, [rows]);
   return (
     <table className="grades-table">
       <thead>
@@ -15,7 +33,7 @@ export default function GradesTable({ rows, onRowClick }) {
         </tr>
       </thead>
       <tbody>
-        {rows.map((r) => (
+        {data.map((r) => (
           <tr
             key={r.area}
             onClick={() => onRowClick(r.area)}

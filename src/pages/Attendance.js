@@ -12,6 +12,8 @@ import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
 import { announcements } from "../data/announcements";
+import { parentUser } from "../data/users";
+import { attendanceCopy, parentAttendance } from "../data/parentAttendance";
 import presentIcon from "../assets/present.png";
 
 function Attendance() {
@@ -41,19 +43,19 @@ function Attendance() {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => setRemindersOpen(true)} />
+      <ParentTopbar userName={parentUser.name} showReminders onOpenReminders={() => setRemindersOpen(true)} />
 
       {}
       <ParentLayout active="attendance" panelClassName="attendance-panel" contentClassName="attendance-content-enter">
         <div className="att-shell">
-          <ParentHeader title="Report on Learner's Attendance Record" />
+          <ParentHeader title={attendanceCopy.headerTitle} />
 
           <div className="att-body">
             {}
             <div className="calendar-card">
               <div className="calendar-top">
                 <span>‹</span>
-                <span>September 2025</span>
+                <span>{parentAttendance.monthLabel}</span>
                 <span>›</span>
               </div>
 
@@ -67,7 +69,7 @@ function Attendance() {
                 )}
                 {[...Array(30)].map((_, i) => (
                   <div
-                    className={`day ${i + 1 === 12 ? "active" : ""}`}
+                    className={`day ${i + 1 === parentAttendance.selectedDay ? "active" : ""}`}
                     key={i}
                   >
                     {i + 1}
@@ -81,18 +83,18 @@ function Attendance() {
               <div className="status-title">Attendance Status</div>
               <div className="status-row">
                 <span className="status-key">Date:</span>
-                <span className="status-value">September 12, 2025</span>
+                <span className="status-value">{parentAttendance.statusDateLabel}</span>
               </div>
               <div className="status-row">
                 <span className="status-key">Status:</span>
                 <span className="status-value">
-                  Present
+                  {parentAttendance.statusLabel}
                   <img src={presentIcon} alt="Present" className="status-icon" />
                 </span>
               </div>
               <div className="status-row">
                 <span className="status-key">Remarks:</span>
-                <span className="status-value">No remarks yet</span>
+                <span className="status-value">{parentAttendance.remarks}</span>
               </div>
             </div>
           </div>

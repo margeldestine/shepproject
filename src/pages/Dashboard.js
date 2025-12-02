@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AnnouncementModal from "../components/AnnouncementModal";
 import { announcements } from "../data/announcements";
+import { dashboardCopy } from "../data/copy";
 import ParentTopbar from "../components/ParentTopbar";
+import { parentUser } from "../data/users";
 import RemindersModal from "../components/RemindersModal";
 import AssignmentModal from "../components/AssignmentModal";
 import DetailModal from "../components/DetailModal";
@@ -50,18 +52,18 @@ function Dashboard() {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      <ParentTopbar userName="Ritchie Marie" showReminders onOpenReminders={() => setRemindersOpen(true)} />
+      <ParentTopbar userName={parentUser.name} showReminders onOpenReminders={() => setRemindersOpen(true)} />
 
       <main className="dash-grid">
         <section className="dash-main">
           <div className="hero">
             <div className="hero-text">
               <h1>
-                Connecting Schools, Parents, Teachers, and
-                <br /> Students in One Platform
+                {dashboardCopy.titleLine1}
+                <br /> {dashboardCopy.titleLine2}
               </h1>
               <p>
-                Easily manage events, track engagement, and stay in control of privacy. <br />Support student success every step of the way.
+                {dashboardCopy.subtitle}
               </p>
               <button
                 className="about-btn-plain"

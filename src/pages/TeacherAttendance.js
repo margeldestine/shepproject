@@ -5,6 +5,7 @@ import TeacherLayout from "../components/TeacherLayout";
 import TeacherHeader from "../components/TeacherHeader";
 import FiltersBar from "../components/FiltersBar";
 import DataTable from "../components/DataTable";
+import { students as attendanceStudents } from "../data/students";
 
 export default function TeacherAttendance() {
   const navigate = useNavigate();
@@ -42,10 +43,7 @@ export default function TeacherAttendance() {
                 <input type="text" placeholder="Add remark..." />
               ) }
             ]}
-            data={[
-              { name: "Juan Dela Cruz" },
-              { name: "Maria Santos" }
-            ]}
+            data={attendanceStudents}
           />
         </div>
     </TeacherLayout>
