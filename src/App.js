@@ -28,6 +28,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/role-selection" element={<RoleSelection />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/parent" element={<Dashboard />} />
         <Route path="/behavior" element={<Behavior />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/grades" element={<Grades />} />
