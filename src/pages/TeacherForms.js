@@ -4,6 +4,7 @@ import TeacherLayout from "../components/TeacherLayout";
 import Modal from "../components/Modal";
 import TeacherHeader from "../components/TeacherHeader";
 import DataTable from "../components/DataTable";
+import { forms } from "../data/forms";
 import "../styles/Add.css"; 
 
 export default function TeacherForms() {
@@ -12,14 +13,6 @@ export default function TeacherForms() {
   const [showNewFormModal, setShowNewFormModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(null);
   const [showEditModal, setShowEditModal] = useState(null);
-
-  const forms = [
-    { title: "Parent-Teacher Meeting Form", category: "Meeting", status: "Active", responses: 12 },
-    { title: "Student Progress Report", category: "Report", status: "Closed", responses: 30 },
-    { title: "Behavior Evaluation Form", category: "Behavior", status: "Active", responses: 15 },
-    { title: "Learning Materials Request", category: "Request", status: "Pending", responses: 8 },
-    { title: "Classroom Observation Form", category: "Observation", status: "Active", responses: 20 },
-  ];
 
   const handleSave = (closeModal) => {
     alert("Form saved!");

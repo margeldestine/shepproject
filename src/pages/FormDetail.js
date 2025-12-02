@@ -3,6 +3,7 @@ import "../styles/Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
 import ParentTopbar from "../components/ParentTopbar";
+import { parentUser } from "../data/users";
 import ParentLayout from "../components/ParentLayout";
 import BackButton from "../components/BackButton";
 
@@ -12,7 +13,7 @@ function FormDetail({ title = "Form Detail" }) {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      <ParentTopbar userName="Ritchie Marie" />
+      <ParentTopbar userName={parentUser.name} />
 
       {}
       <ParentLayout active="forms">

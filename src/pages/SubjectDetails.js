@@ -5,8 +5,11 @@ import "../styles/Dashboard.css";
 import shepbg from '../assets/shepbg.png';
 import { subjectDetails } from '../data/subjectDetails';
 import ParentTopbar from "../components/ParentTopbar";
+import { parentUser, studentUser } from "../data/users";
+import { subjectCopy } from "../data/copy";
 import ParentProfileCard from "../components/ParentProfileCard";
 import BackButton from "../components/BackButton";
+import { upcomingEvents } from "../data/reminders";
 
 const SubjectDetails = () => {
   const navigate = useNavigate();
@@ -18,7 +21,7 @@ const SubjectDetails = () => {
       <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
         <div className="dash-overlay" />
 
-        <ParentTopbar userName="Ritchie Marie" />
+        <ParentTopbar userName={parentUser.name} />
 
         <main className="subject-panel">
           <aside className="dash-side">
@@ -26,20 +29,22 @@ const SubjectDetails = () => {
 
             <div className="events-card">
               <h4>Reminders</h4>
-              <div className="event">
-                <div className="event-dot red" />
-                <div className="event-body">
-                  <strong>September 30</strong>
-                  <span>Assignment in Science</span>
+              {upcomingEvents.slice(0, 1).map((ev, idx) => (
+                <div className="event" key={idx}>
+                  <div className="event-dot red" />
+                  <div className="event-body">
+                    <strong>{ev.date}</strong>
+                    <span>{ev.title}</span>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </aside>
 
           <section className="subject-content-enter">
             <div className="subject-shell">
               <div className="subject-header">
-                <strong>{'Subject Not Found'}</strong>
+                <strong>{subjectCopy?.notFoundTitle || 'Subject Not Found'}</strong>
                 <span>● ● ●</span>
               </div>
 
@@ -59,14 +64,14 @@ const SubjectDetails = () => {
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
       <div className="dash-overlay" />
 
-      <ParentTopbar userName="Ritchie Marie" />
+      <ParentTopbar userName={parentUser.name} />
 
       <main className="subject-panel">
   
         <aside className="dash-side">
           <div className="profile-card">
             <div className="profile-avatar" />
-            <h4>Francaryllese Dacabelam</h4>
+            <h4>{studentUser.name}</h4>
 
             <div className="profile-actions">
               <button className="pill" onClick={() => navigate('/behavior')}>Behavior</button>

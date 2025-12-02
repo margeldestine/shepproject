@@ -5,6 +5,8 @@ import TopRightActions from "../components/TopRightActions";
 import "../styles/TeacherDashboard.css";
 
 import { subjects, sections } from "../data/teacherDashboard";
+import { teacherUser } from "../data/users";
+import { teacherDashboardCopy } from "../data/copy";
 
 export default function TeacherDashboard() {
   const [activeSubject, setActiveSubject] = useState("Science");
@@ -19,19 +21,19 @@ export default function TeacherDashboard() {
       <aside className="teacher-sidebar">
         <div className="sidebar-header">
           <h1>SHEP</h1>
-          <p>Teacher Dashboard</p>
+          <p>{teacherDashboardCopy.headerTitle}</p>
         </div>
 
         <div className="teacher-info">
           <div className="avatar" />
           <div>
-            <p className="teacher-name">Francaryllese Dacabaleam</p>
-            <p className="teacher-role">Teacher</p>
+            <p className="teacher-name">{teacherUser.name}</p>
+            <p className="teacher-role">{teacherUser.role}</p>
           </div>
         </div>
 
         <div className="subjects-list">
-          <h2>Subjects Handled</h2>
+          <h2>{teacherDashboardCopy.subjectsHeader}</h2>
           {subjects.map((subj) => (
             <button
               key={subj.name}

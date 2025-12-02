@@ -1,8 +1,9 @@
 import React from "react";
 import { Bell, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { parentUser } from "../data/users";
 
-export default function ParentTopbar({ userName = "Ritchie Marie", showReminders = false, onOpenReminders }) {
+export default function ParentTopbar({ userName = parentUser.name, showReminders = false, onOpenReminders }) {
   const navigate = useNavigate();
   const openReminders = () => onOpenReminders && onOpenReminders();
   const openSettings = () => navigate("/settings");

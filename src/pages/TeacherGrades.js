@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import TeacherHeader from "../components/TeacherHeader";
 import FiltersBar from "../components/FiltersBar";
+import DataTable from "../components/DataTable";
 import { students, gradingPeriods } from "../data/grades";
 
 export default function TeacherGrades() {
@@ -13,6 +14,15 @@ export default function TeacherGrades() {
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
+
+  const rows = students.map((s) => ({
+    student: s.name,
+    science: s.grades["Science"],
+    mathematics: s.grades["Mathematics"],
+    reading: s.grades["Reading"],
+    language: s.grades["Language"],
+    average: s.grades["Average"],
+  }));
 
   return (
     <>
@@ -33,30 +43,18 @@ export default function TeacherGrades() {
             </select>
           </FiltersBar>
 
-          <table className="grades-table">
-            <thead>
-              <tr>
-                <th>Student</th>
-                <th>Science</th>
-                <th>Mathematics</th>
-                <th>Reading</th>
-                <th>Language</th>
-                <th>Average</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((s) => (
-                <tr key={s.id}>
-                  <td>{s.name}</td>
-                  <td>{s.grades.Science}</td>
-                  <td>{s.grades.Mathematics}</td>
-                  <td>{s.grades.Reading}</td>
-                  <td>{s.grades.Language}</td>
-                  <td>{s.grades.Average}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <DataTable
+            tableClassName="grades-table"
+            columns={[
+              { key: "student", label: "Student" },
+              { key: "science", label: "Science" },
+              { key: "mathematics", label: "Mathematics" },
+              { key: "reading", label: "Reading" },
+              { key: "language", label: "Language" },
+              { key: "average", label: "Average" }
+            ]}
+            data={rows}
+          />
         </div>
       </TeacherLayout>
 
