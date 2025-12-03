@@ -22,6 +22,11 @@ function TeacherSidebar({ active }) {
 
   const isActive = (key) => (active === key ? "active" : "");
 
+  const currentSection = (() => {
+    const m = location.pathname.match(/^\/teacher-(attendance|grades)\/([^/]+)/);
+    return m ? m[2] : null;
+  })();
+
   return (
     <aside className="teacher-sidebar">
       <div className="sidebar-header">
@@ -36,8 +41,8 @@ function TeacherSidebar({ active }) {
         </div>
       </div>
       <div className="sidebar-links">
-        <button className={isActive("attendance")} onClick={() => navigate("/teacher-attendance/1")}>Attendance</button>
-        <button className={isActive("grades")} onClick={() => navigate("/teacher-grades")}>Grades</button>
+        <button className={isActive("attendance")} onClick={() => navigate(`/teacher-attendance/${currentSection || "G2Faith"}`)}>Attendance</button>
+        <button className={isActive("grades")} onClick={() => navigate(`/teacher-grades/${currentSection || "G2Faith"}`)}>Grades</button>
         <button className={isActive("behavior-logs")} onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
         <button className={isActive("class-announcements")} onClick={() => navigate("/class-announcements")}>Class Announcements</button>
         <button className={isActive("forms")} onClick={() => navigate("/teacher-forms")}>Forms</button>

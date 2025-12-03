@@ -241,6 +241,32 @@
   background-color: #fffdf6;
 }
 
+.filters .readonly-select {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.8rem 0.5rem 0.35rem;
+  border-radius: 6px;
+  border: 1px solid #bda76a;
+  font-size: 0.9rem;
+  background-color: #fffdf6;
+  color: #4a0000;
+  font-weight: 600;
+}
+
+.filters input[type="date"] {
+  padding: 0.5rem 0.8rem 0.5rem 0.35rem;
+  border-radius: 6px;
+  border: 1px solid #bda76a;
+  font-size: 0.9rem;
+  background-color: #fffdf6;
+  color: inherit;
+}
+
+.filters input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 .mark-all-btn {
   background-color: #ffd54f;
   color: #630000;
@@ -257,8 +283,48 @@
 }
 
 .attendance-table {
-  width: 90%;
+  width: 70%;
   border-spacing: 0 0.7rem;
+  table-layout: fixed;
+  margin: 0 auto;
+}
+
+/* Make Student Name and Status columns closer */
+.attendance-table th:nth-child(1),
+.attendance-table td:nth-child(1) {
+  width: 40%;
+  padding-right: 1rem;
+}
+
+.attendance-table th:nth-child(2),
+.attendance-table td:nth-child(2) {
+  width: 60%;
+  padding-left: 0;
+}
+
+.attendance-table th:nth-child(3),
+.attendance-table td:nth-child(3) {
+  width: 30%;
+}
+
+.attendance-table-compact {
+  width: 58%;
+  margin: 0 auto;
+  table-layout: fixed;
+}
+
+.attendance-table-compact th:nth-child(1),
+.attendance-table-compact td:nth-child(1) {
+  width: 52%;
+}
+
+.attendance-table-compact th:nth-child(2),
+.attendance-table-compact td:nth-child(2) {
+  width: 48%;
+}
+
+.attendance-table-compact select {
+  width: 90%;
 }
 
 .attendance-table th {

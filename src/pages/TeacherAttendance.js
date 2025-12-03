@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/TeacherAttendance.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import TeacherHeader from "../components/TeacherHeader";
 import FiltersBar from "../components/FiltersBar";
@@ -12,10 +12,13 @@ import { getTeacherByUserId } from "../api/teacherApi";
 
 export default function TeacherAttendance() {
   const navigate = useNavigate();
+  const { sectionId } = useParams();
   const [rows, setRows] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [attendanceData, setAttendanceData] = useState({});
   const [teacherId, setTeacherId] = useState(null);
+  const headerSection = sectionId === 'G2Hope' ? 'G2 Hope' : 'G2 Faith';
+  const sectionLabel = headerSection === 'G2 Hope' ? 'Grade-2 Hope' : 'Grade-2 Faith';
 
   useEffect(() => {
     let mounted = true;
@@ -50,8 +53,12 @@ export default function TeacherAttendance() {
       .then((list) => {
         if (!mounted) return;
         console.log('Students loaded from API:', list);
-        
-        const formattedStudents = list.map(student => ({
+        const map = { G2Faith: "1", G2Hope: "2" };
+        const sectionKey = map[sectionId] || sectionId;
+        const filtered = Array.isArray(list)
+          ? list.filter(s => String(s.section_id) === String(sectionKey))
+          : [];
+        const formattedStudents = filtered.map(student => ({
           id: student.student_id,
           name: `${student.first_name} ${student.last_name}`,
           studentNumber: student.student_number,
@@ -156,7 +163,7 @@ export default function TeacherAttendance() {
     <TeacherLayout active="attendance" containerClassName="teacher-attendance-container">
       <div className="attendance-container">
           <TeacherHeader
-            title="Attendance — G2 Faith"
+            title={`Attendance — ${headerSection}`}
             headerClassName="attendance-header header-box"
           />
 
@@ -164,16 +171,14 @@ export default function TeacherAttendance() {
             <input 
               type="date" 
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={(e) => { setSelectedDate(e.target.value); setTimeout(() => window.location.reload(), 50); }}
             />
-            <select>
-              <option>Grade-2 Faith</option>
-            </select>
+            <span className="readonly-select">{sectionLabel}</span>
             <button className="mark-all-btn" onClick={handleSaveAttendance}>Save</button>
           </FiltersBar>
 
           <DataTable
-            tableClassName="attendance-table"
+            tableClassName="attendance-table attendance-table-compact"
             columns={[
               { key: "name", label: "Student Name" },
               { key: "status", label: "Status", render: (row) => (
@@ -185,14 +190,6 @@ export default function TeacherAttendance() {
                   <option>Absent</option>
                   <option>Late</option>
                 </select>
-              ) },
-              { key: "remarks", label: "Remarks", render: (row) => (
-                <input 
-                  type="text" 
-                  placeholder="Add remark..." 
-                  value={attendanceData[row.id]?.remarks || ""}
-                  onChange={(e) => handleRemarksChange(row.id, e.target.value)}
-                />
               ) }
             ]}
             data={rows}
