@@ -164,7 +164,7 @@ export default function TeacherAttendance() {
             <input 
               type="date" 
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={(e) => { setSelectedDate(e.target.value); setTimeout(() => window.location.reload(), 50); }}
             />
             <select>
               <option>Grade-2 Faith</option>

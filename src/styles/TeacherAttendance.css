@@ -241,6 +241,20 @@
   background-color: #fffdf6;
 }
 
+.filters input[type="date"] {
+  padding: 0.5rem 0.8rem 0.5rem 0.35rem;
+  border-radius: 6px;
+  border: 1px solid #bda76a;
+  font-size: 0.9rem;
+  background-color: #fffdf6;
+  color: inherit;
+}
+
+.filters input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 .mark-all-btn {
   background-color: #ffd54f;
   color: #630000;
