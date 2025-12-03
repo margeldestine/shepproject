@@ -176,7 +176,20 @@
   background-color: #ffd54f;
   color: #4a0000;
   border: none;
-   margin-right: 1rem;
+}
+
+.table-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.table-actions .table-action-btn,
+.table-actions .table-action-btn-dark {
+  width: 100%;
+  min-width: 0;
+  margin-right: 0;
 }
 
 .table-action-btn:hover {
