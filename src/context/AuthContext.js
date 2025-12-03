@@ -1,46 +1,44 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem("authUser");
-    if (saved) setUser(JSON.parse(saved));
+    // Load user from localStorage on mount
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (e) {
+        console.error('Failed to parse stored user', e);
+      }
+    }
   }, []);
 
   const loginUser = (authData) => {
-    const extracted = [];
-    if (authData?.role) extracted.push(authData.role);
-    if (Array.isArray(authData?.roles)) extracted.push(
-      ...authData.roles.map((r) => (typeof r === "string" ? r : r?.name))
-    );
-    if (Array.isArray(authData?.authorities)) extracted.push(
-      ...authData.authorities.map((a) => (typeof a === "string" ? a : a?.authority))
-    );
-    const all = extracted.filter(Boolean).map((v) => String(v).trim().toUpperCase());
-    let selectedRole = "";
-    try { selectedRole = String(localStorage.getItem("selectedRole") || "").trim().toUpperCase(); } catch {}
-    const payloadStr = JSON.stringify(authData || {}).toUpperCase();
-    const payloadTeacher = payloadStr.includes("TEACH");
-    const payloadParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
-    const rolePref = selectedRole === "TEACHER" || payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"))
-      ? "TEACHER"
-      : selectedRole === "PARENT" || payloadParent || all.some((v) => v.includes("PARENT") || v.includes("GUARDIAN"))
-      ? "PARENT"
-      : String(extracted[0] || "").trim().toUpperCase();
-    const normalized = {
-      ...authData,
-      role: rolePref
-    };
-    setUser(normalized);
-    localStorage.setItem("authUser", JSON.stringify(normalized));
+    console.log('loginUser received:', authData); // DEBUG
+    setUser(authData);
+    localStorage.setItem('user', JSON.stringify(authData));
+    
+    // CRITICAL: Handle multiple possible field names
+    const userIdValue = authData.userId || authData.user_id || authData.id;
+    console.log('Extracted userId:', userIdValue); // DEBUG
+    
+    if (userIdValue) {
+      localStorage.setItem('userId', userIdValue.toString());
+      console.log('Saved to localStorage:', userIdValue.toString()); // DEBUG
+    } else {
+      console.error('No userId found in authData:', authData);
+    }
   };
 
   const logoutUser = () => {
     setUser(null);
-    localStorage.removeItem("authUser");
+    localStorage.removeItem('user');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('selectedRole');
   };
 
   return (
@@ -48,8 +46,12 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+  return context;
+};

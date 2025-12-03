@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import Modal from "../components/Modal";
 import TeacherHeader from "../components/TeacherHeader";
 import DataTable from "../components/DataTable";
 import { forms } from "../data/forms";
+import { getAllForms, createForm, updateForm, deleteForm } from "../api/formsApi";
+import { getTeacherByUserId } from "../api/teacherApi";
 import "../styles/Add.css"; 
 
 export default function TeacherForms() {
@@ -13,10 +15,189 @@ export default function TeacherForms() {
   const [showNewFormModal, setShowNewFormModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(null);
   const [showEditModal, setShowEditModal] = useState(null);
+  const [data, setData] = useState([]);
+  const [teacherId, setTeacherId] = useState(null);
+  
+  const [newFormData, setNewFormData] = useState({
+    title: "",
+    dueDate: ""
+  });
 
-  const handleSave = (closeModal) => {
-    alert("Form saved!");
-    if (closeModal) closeModal();
+  const [editFormData, setEditFormData] = useState({
+    formId: null,
+    title: "",
+    dueDate: ""
+  });
+
+  useEffect(() => {
+    let mounted = true;
+    
+    // Fetch teacher ID
+    const fetchTeacherId = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+          console.error('No userId found in localStorage');
+          return;
+        }
+        
+        const teacher = await getTeacherByUserId(parseInt(userId));
+        if (mounted) {
+          setTeacherId(teacher.teacher_id);
+        }
+      } catch (error) {
+        console.error('Error fetching teacher:', error);
+      }
+    };
+
+    // Fetch forms
+    const fetchForms = async () => {
+      try {
+        const list = await getAllForms();
+        if (mounted) {
+          console.log('Forms loaded:', list);
+          
+          const formattedData = list.map(form => ({
+            form_id: form.form_id,
+            title: form.title,
+            category: "Form",
+            status: "Active",
+            responses: form.signatures ? form.signatures.length : 0,
+            due_date: form.due_date,
+            created_at: form.created_at
+          }));
+          
+          setData(formattedData);
+        }
+      } catch (error) {
+        console.error('Error loading forms:', error);
+        setData(forms);
+      }
+    };
+
+    fetchTeacherId();
+    fetchForms();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const handleNewFormChange = (e) => {
+    const { name, value } = e.target;
+    setNewFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSaveNewForm = async (e) => {
+    e.preventDefault();
+
+    if (!teacherId) {
+      alert('Teacher ID not found. Please log in again.');
+      return;
+    }
+
+    if (!newFormData.title || !newFormData.dueDate) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    try {
+      const formData = {
+        teacher_id: teacherId,
+        title: newFormData.title,
+        due_date: newFormData.dueDate + ' 00:00:00'
+      };
+
+      console.log('Creating form:', formData);
+      
+      const result = await createForm(formData);
+      console.log('Form created:', result);
+
+      alert('Form created successfully!');
+      
+      // Refresh the data
+      const updatedForms = await getAllForms();
+      const formattedData = updatedForms.map(form => ({
+        form_id: form.form_id,
+        title: form.title,
+        category: "Form",
+        status: "Active",
+        responses: form.signatures ? form.signatures.length : 0,
+        due_date: form.due_date,
+        created_at: form.created_at
+      }));
+      setData(formattedData);
+
+      // Reset form and close modal
+      setNewFormData({ title: "", dueDate: "" });
+      setShowNewFormModal(false);
+    } catch (error) {
+      console.error('Error creating form:', error);
+      alert('Failed to create form: ' + error.message);
+    }
+  };
+
+  const handleSaveEditForm = async (e) => {
+    e.preventDefault();
+
+    if (!editFormData.title || !editFormData.dueDate) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    try {
+      const formData = {
+        title: editFormData.title,
+        due_date: editFormData.dueDate + ' 00:00:00'
+      };
+
+      console.log('Updating form:', editFormData.formId, formData);
+      
+      const result = await updateForm(editFormData.formId, formData);
+      console.log('Form updated:', result);
+
+      alert('Form updated successfully!');
+      
+      // Refresh the data
+      const updatedForms = await getAllForms();
+      const formattedData = updatedForms.map(form => ({
+        form_id: form.form_id,
+        title: form.title,
+        category: "Form",
+        status: "Active",
+        responses: form.signatures ? form.signatures.length : 0,
+        due_date: form.due_date,
+        created_at: form.created_at
+      }));
+      setData(formattedData);
+
+      // Close modal
+      setShowEditModal(null);
+    } catch (error) {
+      console.error('Error updating form:', error);
+      alert('Failed to update form: ' + error.message);
+    }
+  };
+
+  const openEditModal = (row) => {
+    const dueDateStr = row.due_date ? new Date(row.due_date).toISOString().split('T')[0] : "";
+    setEditFormData({
+      formId: row.form_id,
+      title: row.title,
+      dueDate: dueDateStr
+    });
+    setShowEditModal(row);
   };
 
   return (
@@ -41,12 +222,12 @@ export default function TeacherForms() {
               render: (row) => (
                 <>
                   <button className="table-action-btn" onClick={() => setShowViewModal(row)}>View</button>
-                  <button className="table-action-btn-dark" onClick={() => setShowEditModal(row)}>Edit</button>
+                  <button className="table-action-btn-dark" onClick={() => openEditModal(row)}>Edit</button>
                 </>
               ),
             },
           ]}
-          data={forms}
+          data={data}
         />
       </div>
 
@@ -60,29 +241,45 @@ export default function TeacherForms() {
           modalClassName="action-modal"
           headerClassName="modal-header"
         >
-          <div className="modal-content">
-            <label>Title</label>
-            <input type="text" placeholder="Form title" />
-            <label>Category</label>
-            <input type="text" placeholder="Category" />
-            <label>Status</label>
-            <input type="text" placeholder="Status" />
+          <form className="modal-form" onSubmit={handleSaveNewForm}>
+            <div className="form-group">
+              <label>Title</label>
+              <input 
+                type="text" 
+                name="title"
+                placeholder="Form title" 
+                value={newFormData.title}
+                onChange={handleNewFormChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Due Date</label>
+              <input 
+                type="date" 
+                name="dueDate"
+                value={newFormData.dueDate}
+                onChange={handleNewFormChange}
+                required
+              />
+            </div>
 
             <div className="modal-actions">
               <button
+                type="button"
                 className="action-btn action-btn-sm"
                 onClick={() => setShowNewFormModal(false)}
               >
                 Back
               </button>
               <button
+                type="submit"
                 className="action-btn-dark action-btn-sm"
-                onClick={() => handleSave(() => setShowNewFormModal(false))}
               >
                 Save
               </button>
             </div>
-          </div>
+          </form>
         </Modal>
       )}
 
@@ -118,7 +315,7 @@ export default function TeacherForms() {
         </Modal>
       )}
 
-
+      {/* Edit Form Modal */}
       {showEditModal && (
         <Modal
           open={!!showEditModal}
@@ -128,29 +325,44 @@ export default function TeacherForms() {
           modalClassName="action-modal"
           headerClassName="modal-header"
         >
-          <div className="modal-content">
-            <label>Title</label>
-            <input type="text" defaultValue={showEditModal.title} />
-            <label>Category</label>
-            <input type="text" defaultValue={showEditModal.category} />
-            <label>Status</label>
-            <input type="text" defaultValue={showEditModal.status} />
+          <form className="modal-form" onSubmit={handleSaveEditForm}>
+            <div className="form-group">
+              <label>Title</label>
+              <input 
+                type="text" 
+                name="title"
+                value={editFormData.title}
+                onChange={handleEditFormChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Due Date</label>
+              <input 
+                type="date" 
+                name="dueDate"
+                value={editFormData.dueDate}
+                onChange={handleEditFormChange}
+                required
+              />
+            </div>
 
             <div className="modal-actions">
               <button
+                type="button"
                 className="action-btn action-btn-sm"
                 onClick={() => setShowEditModal(null)}
               >
                 Back
               </button>
               <button
+                type="submit"
                 className="action-btn-dark action-btn-sm"
-                onClick={() => handleSave(() => setShowEditModal(null))}
               >
                 Save
               </button>
             </div>
-          </div>
+          </form>
         </Modal>
       )}
     </TeacherLayout>

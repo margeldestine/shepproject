@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8080/api/student";
+const BASE_URL = "http://localhost:8080/api/students";
 
 export async function getStudentData() {
   const res = await fetch(BASE_URL);
@@ -13,4 +13,3 @@ export async function createStudent(data) {
   });
   return res.json();
 }
-
