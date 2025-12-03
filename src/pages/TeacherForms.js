@@ -20,13 +20,15 @@ export default function TeacherForms() {
   
   const [newFormData, setNewFormData] = useState({
     title: "",
-    dueDate: ""
+    dueDate: "",
+    details: ""
   });
 
   const [editFormData, setEditFormData] = useState({
     formId: null,
     title: "",
-    dueDate: ""
+    dueDate: "",
+    details: ""
   });
 
   useEffect(() => {
@@ -64,7 +66,8 @@ export default function TeacherForms() {
             status: "Active",
             responses: form.signatures ? form.signatures.length : 0,
             due_date: form.due_date,
-            created_at: form.created_at
+            created_at: form.created_at,
+            details: form.details || form.description || ""
           }));
           
           setData(formattedData);
@@ -116,7 +119,8 @@ export default function TeacherForms() {
       const formData = {
         teacher_id: teacherId,
         title: newFormData.title,
-        due_date: newFormData.dueDate + ' 00:00:00'
+        due_date: newFormData.dueDate + ' 00:00:00',
+        details: newFormData.details
       };
 
       console.log('Creating form:', formData);
@@ -135,12 +139,13 @@ export default function TeacherForms() {
         status: "Active",
         responses: form.signatures ? form.signatures.length : 0,
         due_date: form.due_date,
-        created_at: form.created_at
+        created_at: form.created_at,
+        details: form.details || form.description || ""
       }));
       setData(formattedData);
 
       // Reset form and close modal
-      setNewFormData({ title: "", dueDate: "" });
+      setNewFormData({ title: "", dueDate: "", details: "" });
       setShowNewFormModal(false);
     } catch (error) {
       console.error('Error creating form:', error);
@@ -159,7 +164,8 @@ export default function TeacherForms() {
     try {
       const formData = {
         title: editFormData.title,
-        due_date: editFormData.dueDate + ' 00:00:00'
+        due_date: editFormData.dueDate + ' 00:00:00',
+        details: editFormData.details
       };
 
       console.log('Updating form:', editFormData.formId, formData);
@@ -178,7 +184,8 @@ export default function TeacherForms() {
         status: "Active",
         responses: form.signatures ? form.signatures.length : 0,
         due_date: form.due_date,
-        created_at: form.created_at
+        created_at: form.created_at,
+        details: form.details || form.description || ""
       }));
       setData(formattedData);
 
@@ -195,7 +202,8 @@ export default function TeacherForms() {
     setEditFormData({
       formId: row.form_id,
       title: row.title,
-      dueDate: dueDateStr
+      dueDate: dueDateStr,
+      details: row.details || ""
     });
     setShowEditModal(row);
   };
@@ -212,18 +220,20 @@ export default function TeacherForms() {
         <DataTable
           tableClassName="attendance-table"
           columns={[
-            { key: "title", label: "Form Title" },
-            { key: "category", label: "Category" },
-            { key: "status", label: "Status" },
-            { key: "responses", label: "Responses" },
+            { key: "title", label: "Form Title", width: "38%", align: "left" },
+            { key: "category", label: "Category", width: "18%", align: "left" },
+            { key: "status", label: "Status", width: "18%", align: "left" },
+            { key: "responses", label: "Responses", width: "12%", align: "center" },
             {
               key: "action",
               label: "Action",
+              width: "14%",
+              align: "center",
               render: (row) => (
-                <>
+                <div className="table-actions">
                   <button className="table-action-btn" onClick={() => setShowViewModal(row)}>View</button>
                   <button className="table-action-btn-dark" onClick={() => openEditModal(row)}>Edit</button>
-                </>
+                </div>
               ),
             },
           ]}
@@ -261,6 +271,16 @@ export default function TeacherForms() {
                 value={newFormData.dueDate}
                 onChange={handleNewFormChange}
                 required
+              />
+            </div>
+            <div className="form-group">
+              <label>Details</label>
+              <textarea 
+                name="details"
+                placeholder="Form details"
+                rows={4}
+                value={newFormData.details}
+                onChange={handleNewFormChange}
               />
             </div>
 
@@ -302,6 +322,8 @@ export default function TeacherForms() {
             <input type="text" value={showViewModal.status} readOnly />
             <label>Responses</label>
             <input type="text" value={showViewModal.responses} readOnly />
+            <label>Details</label>
+            <textarea value={showViewModal.details || ""} readOnly rows={4}></textarea>
 
             <div className="modal-actions">
               <button
@@ -344,6 +366,15 @@ export default function TeacherForms() {
                 value={editFormData.dueDate}
                 onChange={handleEditFormChange}
                 required
+              />
+            </div>
+            <div className="form-group">
+              <label>Details</label>
+              <textarea 
+                name="details"
+                rows={4}
+                value={editFormData.details}
+                onChange={handleEditFormChange}
               />
             </div>
 
