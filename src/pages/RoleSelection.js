@@ -29,9 +29,11 @@ function RoleSelection() {
     try {
       setLoading(true);
       setError(null);
-      const payload = { firstName, lastName, email, password, role: "PARENT" };
+      // Register WITHOUT role first - will be set on next page
+      const payload = { firstName, lastName, email, password, role: null };
       const authData = await register(payload);
       loginUser(authData);
+      // Navigate to role selection page
       navigate("/role-selection");
     } catch (e) {
       setError(e?.message || "Registration failed. Please check your details.");
@@ -93,6 +95,7 @@ function RoleSelection() {
               fullWidth
               margin="normal"
             />
+
             {error && <p className="error-text">{error}</p>}
             <Button
               className="register-btn"
