@@ -43,7 +43,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/teacher" element={<TeacherDashboard />} />
         <Route path="/teacher-attendance/:sectionId" element={<TeacherAttendance />} /> 
-        <Route path="/teacher-grades" element={<TeacherGrades />} />
+        <Route path="/teacher-grades/:section" element={<TeacherGrades />} />
         <Route path="/behavior-logs" element={<BehaviorLogs />} />
         <Route path="/class-announcements" element={<ClassAnnouncements/>} />
         <Route path="/teacher-forms" element={<TeacherForms/>} />

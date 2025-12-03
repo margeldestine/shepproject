@@ -256,10 +256,11 @@
     background-color: #f1c93d;
   }
   
-  .attendance-table {
-    width: 90%;
-    border-spacing: 0 0.7rem;
-  }
+.attendance-table {
+  width: 100%;
+  table-layout: fixed;
+  border-spacing: 0 0.7rem;
+}
   
   .attendance-table th {
     text-align: left;
@@ -269,10 +270,10 @@
     padding-bottom: 0.3rem;
   }
   
-  .attendance-table td {
-    padding: 1rem 0;
-    font-size: 0.9rem;
-  }
+.attendance-table td {
+  padding: 0.8rem 0.8rem;
+  font-size: 0.9rem;
+}
   
   .attendance-table select,
   .attendance-table input {

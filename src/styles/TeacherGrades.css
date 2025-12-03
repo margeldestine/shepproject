@@ -199,6 +199,7 @@
 
 .grades-table {
   width: 100%;
+  table-layout: fixed;
   border-spacing: 0 0.7rem;
 }
 
@@ -211,7 +212,7 @@
 }
 
 .grades-table td {
-  padding: 1rem 0;
+  padding: 0.8rem 0.8rem;
   font-size: 0.9rem;
   text-align: center;
 }

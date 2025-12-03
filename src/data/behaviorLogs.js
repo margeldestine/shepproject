@@ -16,8 +16,8 @@ export const BehaviorLogs = [
 ];
 
 export const BehaviorLogsColumns = [
-  { key: "date", label: "Date" },
-  { key: "student", label: "Student" },
-  { key: "incident", label: "Incident" },
-  { key: "action", label: "Action Taken" },
+  { key: "date", label: "Date", width: "18%", align: "left" },
+  { key: "student", label: "Student", width: "24%", align: "left" },
+  { key: "incident", label: "Incident", width: "38%", align: "left" },
+  { key: "action", label: "Action Taken", width: "20%", align: "left" },
 ];

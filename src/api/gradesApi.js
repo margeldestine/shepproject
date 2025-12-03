@@ -8,6 +8,14 @@ export async function getAllGrades() {
   return res.json();
 }
 
+export async function getGradesBySection(sectionId) {
+  const res = await fetch(`${BASE_URL}/by-section/${sectionId}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch grades by section");
+  }
+  return res.json();
+}
+
 export async function createGrade(data) {
   const res = await fetch(BASE_URL, {
     method: "POST",
