@@ -46,7 +46,6 @@ function TeacherSidebar({ active }) {
         <button className={isActive("behavior-logs")} onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
         <button className={isActive("class-announcements")} onClick={() => navigate("/class-announcements")}>Class Announcements</button>
         <button className={isActive("forms")} onClick={() => navigate("/teacher-forms")}>Forms</button>
-        <button className={isActive("announcements")} onClick={() => navigate("/announcements")}>Announcements</button>
       </div>
     </aside>
   );

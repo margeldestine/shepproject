@@ -220,14 +220,15 @@ export default function TeacherForms() {
         <DataTable
           tableClassName="attendance-table"
           columns={[
-            { key: "title", label: "Form Title", width: "38%", align: "left" },
-            { key: "category", label: "Category", width: "18%", align: "left" },
-            { key: "status", label: "Status", width: "18%", align: "left" },
-            { key: "responses", label: "Responses", width: "12%", align: "center" },
+            { key: "title", label: "Form Title", width: "19%", align: "left" },
+            { key: "category", label: "Category", width: "9%", align: "left" },
+            { key: "details", label: "Details", width: "24%", align: "left" },
+            { key: "status", label: "Status", width: "14%", align: "left" },
+            { key: "responses", label: "Responses", width: "17%", align: "center" },
             {
               key: "action",
               label: "Action",
-              width: "14%",
+              width: "17%",
               align: "center",
               render: (row) => (
                 <div className="table-actions">
