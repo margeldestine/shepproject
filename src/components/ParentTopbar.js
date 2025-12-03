@@ -1,10 +1,17 @@
 import React from "react";
 import { Bell, Settings, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { parentUser } from "../data/users";
+import { useAuth } from "../context/AuthContext";
 
-export default function ParentTopbar({ userName = parentUser.name, showReminders = false, onOpenReminders }) {
+export default function ParentTopbar({ showReminders = false, onOpenReminders }) {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Get name from auth context
+  const displayName = (user?.firstName || user?.lastName)
+    ? `${user?.firstName || ""}${user?.firstName && user?.lastName ? " " : ""}${user?.lastName || ""}`.trim()
+    : user?.name || user?.email || "Parent";
+
   const openReminders = () => onOpenReminders && onOpenReminders();
   const openSettings = () => navigate("/settings");
   const signOut = () => navigate("/");
@@ -13,7 +20,7 @@ export default function ParentTopbar({ userName = parentUser.name, showReminders
     <header className="dash-topbar">
       <div className="user-chip">
         <div className="avatar" />
-        <span>{userName}</span>
+        <span>{displayName}</span>
       </div>
 
       <div className="about-actions">

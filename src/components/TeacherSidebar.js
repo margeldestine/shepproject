@@ -1,26 +1,25 @@
-import React, { memo, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { teacherUser } from "../data/users";
+import React, { memo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { teacherDashboardCopy } from "../data/copy";
-import { getTeacherData } from "../api/teacherApi";
+import { useAuth } from "../context/AuthContext";
 
 function TeacherSidebar({ active }) {
   const navigate = useNavigate();
-  const [name, setName] = useState(teacherUser.name);
-  const [role, setRole] = useState(teacherUser.role || "Teacher");
-  useEffect(() => {
-    let mounted = true;
-    getTeacherData()
-      .then((data) => {
-        if (!mounted) return;
-        setName(data?.name || teacherUser.name);
-        setRole(data?.role || teacherUser.role || "Teacher");
-      })
-      .catch(() => {});
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  const { user } = useAuth();
+  const location = useLocation();
+
+  // Get name from auth context
+  const displayName = (user?.firstName || user?.lastName)
+    ? `${user?.firstName || ""}${user?.firstName && user?.lastName ? " " : ""}${user?.lastName || ""}`.trim()
+    : user?.name || user?.email || "Teacher";
+
+  // Determine role based on current route
+  const displayRole = location.pathname.startsWith("/teacher")
+    ? "Teacher"
+    : (user?.role || "TEACHER").toString().toUpperCase().includes("TEACH")
+    ? "Teacher"
+    : "Parent";
+
   const isActive = (key) => (active === key ? "active" : "");
 
   return (
@@ -32,8 +31,8 @@ function TeacherSidebar({ active }) {
       <div className="teacher-info">
         <div className="avatar" />
         <div>
-          <p className="teacher-name">{name}</p>
-          <p className="teacher-role">{role}</p>
+          <p className="teacher-name">{displayName}</p>
+          <p className="teacher-role">{displayRole}</p>
         </div>
       </div>
       <div className="sidebar-links">
