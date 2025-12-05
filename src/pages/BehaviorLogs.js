@@ -16,6 +16,8 @@ export default function Behavior() {
   const [data, setData] = useState([]);
   const [students, setStudents] = useState([]);
   const [showEditModal, setShowEditModal] = useState(null);
+  const [confirmDeleteRow, setConfirmDeleteRow] = useState(null);
+  const [notice, setNotice] = useState({ text: "", type: "" });
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     studentId: "",
@@ -28,6 +30,13 @@ export default function Behavior() {
     incident: "",
     actionTaken: ""
   });
+
+  useEffect(() => {
+    if (notice.text && notice.type === 'success') {
+      const t = setTimeout(() => setNotice({ text: "", type: "" }), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [notice.text, notice.type]);
 
   const getBehaviorId = (src) => {
     if (!src) return undefined;
@@ -127,7 +136,7 @@ export default function Behavior() {
     e.preventDefault();
 
     if (!formData.studentId) {
-      alert('Please select a student');
+      setNotice({ text: 'Please select a student', type: 'error' });
       return;
     }
 
@@ -145,15 +154,17 @@ export default function Behavior() {
       const result = await createBehaviorLog(behaviorLogData);
       console.log('Behavior log saved:', result);
 
-      alert('Behavior log saved successfully!');
+      setNotice({ text: 'Behavior log saved successfully!', type: 'success' });
       
       // Refresh the data
       const updatedLogs = await getAllBehaviorLogs();
       const formattedData = updatedLogs.map(log => ({
+        id: getBehaviorId(log),
         date: log.incident_date,
         student: log.student ? `${log.student.first_name} ${log.student.last_name}` : 'Unknown',
         incident: log.description,
-        action: log.type
+        action: log.type,
+        __raw: log,
       }));
       setData(formattedData);
 
@@ -167,7 +178,7 @@ export default function Behavior() {
       setShowModal(false);
     } catch (error) {
       console.error('Error saving behavior log:', error);
-      alert('Failed to save behavior log: ' + error.message);
+      setNotice({ text: 'Failed to save behavior log: ' + (error?.message || 'Unknown error'), type: 'error' });
     }
   };
 
@@ -186,22 +197,19 @@ export default function Behavior() {
   const handleUpdateBehavior = async (e) => {
     e.preventDefault();
     if (!showEditModal) return;
+    if (!editFormData.studentId) {
+      setNotice({ text: 'Please select a student', type: 'error' });
+      return;
+    }
     try {
-      const derivedStudentId = editFormData.studentId || getStudentId(showEditModal.__raw);
-      const sid = Number(derivedStudentId);
-      if (!sid) {
-        alert('Missing student id for this behavior log');
-        return;
-      }
       const payload = {
-        student_id: sid,
+        student_id: parseInt(editFormData.studentId, 10),
         incident_date: editFormData.date,
         description: editFormData.incident,
         type: editFormData.actionTaken,
         recorded_at: new Date().toISOString().replace('T', ' ').substring(0, 19),
       };
       const id = getBehaviorId(showEditModal.__raw) ?? getBehaviorId(showEditModal);
-      if (id == null) throw new Error("Missing behavior log id");
       await updateBehaviorLog(id, payload);
       const updatedLogs = await getAllBehaviorLogs();
       const formattedData = updatedLogs.map(log => ({
@@ -214,23 +222,21 @@ export default function Behavior() {
       }));
       setData(formattedData);
       setShowEditModal(null);
-      alert('Behavior log updated successfully!');
+      setNotice({ text: 'Behavior log updated successfully!', type: 'success' });
     } catch (error) {
       console.error('Error updating behavior log:', error);
-      alert('Failed to update behavior log: ' + (error?.message || 'Unknown error'));
+      setNotice({ text: 'Failed to update behavior log: ' + (error?.message || 'Unknown error'), type: 'error' });
     }
   };
 
-  const handleDeleteBehavior = async (row) => {
-    const id = getBehaviorId(row.__raw) ?? getBehaviorId(row);
-    if (id == null) return;
-    const ok = window.confirm('Delete this behavior log?');
-    if (!ok) return;
+  const performDeleteBehavior = async () => {
+    const row = confirmDeleteRow;
+    if (!row || row.id == null) return;
     try {
-      await deleteBehaviorLog(id);
+      await deleteBehaviorLog(row.id);
       const updatedLogs = await getAllBehaviorLogs();
       const formattedData = updatedLogs.map(log => ({
-        id: getBehaviorId(log),
+        id: log.behavior_log_id || log.id,
         date: log.incident_date,
         student: log.student ? `${log.student.first_name} ${log.student.last_name}` : 'Unknown',
         incident: log.description,
@@ -238,10 +244,11 @@ export default function Behavior() {
         __raw: log,
       }));
       setData(formattedData);
-      alert('Behavior log deleted.');
+      setConfirmDeleteRow(null);
+      setNotice({ text: 'Behavior log deleted.', type: 'success' });
     } catch (error) {
       console.error('Error deleting behavior log:', error);
-      alert('Failed to delete behavior log: ' + (error?.message || 'Unknown error'));
+      setNotice({ text: 'Failed to delete behavior log: ' + (error?.message || 'Unknown error'), type: 'error' });
     }
   };
 
@@ -252,6 +259,11 @@ export default function Behavior() {
         containerClassName="teacher-attendance-container"
       >
         <div className="attendance-container">
+          {notice.text && (
+            <div className={`notice-bar ${notice.type === 'error' ? 'notice-error' : notice.type === 'success' ? 'notice-success' : ''}`}>
+              {notice.text}
+            </div>
+          )}
           <TeacherHeader
             title="Behavior — G2 Faith"
             buttonLabel="Add Behavior"
@@ -279,7 +291,7 @@ export default function Behavior() {
                     </button>
                     <button
                       className="view-btn"
-                      onClick={(e) => { e.stopPropagation(); handleDeleteBehavior(row); }}
+                      onClick={(e) => { e.stopPropagation(); setConfirmDeleteRow(row); }}
                     >
                       Delete
                     </button>
@@ -432,6 +444,25 @@ export default function Behavior() {
               </button>
             </div>
           </form>
+        </Modal>
+      )}
+
+      {confirmDeleteRow && (
+        <Modal
+          open={!!confirmDeleteRow}
+          title="Delete Behavior"
+          onClose={() => setConfirmDeleteRow(null)}
+          overlayClassName="action-modal-overlay"
+          modalClassName="action-modal"
+          headerClassName="modal-header"
+        >
+          <div className="modal-content">
+            <p>Are you sure you want to delete this behavior log?</p>
+            <div className="modal-actions">
+              <button className="action-btn action-btn-sm" onClick={() => setConfirmDeleteRow(null)}>Back</button>
+              <button className="action-btn-dark action-btn-sm" onClick={performDeleteBehavior}>Delete</button>
+            </div>
+          </div>
         </Modal>
       )}
     </>
