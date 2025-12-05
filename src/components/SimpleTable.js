@@ -22,7 +22,9 @@ export default function SimpleTable({ columns, data, onRowClick, tableClassName 
         {data.map((row, idx) => (
           <tr key={idx} onClick={onRowClick ? () => onRowClick(row) : undefined}>
             {columns.map((c) => (
-              <td key={c.key} style={c.align ? { textAlign: c.align } : undefined}>{row[c.key]}</td>
+              <td key={c.key} style={c.align ? { textAlign: c.align } : undefined}>
+                {typeof c.render === 'function' ? c.render(row, idx) : row[c.key]}
+              </td>
             ))}
           </tr>
         ))}
