@@ -9,17 +9,28 @@ export async function login(email, password) {
       body: JSON.stringify({ email, password }),
       mode: "cors",
     });
+    
     if (!res.ok) {
       let data = null;
-      try { data = await res.json(); } catch { data = null; }
+      try { 
+        data = await res.json(); 
+      } catch { 
+        data = null; 
+      }
       const message = (data && (data.message || data.error)) || "Login failed";
       throw new Error(message);
     }
+    
     const data = await res.json();
-    console.log('Login response:', data); // DEBUG - check what backend returns
+    console.log('Login response:', data);
     return data;
   } catch (e) {
-    throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
+    // If it's a network error (cannot connect to backend)
+    if (e.message.includes("fetch") || e.name === "TypeError") {
+      throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
+    }
+    // Otherwise, re-throw the original error (like "Invalid credentials")
+    throw e;
   }
 }
 
@@ -31,19 +42,27 @@ export async function register(payload) {
       body: JSON.stringify(payload),
       mode: "cors",
     });
+    
     let data = null;
     try {
       data = await res.json();
     } catch {
       data = null;
     }
+    
     if (!res.ok) {
       const message = (data && (data.message || data.error)) || "Registration failed";
       throw new Error(message);
     }
+    
     return data;
   } catch (e) {
-    throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
+    // If it's a network error (cannot connect to backend)
+    if (e.message.includes("fetch") || e.name === "TypeError") {
+      throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
+    }
+    // Otherwise, re-throw the original error
+    throw e;
   }
 }
 
@@ -54,14 +73,23 @@ export async function updateUserRole(userId, role) {
       headers: { "Content-Type": "application/json" },
       mode: "cors",
     });
+    
     if (!res.ok) {
       let data = null;
-      try { data = await res.json(); } catch { data = null; }
+      try { 
+        data = await res.json(); 
+      } catch { 
+        data = null; 
+      }
       const message = (data && (data.message || data.error)) || "Role update failed";
       throw new Error(message);
     }
+    
     return res.json();
   } catch (e) {
-    throw new Error("Failed to update role. Check backend connection.");
+    if (e.message.includes("fetch") || e.name === "TypeError") {
+      throw new Error("Failed to update role. Check backend connection.");
+    }
+    throw e;
   }
 }
