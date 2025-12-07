@@ -209,7 +209,7 @@ export default function TeacherForms() {
   };
 
   return (
-    <TeacherLayout active="forms" containerClassName="teacher-attendance-container">
+    <TeacherLayout active="forms" containerClassName="teacher-attendance-container" showBackButton={true}>
       <div className="attendance-container">
         <TeacherHeader
           title="Teacher Forms — G2 Faith"

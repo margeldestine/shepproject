@@ -172,33 +172,36 @@ export default function ClassAnnouncements() {
     <TeacherLayout
       active="class-announcements"
       containerClassName="teacher-attendance-container"
+      showBackButton={true}
     >
-      <div className="announcements-container">
-        {notice.text && (
-          <div className={`notice-bar ${notice.type === 'error' ? 'notice-error' : notice.type === 'success' ? 'notice-success' : ''}`}>
-            {notice.text}
-          </div>
-        )}
-        <AnnouncementsHeader
-          title="Class Specific Announcements"
-          onCreateNew={() => setShowNewAnnouncement(true)}
-        />
-
-        <div className="announcements-grid">
-          {announcements.map((item) => (
-            <div className="announcement-card" key={item.id}>
-              <div className="announcement-header">
-                <h3>{item.title}</h3>
-                <span className="announcement-date">{formatDate(item.date)}</span>
-              </div>
-              <p className="announcement-desc">{item.description}</p>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button className="read-more-btn" onClick={() => setSelectedAnnouncement(item)}>Read More</button>
-                <button className="read-more-btn" onClick={() => openEditAnnouncement(item)}>Edit</button>
-                <button className="read-more-btn" onClick={() => setConfirmDeleteAnnouncement(item)}>Delete</button>
-              </div>
+      <div className="announcements-shell">
+        <div className="announcements-container">
+          {notice.text && (
+            <div className={`notice-bar ${notice.type === 'error' ? 'notice-error' : notice.type === 'success' ? 'notice-success' : ''}`}>
+              {notice.text}
             </div>
-          ))}
+          )}
+          <AnnouncementsHeader
+            title="Class Specific Announcements"
+            onCreateNew={() => setShowNewAnnouncement(true)}
+          />
+
+          <div className="announcements-grid">
+            {announcements.map((item) => (
+              <div className="announcement-card" key={item.id}>
+                <div className="announcement-header">
+                  <h3>{item.title}</h3>
+                  <span className="announcement-date">{formatDate(item.date)}</span>
+                </div>
+                <p className="announcement-desc">{item.description}</p>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button className="read-more-btn" onClick={() => setSelectedAnnouncement(item)}>Read More</button>
+                  <button className="read-more-btn" onClick={() => openEditAnnouncement(item)}>Edit</button>
+                  <button className="read-more-btn" onClick={() => setConfirmDeleteAnnouncement(item)}>Delete</button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

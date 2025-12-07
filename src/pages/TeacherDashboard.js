@@ -23,8 +23,11 @@ export default function TeacherDashboard() {
     ? "Teacher"
     : "Parent";
 
+  // UPDATED: Pass both subject and section
   const handleOpenSection = (sectionId) => {
-    navigate(`/teacher-attendance/${sectionId}`);
+    // Convert subject name to lowercase for URL
+    const subjectSlug = activeSubject.toLowerCase();
+    navigate(`/teacher/${subjectSlug}/attendance/${sectionId}`);
   };
 
   return (
