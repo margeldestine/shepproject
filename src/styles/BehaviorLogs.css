@@ -180,7 +180,7 @@
 }
 
 .attendance-container {
-  max-width: 950px;
+  max-width: 1200px;
   min-height: 200px;
   margin: 4rem auto 0;
   background-color: #ffffff;
@@ -256,10 +256,24 @@
   background-color: #f1c93d;
 }
 
+/* Fixed behavior table styling */
+.behavior-table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
 .attendance-table {
   width: 100%;
-  table-layout: fixed;
-  border-spacing: 0 0.7rem;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: auto;
+}
+
+.attendance-table thead {
+  background-color: #f8f8f8;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .attendance-table th {
@@ -267,22 +281,98 @@
   color: #630000;
   font-weight: 700;
   font-size: 0.95rem;
-  padding-bottom: 0.3rem;
+  padding: 1rem 0.8rem;
+  border-bottom: 2px solid #bda76a;
+  white-space: nowrap;
+}
+
+.attendance-table th:nth-child(1) { width: 12%; } /* Date */
+.attendance-table th:nth-child(2) { width: 15%; } /* Student */
+.attendance-table th:nth-child(3) { width: 35%; } /* Incident */
+.attendance-table th:nth-child(4) { width: 15%; } /* Action Taken */
+.attendance-table th:nth-child(5) { width: 23%; } /* Actions */
+
+.attendance-table tbody tr {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.attendance-table tbody tr:hover {
+  background-color: #fffdf6;
 }
 
 .attendance-table td {
-  padding: 0.8rem 0.8rem;
+  padding: 1rem 0.8rem;
   font-size: 0.9rem;
+  vertical-align: middle;
+  color: #333;
 }
 
 .attendance-table select,
 .attendance-table input {
-  width: 90%;
-  padding: 0.35rem;
+  width: 100%;
+  padding: 0.5rem;
   border-radius: 5px;
   border: 1px solid #bda76a;
+  font-size: 0.9rem;
+  box-sizing: border-box;
 }
 
+/* Actions cell with properly aligned buttons */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.actions-cell button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.actions-cell .edit-btn {
+  background-color: #ffd54f;
+  color: #630000;
+  min-width: 70px;
+}
+
+.actions-cell .edit-btn:hover {
+  background-color: #f1c93d;
+  transform: translateY(-1px);
+}
+
+.actions-cell .delete-btn {
+  background-color: #8b0000;
+  color: #fff;
+  min-width: 70px;
+}
+
+.actions-cell .delete-btn:hover {
+  background-color: #a00000;
+  transform: translateY(-1px);
+}
+
+.actions-cell .view-btn {
+  background-color: #4a0000;
+  color: #ffd54f;
+  min-width: 70px;
+}
+
+.actions-cell .view-btn:hover {
+  background-color: #630000;
+  transform: translateY(-1px);
+}
+
+/* Modal styling */
 .behavior-modal-overlay {
   position: fixed;
   inset: 0;
@@ -309,6 +399,7 @@
 .modal-header h3 {
   color: #5d1227;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0 0 1rem 0;
 }
 
 .modal-actions {
@@ -322,9 +413,15 @@
   background: #f8e4eb;
   color: #5d1227;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #f0d0dc;
 }
 
 .save-btn {
@@ -332,9 +429,22 @@
   color: #ffd54f;
   font-weight: 700;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.save-btn:hover {
+  background: #7d1837;
+}
+
+.behavior-modal form label {
+  display: block;
+  font-weight: 600;
+  color: #630000;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
 }
 
 .behavior-modal form input,
@@ -348,4 +458,28 @@
   border: 1px solid #bda76a;
   font-size: 0.9rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.behavior-modal form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.notice-bar {
+  margin-bottom: 0.9rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #fff7d1;
+  color: #4a0000;
+  border: 1px solid #e6c200;
+}
+.notice-success {
+  background: #e6ffe9;
+  border-color: #98d49f;
+}
+.notice-error {
+  background: #ffe6e6;
+  border-color: #d49f9f;
 }
