@@ -5,13 +5,15 @@ import TopRightActions from "./TopRightActions";
 export default function TeacherLayout({
   active,
   containerClassName = "teacher-container",
+  showBackButton = false,
+  backTo = "/teacher",
   children
 }) {
   return (
     <div className={containerClassName}>
       <TeacherSidebar active={active} />
       <main className="teacher-main">
-        <TopRightActions />
+        <TopRightActions showBackButton={showBackButton} backTo={backTo} />
         {children}
       </main>
     </div>

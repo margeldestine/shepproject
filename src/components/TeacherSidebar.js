@@ -22,10 +22,30 @@ function TeacherSidebar({ active }) {
 
   const isActive = (key) => (active === key ? "active" : "");
 
-  const currentSection = (() => {
-    const m = location.pathname.match(/^\/teacher-(attendance|grades)\/([^/]+)/);
-    return m ? m[2] : null;
-  })();
+  // UPDATED: Extract both subject and section from URL
+  const extractFromPath = () => {
+    // Try new pattern: /teacher/{subject}/attendance/{section}
+    let match = location.pathname.match(/^\/teacher\/([^/]+)\/(attendance|grades)\/([^/]+)/);
+    if (match) {
+      return { subject: match[1], section: match[3] };
+    }
+    
+    // Try new grade pattern: /teacher/grades/{section}/{subject}
+    match = location.pathname.match(/^\/teacher\/grades\/([^/]+)\/([^/]+)/);
+    if (match) {
+      return { subject: match[2], section: match[1] };
+    }
+    
+    // Fallback to old pattern: /teacher-attendance/{section} or /teacher-grades/{section}
+    match = location.pathname.match(/^\/teacher-(attendance|grades)\/([^/]+)/);
+    if (match) {
+      return { subject: "science", section: match[2] }; // Default to science
+    }
+    
+    return { subject: "science", section: "G2Faith" }; // Default fallback
+  };
+
+  const { subject, section } = extractFromPath();
 
   return (
     <aside className="teacher-sidebar">
@@ -41,11 +61,36 @@ function TeacherSidebar({ active }) {
         </div>
       </div>
       <div className="sidebar-links">
-        <button className={isActive("attendance")} onClick={() => navigate(`/teacher-attendance/${currentSection || "G2Faith"}`)}>Attendance</button>
-        <button className={isActive("grades")} onClick={() => navigate(`/teacher-grades/${currentSection || "G2Faith"}`)}>Grades</button>
-        <button className={isActive("behavior-logs")} onClick={() => navigate("/behavior-logs")}>Behavior Logs</button>
-        <button className={isActive("class-announcements")} onClick={() => navigate("/class-announcements")}>Class Announcements</button>
-        <button className={isActive("forms")} onClick={() => navigate("/teacher-forms")}>Forms</button>
+        <button 
+          className={isActive("attendance")} 
+          onClick={() => navigate(`/teacher/${subject}/attendance/${section}`)}
+        >
+          Attendance
+        </button>
+        <button 
+          className={isActive("grades")} 
+          onClick={() => navigate(`/teacher/grades/${section}/${subject}`)}
+        >
+          Grades
+        </button>
+        <button 
+          className={isActive("behavior-logs")} 
+          onClick={() => navigate("/behavior-logs")}
+        >
+          Behavior Logs
+        </button>
+        <button 
+          className={isActive("class-announcements")} 
+          onClick={() => navigate("/class-announcements")}
+        >
+          Class Announcements
+        </button>
+        <button 
+          className={isActive("forms")} 
+          onClick={() => navigate("/teacher-forms")}
+        >
+          Forms
+        </button>
       </div>
     </aside>
   );

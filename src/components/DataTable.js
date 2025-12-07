@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function DataTable({ columns, data, tableClassName = "simple-table" }) {
+export default function DataTable({ columns, data, tableClassName = "simple-table", onRowClick }) {
   const hasWidths = Array.isArray(columns) && columns.some((c) => c.width);
   return (
     <table className={tableClassName}>
@@ -20,7 +20,12 @@ export default function DataTable({ columns, data, tableClassName = "simple-tabl
       </thead>
       <tbody>
         {data.map((row, idx) => (
-          <tr key={idx}>
+          <tr 
+            key={idx} 
+            onClick={() => onRowClick && onRowClick(row)}
+            style={onRowClick ? { cursor: 'pointer' } : undefined}
+            className={onRowClick ? "clickable-row" : ""}
+          >
             {columns.map((c) => (
               <td key={c.key} style={c.align ? { textAlign: c.align } : undefined}>
                 {c.render ? c.render(row) : row[c.key]}

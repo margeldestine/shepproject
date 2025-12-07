@@ -17,6 +17,8 @@ import Settings from "./pages/Settings";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import TeacherAttendance from "./pages/TeacherAttendance";
 import TeacherGrades from "./pages/TeacherGrades";
+import GradeBreakdown from "./pages/GradeBreakdown";
+import InputGrades from "./pages/InputGrades";
 import BehaviorLogs from "./pages/BehaviorLogs";
 import ClassAnnouncements from "./pages/ClassAnnouncements";
 import Announcements from "./pages/Announcements";
@@ -42,8 +44,17 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/teacher" element={<TeacherDashboard />} />
+        
+        {/* OLD ROUTES - Keep for backward compatibility */}
         <Route path="/teacher-attendance/:sectionId" element={<TeacherAttendance />} /> 
         <Route path="/teacher-grades/:section" element={<TeacherGrades />} />
+        
+        {/* NEW ROUTES - With subject parameter */}
+        <Route path="/teacher/:subject/attendance/:sectionId" element={<TeacherAttendance />} />
+        <Route path="/teacher/grades/:section/:subject" element={<TeacherGrades />} />
+        <Route path="/teacher/grades/:section/:subject/:studentId" element={<GradeBreakdown />} />
+        <Route path="/teacher/grades/:section/:subject/input" element={<InputGrades />} />
+        
         <Route path="/behavior-logs" element={<BehaviorLogs />} />
         <Route path="/class-announcements" element={<ClassAnnouncements/>} />
         <Route path="/teacher-forms" element={<TeacherForms/>} />

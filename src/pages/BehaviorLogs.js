@@ -257,6 +257,7 @@ export default function Behavior() {
       <TeacherLayout
         active="behavior-logs"
         containerClassName="teacher-attendance-container"
+        showBackButton={true}
       >
         <div className="attendance-container">
           {notice.text && (

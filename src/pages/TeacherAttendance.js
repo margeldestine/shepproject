@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../styles/TeacherAttendance.css";
+import "../styles/Add.css";
 import { useNavigate, useParams } from "react-router-dom";
 import TeacherLayout from "../components/TeacherLayout";
 import TeacherHeader from "../components/TeacherHeader";
@@ -13,12 +14,20 @@ import { getTeacherByUserId } from "../api/teacherApi";
 export default function TeacherAttendance() {
   const navigate = useNavigate();
   const { sectionId } = useParams();
+  const [notice, setNotice] = useState({ text: "", type: "" });
   const [rows, setRows] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [attendanceData, setAttendanceData] = useState({});
   const [teacherId, setTeacherId] = useState(null);
   const headerSection = sectionId === 'G2Hope' ? 'G2 Hope' : 'G2 Faith';
   const sectionLabel = headerSection === 'G2 Hope' ? 'Grade-2 Hope' : 'Grade-2 Faith';
+
+  useEffect(() => {
+    if (notice.text && notice.type === 'success') {
+      const t = setTimeout(() => setNotice({ text: "", type: "" }), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [notice.text, notice.type]);
 
   useEffect(() => {
     let mounted = true;
@@ -30,7 +39,7 @@ export default function TeacherAttendance() {
         
         if (!userId) {
           console.error('No userId found in localStorage');
-          alert('Please log in first');
+          setNotice({ text: "Please log in first", type: "error" });
           return;
         }
         
@@ -43,7 +52,7 @@ export default function TeacherAttendance() {
         }
       } catch (error) {
         console.error('Error fetching teacher:', error);
-        alert('Could not find teacher record. Please contact administrator.');
+        setNotice({ text: "Could not find teacher record. Please contact administrator.", type: "error" });
       }
     };
 
@@ -79,7 +88,7 @@ export default function TeacherAttendance() {
       })
       .catch((error) => {
         console.error('Error loading students:', error);
-        alert('Failed to load students. Using fallback data.');
+        setNotice({ text: "Failed to load students. Using fallback data.", type: "error" });
         setRows(attendanceStudents);
         
         const initialData = {};
@@ -119,12 +128,12 @@ export default function TeacherAttendance() {
 
   const handleSaveAttendance = async () => {
   if (!teacherId) {
-    alert('Teacher ID not found. Please make sure you are logged in.');
+    setNotice({ text: "Teacher ID not found. Please make sure you are logged in.", type: "error" });
     return;
   }
 
   if (rows.length === 0) {
-    alert('No students found. Please add students first.');
+    setNotice({ text: "No students found. Please add students first.", type: "error" });
     return;
   }
 
@@ -152,16 +161,21 @@ export default function TeacherAttendance() {
 
     const results = await Promise.all(attendancePromises);
     console.log('Attendance save results:', results);
-    alert('Attendance saved successfully for ' + rows.length + ' students on ' + selectedDate + '!');
+    setNotice({ text: "Attendance saved successfully for " + rows.length + " students on " + selectedDate + "!", type: "success" });
   } catch (error) {
     console.error('Error saving attendance:', error);
-    alert('Failed to save attendance: ' + error.message);
+    setNotice({ text: "Failed to save attendance: " + error.message, type: "error" });
   }
 };
 
   return (
-    <TeacherLayout active="attendance" containerClassName="teacher-attendance-container">
+    <TeacherLayout active="attendance" showBackButton={true} containerClassName="teacher-attendance-container">
       <div className="attendance-container">
+          {notice.text && (
+            <div className={`notice-bar ${notice.type === 'error' ? 'notice-error' : notice.type === 'success' ? 'notice-success' : ''}`}>
+              {notice.text}
+            </div>
+          )}
           <TeacherHeader
             title={`Attendance — ${headerSection}`}
             headerClassName="attendance-header header-box"
@@ -171,7 +185,7 @@ export default function TeacherAttendance() {
             <input 
               type="date" 
               value={selectedDate}
-              onChange={(e) => { setSelectedDate(e.target.value); setTimeout(() => window.location.reload(), 50); }}
+              onChange={(e) => setSelectedDate(e.target.value)}
             />
             <span className="readonly-select">{sectionLabel}</span>
             <button className="mark-all-btn" onClick={handleSaveAttendance}>Save</button>

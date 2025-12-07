@@ -27,3 +27,11 @@ export async function createGrade(data) {
   }
   return res.json();
 }
+
+export async function getStudentSubjectBreakdown(studentId, subjectId, quarter) {
+  const res = await fetch(`${BASE_URL}/student/${studentId}/subject/${subjectId}/quarter/${quarter}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch student grades breakdown");
+  }
+  return res.json();
+}
