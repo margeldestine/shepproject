@@ -8,6 +8,7 @@ import { forms } from "../data/forms";
 import { getAllForms, createForm, updateForm, deleteForm } from "../api/formsApi";
 import { getTeacherByUserId } from "../api/teacherApi";
 import "../styles/Add.css"; 
+import "../styles/BehaviorLogs.css";
 
 export default function TeacherForms() {
   const navigate = useNavigate();
@@ -30,6 +31,15 @@ export default function TeacherForms() {
     dueDate: "",
     details: ""
   });
+
+  const [notice, setNotice] = useState({ text: "", type: "" });
+
+  useEffect(() => {
+    if (notice.text && notice.type === 'success') {
+      const t = setTimeout(() => setNotice({ text: "", type: "" }), 2000);
+      return () => clearTimeout(t);
+    }
+  }, [notice.text, notice.type]);
 
   useEffect(() => {
     let mounted = true;
@@ -128,8 +138,6 @@ export default function TeacherForms() {
       const result = await createForm(formData);
       console.log('Form created:', result);
 
-      alert('Form created successfully!');
-      
       // Refresh the data
       const updatedForms = await getAllForms();
       const formattedData = updatedForms.map(form => ({
@@ -147,6 +155,7 @@ export default function TeacherForms() {
       // Reset form and close modal
       setNewFormData({ title: "", dueDate: "", details: "" });
       setShowNewFormModal(false);
+      setNotice({ text: "Form created successfully!", type: "success" });
     } catch (error) {
       console.error('Error creating form:', error);
       alert('Failed to create form: ' + error.message);
@@ -211,6 +220,11 @@ export default function TeacherForms() {
   return (
     <TeacherLayout active="forms" containerClassName="teacher-attendance-container" showBackButton={true}>
       <div className="attendance-container">
+        {notice.text && (
+          <div className={`notice-bar ${notice.type === 'error' ? 'notice-error' : notice.type === 'success' ? 'notice-success' : ''}`}>
+            {notice.text}
+          </div>
+        )}
         <TeacherHeader
           title="Teacher Forms — G2 Faith"
           buttonLabel="Create New Form"

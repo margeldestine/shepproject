@@ -82,6 +82,17 @@ export default function GradeBreakdown() {
            name.includes("seatwork");
   });
 
+  const pickDate = (g) => {
+    const val = g.assessment_date || g.grade_date || g.gradeDate || g.date || g.date_recorded || g.recorded_at || g.created_at || "";
+    if (!val) return "N/A";
+    const s = String(val);
+    if (s.includes("T")) return s.split("T")[0];
+    if (s.includes(" ")) return s.split(" ")[0];
+    return s;
+  };
+
+  
+
   const renderSection = (title, list) => (
     <div style={{ marginBottom: "1.5rem" }}>
       <h3 style={{ color: "#630000", marginBottom: "0.5rem", fontWeight: "700" }}>
@@ -91,19 +102,22 @@ export default function GradeBreakdown() {
         <tbody>
           {list.length > 0 ? (
             <>
-              {list.map((g) => (
-                <tr key={g.grade_id}>
-                  <td style={{ textAlign: "left", width: "50%" }}>
-                    {g.assessment_name}
-                  </td>
-                  <td style={{ textAlign: "center", width: "25%" }}>
-                    {g.recorded_at ? new Date(g.recorded_at).toLocaleDateString() : "N/A"}
-                  </td>
-                  <td style={{ textAlign: "center", width: "25%", fontWeight: "600" }}>
-                    {g.grade_value}
-                  </td>
-                </tr>
-              ))}
+              {list.map((g) => {
+                console.log('Rendering grade:', g.grade_id, 'Date:', g.date);
+                return (
+                  <tr key={g.grade_id}>
+                    <td style={{ textAlign: "left", width: "50%" }}>
+                      {g.assessment_name}
+                    </td>
+                    <td style={{ textAlign: "center", width: "25%" }}>
+                      {String(g.date || '')}
+                    </td>
+                    <td style={{ textAlign: "center", width: "25%", fontWeight: "600" }}>
+                      {g.grade_value}
+                    </td>
+                  </tr>
+                );
+              })}
               <tr style={{ fontWeight: "bold", backgroundColor: "#f9f9f9" }}>
                 <td colSpan="2" style={{ textAlign: "right", paddingRight: "1rem" }}>
                   Subtotal:
