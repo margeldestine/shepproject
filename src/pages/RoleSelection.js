@@ -29,11 +29,9 @@ function RoleSelection() {
     try {
       setLoading(true);
       setError(null);
-      // Register WITHOUT role first - will be set on next page
       const payload = { firstName, lastName, email, password, role: null };
       const authData = await register(payload);
       loginUser(authData);
-      // Navigate to role selection page
       navigate("/role-selection");
     } catch (e) {
       setError(e?.message || "Registration failed. Please check your details.");
@@ -57,6 +55,7 @@ function RoleSelection() {
         <div className="register-right">
           <h2>Create an Account</h2>
           <div className="form-fields">
+            
             <TextField
               label="First Name"
               value={firstName}
