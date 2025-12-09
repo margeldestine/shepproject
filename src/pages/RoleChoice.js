@@ -69,8 +69,15 @@ function RoleChoice() {
     }
   };
 
-  const handleTeacherClick = () => handleRoleSelection("TEACHER");
-  const handleParentClick = () => handleRoleSelection("PARENT");
+  const handleParentClick = () => {
+    try { localStorage.setItem("selectedRole", "PARENT"); } catch {}
+    navigate("/parent-id", { state: { role: "PARENT" } });
+  };
+
+  const handleTeacherClick = () => {
+    try { localStorage.setItem("selectedRole", "TEACHER"); } catch {}
+    navigate("/parent-id", { state: { role: "TEACHER" } });
+  };
 
   return (
     <div className="role-selection-bg" style={{ backgroundImage: `url(${shepbg})` }}>

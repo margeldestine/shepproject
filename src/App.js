@@ -30,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/role-selection" element={<RoleChoice />} />
+        <Route path="/role-choice" element={<RoleChoice />} />
         <Route path="/signup" element={<RoleSelection />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/parent" element={<Dashboard />} />

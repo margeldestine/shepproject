@@ -4,17 +4,20 @@ import { Button, TextField, InputAdornment, CircularProgress } from "@mui/materi
 import SchoolIcon from "@mui/icons-material/School";
 import { CheckCircle, ErrorOutline } from "@mui/icons-material";
 import shepbg from "../assets/shepbg.png";
-import { validateStudentNumber } from "../api/authApi";
+import { validateStudentNumber, registerParent } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 import "../styles/RoleSelection.css";
 
 function ParentIdInput() {
   const navigate = useNavigate();
   const location = useLocation();
   const role = String(location.state?.role || "PARENT").trim().toUpperCase();
+  const { loginUser } = useAuth();
 
   const [schoolId, setSchoolId] = useState("");
   const [error, setError] = useState("");
   const [validationState, setValidationState] = useState("idle"); // idle, loading, valid, invalid
+  const [registering, setRegistering] = useState(false);
   
 
   const handleValidate = async (value) => {
@@ -58,7 +61,7 @@ function ParentIdInput() {
     }
   };
 
-  const handleNavigate = () => {
+  const handleNavigate = async () => {
     if (!schoolId.trim()) {
       setError(role.includes("TEACHER") ? "Please enter your school ID number." : "Please enter your child's school ID number.");
       return;
@@ -70,7 +73,48 @@ function ParentIdInput() {
     }
 
     setError("");
-    navigate(role.includes("TEACHER") ? "/teacher" : "/dashboard");
+    if (role.includes("TEACHER")) {
+      navigate("/teacher");
+      return;
+    }
+    try {
+      setRegistering(true);
+      let temp = {};
+      try { temp = JSON.parse(localStorage.getItem("tempUser") || "{}"); } catch { temp = {}; }
+
+      console.log("=== PARENT REGISTRATION DEBUG ===");
+      console.log("Temp user data:", temp);
+      console.log("Student number:", schoolId.trim());
+
+      const payload = {
+        firstName: temp.firstName,
+        lastName: temp.lastName,
+        email: temp.email,
+        password: temp.password,
+        role: "PARENT",
+        studentNumber: schoolId.trim(),
+      };
+
+      console.log("Payload being sent:", payload);
+
+      const authData = await registerParent(payload);
+
+      console.log("=== REGISTRATION RESPONSE ===");
+      console.log("Full authData:", authData);
+      console.log("studentFirstName:", authData.studentFirstName);
+      console.log("studentLastName:", authData.studentLastName);
+      console.log("studentId:", authData.studentId);
+      console.log("=== END DEBUG ===");
+
+      loginUser(authData);
+      try { localStorage.removeItem("tempUser"); } catch {}
+      navigate("/dashboard");
+    } catch (e) {
+      console.error("Registration error:", e);
+      setError(e?.message || "Registration failed");
+    } finally {
+      setRegistering(false);
+    }
   };
 
   return (
@@ -131,7 +175,7 @@ function ParentIdInput() {
             fullWidth
             className="role-btn" 
             onClick={handleNavigate}
-            disabled={validationState !== "valid"}
+            disabled={validationState !== "valid" || registering}
             sx={{ mt: 0, width: '100%', maxWidth: 'none' }}
           >
             Enter
