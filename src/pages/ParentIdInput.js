@@ -1,42 +1,120 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button, TextField, InputAdornment } from "@mui/material";
+import { Button, TextField, InputAdornment, CircularProgress } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
+import { CheckCircle, ErrorOutline } from "@mui/icons-material";
 import shepbg from "../assets/shepbg.png";
+import { validateStudentNumber, registerParent } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 import "../styles/RoleSelection.css";
 
 function ParentIdInput() {
   const navigate = useNavigate();
   const location = useLocation();
   const role = String(location.state?.role || "PARENT").trim().toUpperCase();
+  const { loginUser } = useAuth();
 
   const [schoolId, setSchoolId] = useState("");
   const [error, setError] = useState("");
+  const [validationState, setValidationState] = useState("idle"); // idle, loading, valid, invalid
+  const [registering, setRegistering] = useState(false);
+  
 
-  const validPattern1 = /^\d{4}-\d{5}$/;
-  const validPattern2 = /^\d{2}-\d{4}-\d{3}$/;
-
-  const handleChange = (e) => {
-    const value = e.target.value;
-
-    if (/^[\d-]*$/.test(value)) {
-      setSchoolId(value);
+  const handleValidate = async (value) => {
+    const v = String(value || "").trim();
+    if (!v) {
+      setValidationState("idle");
+      setError("");
+      return;
+    }
+    const validPattern1 = /^\d{4}-\d{5}$/;
+    const validPattern2 = /^\d{2}-\d{4}-\d{3}$/;
+    if (!validPattern1.test(v) && !validPattern2.test(v)) {
+      setValidationState("invalid");
+      setError("Invalid format. Use ****-***** or **-****-***");
+      return;
+    }
+    try {
+      setValidationState("loading");
+      setError("");
+      const res = await validateStudentNumber(v);
+      if (res && res.exists) {
+        setValidationState("valid");
+        setError("");
+      } else {
+        setValidationState("invalid");
+        setError("Student number not found. Please check and try again.");
+      }
+    } catch (e) {
+      setValidationState("invalid");
+      const msg = e?.data?.error || e?.message || "Student number not found. Please check and try again.";
+      setError(msg);
     }
   };
 
-  const handleNavigate = () => {
+  const handleChange = (e) => {
+    const value = e.target.value;
+    if (/^[\d-]*$/.test(value)) {
+      setSchoolId(value);
+      setValidationState("idle");
+      setError("");
+    }
+  };
+
+  const handleNavigate = async () => {
     if (!schoolId.trim()) {
-      setError(role.includes("TEACHER") ? "Please enter your school ID number." : "Please enter your child’s school ID number.");
+      setError(role.includes("TEACHER") ? "Please enter your school ID number." : "Please enter your child's school ID number.");
       return;
     }
 
-    if (!validPattern1.test(schoolId) && !validPattern2.test(schoolId)) {
-      setError("Invalid format. Use ****-***** or **-****-***.");
+    if (validationState !== "valid") {
+      setError("Please validate the student number first.");
       return;
     }
 
     setError("");
-    navigate(role.includes("TEACHER") ? "/teacher" : "/dashboard");
+    if (role.includes("TEACHER")) {
+      navigate("/teacher");
+      return;
+    }
+    try {
+      setRegistering(true);
+      let temp = {};
+      try { temp = JSON.parse(localStorage.getItem("tempUser") || "{}"); } catch { temp = {}; }
+
+      console.log("=== PARENT REGISTRATION DEBUG ===");
+      console.log("Temp user data:", temp);
+      console.log("Student number:", schoolId.trim());
+
+      const payload = {
+        firstName: temp.firstName,
+        lastName: temp.lastName,
+        email: temp.email,
+        password: temp.password,
+        role: "PARENT",
+        studentNumber: schoolId.trim(),
+      };
+
+      console.log("Payload being sent:", payload);
+
+      const authData = await registerParent(payload);
+
+      console.log("=== REGISTRATION RESPONSE ===");
+      console.log("Full authData:", authData);
+      console.log("studentFirstName:", authData.studentFirstName);
+      console.log("studentLastName:", authData.studentLastName);
+      console.log("studentId:", authData.studentId);
+      console.log("=== END DEBUG ===");
+
+      loginUser(authData);
+      try { localStorage.removeItem("tempUser"); } catch {}
+      navigate("/dashboard");
+    } catch (e) {
+      console.error("Registration error:", e);
+      setError(e?.message || "Registration failed");
+    } finally {
+      setRegistering(false);
+    }
   };
 
   return (
@@ -46,14 +124,11 @@ function ParentIdInput() {
         backgroundImage: `url(${shepbg})`,
       }}
     >
-      {}
       <div className="role-overlay"></div>
 
-      {}
       <div className="role-container">
-        <h2>{role.includes("TEACHER") ? "Please enter your ID number" : "Please enter your child’s school ID number"}</h2>
+        <h2>{role.includes("TEACHER") ? "Please enter your ID number" : "Please enter your child's school ID number"}</h2>
 
-        {}
         <div className="role-input-box">
           <TextField
             variant="outlined"
@@ -61,12 +136,20 @@ function ParentIdInput() {
             fullWidth
             value={schoolId}
             onChange={handleChange}
+            onBlur={(e) => handleValidate(e.target.value)}
             error={!!error}
-            helperText={error}
+            helperText={error || ""}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
                   <SchoolIcon sx={{ color: "white" }} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  {validationState === "loading" && <CircularProgress size={20} sx={{ color: "white" }} />}
+                  {validationState === "valid" && <CheckCircle sx={{ color: "#4caf50" }} />}
+                  {validationState === "invalid" && <ErrorOutline sx={{ color: "#f44336" }} />}
                 </InputAdornment>
               ),
               style: { color: "white" },
@@ -83,15 +166,21 @@ function ParentIdInput() {
               "& .MuiInputBase-input": { color: "white" },
               "& .MuiInputLabel-root": { color: "#ddd" },
               "& .MuiInputLabel-root.Mui-focused": { color: "#fff" },
-              "& .MuiFormHelperText-root": { color: "#ff7777ff" },
+              "& .MuiFormHelperText-root": { 
+                color: error ? "#ff7777ff" : validationState === "valid" ? "#4caf50" : "#ddd" 
+              },
             }}
           />
+          <Button 
+            fullWidth
+            className="role-btn" 
+            onClick={handleNavigate}
+            disabled={validationState !== "valid" || registering}
+            sx={{ mt: 0, width: '100%', maxWidth: 'none' }}
+          >
+            Enter
+          </Button>
         </div>
-
-        {}
-        <Button className="role-btn" onClick={handleNavigate}>
-          Enter
-        </Button>
       </div>
     </div>
   );

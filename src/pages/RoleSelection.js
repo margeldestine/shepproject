@@ -3,12 +3,10 @@ import { Button, TextField } from "@mui/material";
 import shepbg from "../assets/shepbg.png";
 import "../styles/RoleSelection.css";
 import { useState } from "react";
-import { register } from "../api/authApi";
-import { useAuth } from "../context/AuthContext";
+ 
 
 function RoleSelection() {
   const navigate = useNavigate();
-  const { loginUser } = useAuth();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,12 +27,9 @@ function RoleSelection() {
     try {
       setLoading(true);
       setError(null);
-      // Register WITHOUT role first - will be set on next page
-      const payload = { firstName, lastName, email, password, role: null };
-      const authData = await register(payload);
-      loginUser(authData);
-      // Navigate to role selection page
-      navigate("/role-selection");
+      const temp = { firstName, lastName, email, password };
+      try { localStorage.setItem("tempUser", JSON.stringify(temp)); } catch {}
+      navigate("/role-choice");
     } catch (e) {
       setError(e?.message || "Registration failed. Please check your details.");
     } finally {
@@ -57,6 +52,7 @@ function RoleSelection() {
         <div className="register-right">
           <h2>Create an Account</h2>
           <div className="form-fields">
+            
             <TextField
               label="First Name"
               value={firstName}

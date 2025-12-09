@@ -93,3 +93,60 @@ export async function updateUserRole(userId, role) {
     throw e;
   }
 }
+
+export async function registerParent(payload) {
+  try {
+    const res = await fetch(`${BASE_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      mode: "cors",
+    });
+    let data = null;
+    try {
+      data = await res.json();
+    } catch {
+      data = null;
+    }
+    if (!res.ok) {
+      const message = (data && (data.message || data.error)) || "Parent registration failed";
+      throw new Error(message);
+    }
+    return data;
+  } catch (e) {
+    if (e.message.includes("fetch") || e.name === "TypeError") {
+      throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
+    }
+    throw e;
+  }
+}
+
+export async function validateStudentNumber(student_number) {
+  try {
+    const res = await fetch(`${BASE_URL}/validate-student-number`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ student_number }),
+      mode: "cors",
+    });
+    let data = null;
+    try {
+      data = await res.json();
+    } catch {
+      data = null;
+    }
+    if (!res.ok) {
+      const message = (data && (data.message || data.error)) || "Validation failed";
+      const err = new Error(message);
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    return data;
+  } catch (e) {
+    if (e.message.includes("fetch") || e.name === "TypeError") {
+      throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
+    }
+    throw e;
+  }
+}
