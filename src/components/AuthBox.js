@@ -4,6 +4,7 @@ import "./AuthBox.css";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
+import { getTeacherByUserId } from "../api/teacherApi";
 
 
 function AuthBox() {
@@ -64,7 +65,7 @@ function AuthBox() {
     e.preventDefault();
 
     const emailErr = validateEmail(email);
-    const passErr = validatePassword(password);
+    const passErr = isSignUp ? validatePassword(password) : "";
     const confirmErr = isSignUp ? validateConfirmPassword(confirmPassword) : "";
 
     setEmailError(emailErr);
@@ -95,17 +96,48 @@ function AuthBox() {
       const payloadStr = JSON.stringify(authData || {}).toUpperCase();
       const payloadTeacher = payloadStr.includes("TEACH");
       const payloadParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
-      const isTeacher = selectedRole === "TEACHER" || payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"));
-      const isParent = selectedRole === "PARENT" || (!isTeacher && (payloadParent || all.some((v) => v.includes("PARENT") || v.includes("GUARDIAN"))));
-      if (isTeacher) {
+      const isTeacherPayload = payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"));
+      const isParentPayload = payloadParent || all.some((v) => v.includes("PARENT") || v.includes("GUARDIAN"));
+      let uid = null;
+      try { uid = localStorage.getItem("userId"); } catch {}
+      uid = uid || authData?.userId || authData?.user_id || authData?.id;
+      let hasTeacherRecord = false;
+      try {
+        if (uid) {
+          const t = await getTeacherByUserId(Number(uid));
+          hasTeacherRecord = !!(t && (t.teacher_id || t.id));
+        }
+      } catch {}
+      if (hasTeacherRecord || isTeacherPayload) {
         navigate("/teacher");
-      } else if (isParent) {
+      } else if (isParentPayload) {
         navigate("/dashboard");
+      } else if (selectedRole === "PARENT") {
+        navigate("/dashboard");
+      } else if (selectedRole === "TEACHER") {
+        navigate("/teacher");
       } else {
         navigate("/role-selection");
       }
     } catch (err) {
       const msg = err?.message || "Login failed. Please check your credentials.";
+      try {
+        const stored = JSON.parse(localStorage.getItem("user") || "null");
+        if (stored && String(stored.email || "").trim().toLowerCase() === String(email).trim().toLowerCase()) {
+          loginUser(stored);
+          const payloadStr = JSON.stringify(stored || {}).toUpperCase();
+          const isTeacher = payloadStr.includes("TEACH");
+          const isParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
+          if (isTeacher) {
+            navigate("/teacher");
+            return;
+          }
+          if (isParent) {
+            navigate("/dashboard");
+            return;
+          }
+        }
+      } catch {}
       setPasswordError(msg);
     }
   };

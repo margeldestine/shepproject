@@ -34,6 +34,11 @@ function ParentIdInput() {
       setError("Invalid format. Use ****-***** or **-****-***");
       return;
     }
+    if (role.includes("TEACHER")) {
+      setValidationState("valid");
+      setError("");
+      return;
+    }
     try {
       setValidationState("loading");
       setError("");
@@ -67,13 +72,24 @@ function ParentIdInput() {
       return;
     }
 
-    if (validationState !== "valid") {
+    if (!role.includes("TEACHER") && validationState !== "valid") {
       setError("Please validate the student number first.");
       return;
     }
 
     setError("");
     if (role.includes("TEACHER")) {
+      let temp = {};
+      try { temp = JSON.parse(localStorage.getItem("tempUser") || "{}"); } catch { temp = {}; }
+      const existingUserId = (() => { try { return localStorage.getItem("userId"); } catch { return null; } })();
+      const authData = {
+        userId: existingUserId ? Number(existingUserId) : undefined,
+        firstName: temp.firstName || "",
+        lastName: temp.lastName || "",
+        email: temp.email || "",
+        role: "TEACHER",
+      };
+      loginUser(authData);
       navigate("/teacher");
       return;
     }
@@ -175,7 +191,7 @@ function ParentIdInput() {
             fullWidth
             className="role-btn" 
             onClick={handleNavigate}
-            disabled={validationState !== "valid" || registering}
+            disabled={role.includes("TEACHER") ? (!schoolId || registering) : (validationState !== "valid" || registering)}
             sx={{ mt: 0, width: '100%', maxWidth: 'none' }}
           >
             Enter
