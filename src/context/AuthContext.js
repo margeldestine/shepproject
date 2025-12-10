@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getStudentData } from '../api/studentApi';
 
 const AuthContext = createContext();
 
@@ -18,19 +19,53 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const loginUser = (authData) => {
-    console.log('loginUser received:', authData); // DEBUG
-    setUser(authData);
-    localStorage.setItem('user', JSON.stringify(authData));
-    
-    // CRITICAL: Handle multiple possible field names
     const userIdValue = authData.userId || authData.user_id || authData.id;
-    console.log('Extracted userId:', userIdValue); // DEBUG
-    
+    const userData = {
+      userId: userIdValue,
+      email: authData.email || authData.user?.email,
+      firstName: authData.firstName || authData.user?.firstName || authData.firstname || authData.first_name,
+      lastName: authData.lastName || authData.user?.lastName || authData.lastname || authData.last_name,
+      role: (authData.role || authData.user?.role || "").toString(),
+      parentId: authData.parentId || authData.parent_id,
+      studentId: authData.studentId || authData.student_id || authData.student?.id || authData.student?.student_id,
+      studentNumber: authData.studentNumber || authData.student_number || authData.student?.student_number,
+      studentFirstName: authData.studentFirstName || authData.student_first_name || authData.student?.first_name || authData.student?.firstName,
+      studentLastName: authData.studentLastName || authData.student_last_name || authData.student?.last_name || authData.student?.lastName,
+      studentGradeLevel: authData.studentGradeLevel || authData.student_grade_level || authData.student?.gradeLevel || authData.student?.grade_level,
+    };
+    setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
     if (userIdValue) {
       localStorage.setItem('userId', userIdValue.toString());
-      console.log('Saved to localStorage:', userIdValue.toString()); // DEBUG
-    } else {
-      console.error('No userId found in authData:', authData);
+    }
+
+    const roleValue = (userData.role || '').toString().toUpperCase();
+    const needsStudentName = roleValue.includes('PARENT') && !userData.studentFirstName && !userData.studentLastName;
+    const sid = userData.studentId;
+    const snum = (userData.studentNumber || '').toString().trim();
+    if (needsStudentName && (sid || snum)) {
+      (async () => {
+        try {
+          const list = await getStudentData();
+          const match = Array.isArray(list)
+            ? list.find(s => {
+                const sidMatch = sid ? Number(s.student_id || s.id) === Number(sid) : false;
+                const snMatch = snum ? String(s.student_number || '').trim() === snum : false;
+                return sidMatch || snMatch;
+              })
+            : null;
+          if (match) {
+            const enriched = {
+              ...userData,
+              studentFirstName: match.first_name || match.studentFirstName || userData.studentFirstName,
+              studentLastName: match.last_name || match.studentLastName || userData.studentLastName,
+              studentGradeLevel: match.grade_level || match.studentGradeLevel || userData.studentGradeLevel,
+            };
+            setUser(enriched);
+            localStorage.setItem('user', JSON.stringify(enriched));
+          }
+        } catch {}
+      })();
     }
   };
 

@@ -12,9 +12,7 @@ export default function ParentProfileCard({ active }) {
   console.log("studentLastName:", user?.studentLastName);
   console.log("=== END DEBUG ===");
 
-  const displayName = user?.studentFirstName && user?.studentLastName
-    ? `${user.studentFirstName} ${user.studentLastName}`
-    : "Student Name";
+  const displayName = `${user?.studentFirstName || ""}${user?.studentFirstName && user?.studentLastName ? " " : ""}${user?.studentLastName || ""}`.trim();
 
   const isActive = (key) => (active === key ? "active" : "");
 

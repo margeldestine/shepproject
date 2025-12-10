@@ -4,7 +4,6 @@ import "./AuthBox.css";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
-import { getTeacherByUserId } from "../api/teacherApi";
 
 
 function AuthBox() {
@@ -12,9 +11,12 @@ function AuthBox() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmError, setConfirmError] = useState("");
+  const [nameError, setNameError] = useState("");
   const navigate = useNavigate();
   const { loginUser } = useAuth();
 
@@ -61,83 +63,61 @@ function AuthBox() {
     return "";
   };
 
+  const validateName = (value) => {
+    if (!value || value.trim() === "") return "Name is required.";
+    return "";
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const emailErr = validateEmail(email);
-    const passErr = isSignUp ? validatePassword(password) : "";
+    const passErr = validatePassword(password);
     const confirmErr = isSignUp ? validateConfirmPassword(confirmPassword) : "";
+    const nameErr = isSignUp ? (validateName(firstName) || validateName(lastName)) : "";
 
     setEmailError(emailErr);
     setPasswordError(passErr);
     setConfirmError(confirmErr);
+    setNameError(nameErr);
 
-    if (emailErr || passErr || confirmErr) return;
+    if (emailErr || passErr || confirmErr || nameErr) return;
 
     if (isSignUp) {
-      navigate("/signup");
+      try {
+        const tempData = {
+          email: email,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+          role: "TEACHER"
+        };
+        localStorage.setItem("tempUser", JSON.stringify(tempData));
+        navigate("/role-choice");
+      } catch (err) {
+        const msg = err?.message || "Registration failed. Please try again.";
+        setPasswordError(msg);
+      }
       return;
     }
 
     try {
       const authData = await login(email, password);
+      console.log("Login response:", authData);
       loginUser(authData);
-      const extracted = [];
-      if (authData?.role) extracted.push(authData.role);
-      if (Array.isArray(authData?.roles)) extracted.push(
-        ...authData.roles.map((r) => (typeof r === "string" ? r : r?.name))
-      );
-      if (Array.isArray(authData?.authorities)) extracted.push(
-        ...authData.authorities.map((a) => (typeof a === "string" ? a : a?.authority))
-      );
-      const all = extracted.filter(Boolean).map((v) => String(v).trim().toUpperCase());
-      let selectedRole = "";
-      try { selectedRole = String(localStorage.getItem("selectedRole") || "").trim().toUpperCase(); } catch {}
-      const payloadStr = JSON.stringify(authData || {}).toUpperCase();
-      const payloadTeacher = payloadStr.includes("TEACH");
-      const payloadParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
-      const isTeacherPayload = payloadTeacher || all.some((v) => v.includes("TEACH") || v.includes("STAFF") || v.includes("FACULTY"));
-      const isParentPayload = payloadParent || all.some((v) => v.includes("PARENT") || v.includes("GUARDIAN"));
-      let uid = null;
-      try { uid = localStorage.getItem("userId"); } catch {}
-      uid = uid || authData?.userId || authData?.user_id || authData?.id;
-      let hasTeacherRecord = false;
-      try {
-        if (uid) {
-          const t = await getTeacherByUserId(Number(uid));
-          hasTeacherRecord = !!(t && (t.teacher_id || t.id));
-        }
-      } catch {}
-      if (hasTeacherRecord || isTeacherPayload) {
-        navigate("/teacher");
-      } else if (isParentPayload) {
+      const role = (authData?.role || "").trim().toUpperCase();
+      if (role === "PARENT") {
+        console.log("Routing to parent dashboard");
         navigate("/dashboard");
-      } else if (selectedRole === "PARENT") {
-        navigate("/dashboard");
-      } else if (selectedRole === "TEACHER") {
+      } else if (role === "TEACHER") {
+        console.log("Routing to teacher dashboard");
         navigate("/teacher");
       } else {
+        console.log("Role unclear, routing to role selection");
         navigate("/role-selection");
       }
     } catch (err) {
       const msg = err?.message || "Login failed. Please check your credentials.";
-      try {
-        const stored = JSON.parse(localStorage.getItem("user") || "null");
-        if (stored && String(stored.email || "").trim().toLowerCase() === String(email).trim().toLowerCase()) {
-          loginUser(stored);
-          const payloadStr = JSON.stringify(stored || {}).toUpperCase();
-          const isTeacher = payloadStr.includes("TEACH");
-          const isParent = payloadStr.includes("PARENT") || payloadStr.includes("GUARDIAN");
-          if (isTeacher) {
-            navigate("/teacher");
-            return;
-          }
-          if (isParent) {
-            navigate("/dashboard");
-            return;
-          }
-        }
-      } catch {}
       setPasswordError(msg);
     }
   };
@@ -148,9 +128,12 @@ function AuthBox() {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
+    setFirstName("");
+    setLastName("");
     setEmailError("");
     setPasswordError("");
     setConfirmError("");
+    setNameError("");
   };
 
   return (
@@ -158,13 +141,28 @@ function AuthBox() {
       <h2>{isSignUp ? "Create an Account" : "Sign In to Continue"}</h2>
       <form className="auth-form" onSubmit={handleSubmit}>
         {isSignUp && (
-          <TextField
-            label="Full Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            sx={textFieldStyles}
-          />
+          <>
+            <TextField
+              label="First Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              sx={textFieldStyles}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              error={!!nameError}
+              helperText={nameError}
+            />
+            <TextField
+              label="Last Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              sx={textFieldStyles}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </>
         )}
         <TextField
           label="Email"

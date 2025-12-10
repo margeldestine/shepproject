@@ -4,7 +4,8 @@ import { Button, TextField, InputAdornment, CircularProgress } from "@mui/materi
 import SchoolIcon from "@mui/icons-material/School";
 import { CheckCircle, ErrorOutline } from "@mui/icons-material";
 import shepbg from "../assets/shepbg.png";
-import { validateStudentNumber, registerParent } from "../api/authApi";
+import { validateStudentNumber, registerParent, registerTeacher } from "../api/authApi";
+import { getStudentData } from "../api/studentApi";
 import { useAuth } from "../context/AuthContext";
 import "../styles/RoleSelection.css";
 
@@ -79,18 +80,31 @@ function ParentIdInput() {
 
     setError("");
     if (role.includes("TEACHER")) {
-      let temp = {};
-      try { temp = JSON.parse(localStorage.getItem("tempUser") || "{}"); } catch { temp = {}; }
-      const existingUserId = (() => { try { return localStorage.getItem("userId"); } catch { return null; } })();
-      const authData = {
-        userId: existingUserId ? Number(existingUserId) : undefined,
-        firstName: temp.firstName || "",
-        lastName: temp.lastName || "",
-        email: temp.email || "",
-        role: "TEACHER",
-      };
-      loginUser(authData);
-      navigate("/teacher");
+      try {
+        setRegistering(true);
+        setError("");
+        let temp = {};
+        try { temp = JSON.parse(localStorage.getItem("tempUser") || "{}"); } catch { temp = {}; }
+        if (!temp.email || !temp.password) {
+          throw new Error("Registration data not found. Please sign up again.");
+        }
+        const payload = {
+          firstName: temp.firstName,
+          lastName: temp.lastName,
+          email: temp.email,
+          password: temp.password,
+          role: "TEACHER",
+          teacherIdNumber: schoolId.trim()
+        };
+        const authData = await registerTeacher(payload);
+        loginUser(authData);
+        try { localStorage.removeItem("tempUser"); } catch {}
+        navigate("/teacher");
+      } catch (e) {
+        setError(e?.message || "Teacher registration failed");
+      } finally {
+        setRegistering(false);
+      }
       return;
     }
     try {
@@ -113,7 +127,30 @@ function ParentIdInput() {
 
       console.log("Payload being sent:", payload);
 
-      const authData = await registerParent(payload);
+      let authData = await registerParent(payload);
+      const snum = schoolId.trim();
+      if (!authData.studentFirstName || !authData.studentLastName || !authData.studentId) {
+        try {
+          const list = await getStudentData();
+          const match = Array.isArray(list)
+            ? list.find(s => String(s.student_number || "").trim() === snum)
+            : null;
+          if (match) {
+            authData = {
+              ...authData,
+              studentId: authData.studentId || match.student_id || match.id,
+              studentNumber: authData.studentNumber || match.student_number,
+              studentFirstName: authData.studentFirstName || match.first_name,
+              studentLastName: authData.studentLastName || match.last_name,
+              studentGradeLevel: authData.studentGradeLevel || match.grade_level,
+            };
+          } else {
+            authData = { ...authData, studentNumber: authData.studentNumber || snum };
+          }
+        } catch {
+          authData = { ...authData, studentNumber: authData.studentNumber || snum };
+        }
+      }
 
       console.log("=== REGISTRATION RESPONSE ===");
       console.log("Full authData:", authData);
