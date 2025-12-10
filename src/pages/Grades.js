@@ -29,6 +29,7 @@ function Grades() {
   const [grades, setGrades] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [summary, setSummary] = useState({ Q1: null, Q2: null, Q3: null, Q4: null, Finals: null });
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
@@ -51,7 +52,42 @@ function Grades() {
         setError(null);
         const data = await getAllGrades();
         if (!mounted) return;
-        setGrades(Array.isArray(data) ? data : []);
+        const list = Array.isArray(data) ? data : [];
+        setGrades(list);
+        const sid = user?.studentId || user?.student_id;
+        const own = sid ? list.filter((g) => Number(g.student_id || g.studentId) === Number(sid)) : list;
+        const norm = (src) => {
+          const raw = (src.grading_period || src.gradingPeriod || "").toString().toLowerCase();
+          if (raw.includes("final")) return "Finals";
+          if (raw.includes("q1") || raw.includes("1")) return "Q1";
+          if (raw.includes("q2") || raw.includes("2")) return "Q2";
+          if (raw.includes("q3") || raw.includes("3")) return "Q3";
+          if (raw.includes("q4") || raw.includes("4")) return "Q4";
+          return "";
+        };
+        const buckets = { Q1: [], Q2: [], Q3: [], Q4: [], Finals: [] };
+        own.forEach((g) => {
+          const p = norm(g);
+          if (p && buckets[p]) {
+            const val = Number(g.grade_value || g.gradeValue);
+            if (Number.isFinite(val)) buckets[p].push(val);
+          }
+        });
+        const avg = (arr) => (arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length) : null);
+        const q1Avg = avg(buckets.Q1);
+        const q2Avg = avg(buckets.Q2);
+        const q3Avg = avg(buckets.Q3);
+        const q4Avg = avg(buckets.Q4);
+        const explicitFinal = avg(buckets.Finals);
+        const quarterAvgs = [q1Avg, q2Avg, q3Avg, q4Avg].filter((v) => v != null);
+        const finalsAvg = quarterAvgs.length ? (quarterAvgs.reduce((a, b) => a + b, 0) / quarterAvgs.length) : null;
+        setSummary({
+          Q1: q1Avg,
+          Q2: q2Avg,
+          Q3: q3Avg,
+          Q4: q4Avg,
+          Finals: explicitFinal != null ? explicitFinal : finalsAvg,
+        });
       } catch (err) {
         if (!mounted) return;
         setError("Failed to load grades.");
@@ -87,10 +123,6 @@ function Grades() {
           />
 
           <div className="grades-card">
-            <p className="click-hint">
-              {gradesCopy.hint}
-            </p>
-
             {loading && <p>Loading grades...</p>}
             {error && <p className="error">{error}</p>}
 
@@ -98,19 +130,21 @@ function Grades() {
               <table className="grades-table">
                 <thead>
                   <tr>
-                    <th>Student ID</th>
-                    <th>Subject ID</th>
                     <th>Grading Period</th>
                     <th>Grade</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {grades.map((g) => (
-                    <tr key={g.grade_id || g.gradeId || `${g.student_id || g.studentId}-${g.subject_id || g.subjectId}-${g.grading_period || g.gradingPeriod || ''}`}>
-                      <td>{g.student_id || g.studentId}</td>
-                      <td>{g.subject_id || g.subjectId}</td>
-                      <td>{g.grading_period || g.gradingPeriod || g.recorded_at || g.recordedAt}</td>
-                      <td>{g.grade_value || g.gradeValue}</td>
+                  {[
+                    { label: "Q1", value: summary.Q1 },
+                    { label: "Q2", value: summary.Q2 },
+                    { label: "Q3", value: summary.Q3 },
+                    { label: "Q4", value: summary.Q4 },
+                    { label: "Finals", value: summary.Finals },
+                  ].map((row) => (
+                    <tr key={row.label}>
+                      <td>{row.label}</td>
+                      <td>{row.value != null ? Math.round(row.value) : "—"}</td>
                     </tr>
                   ))}
                 </tbody>
