@@ -141,7 +141,6 @@ export default function TeacherAttendance() {
     console.log('=== SAVING ATTENDANCE ===');
     console.log('Teacher ID:', teacherId);
     console.log('Selected Date:', selectedDate);
-    console.log('Number of students:', rows.length);
 
     const attendancePromises = rows.map((student) => {
       const attendanceRecord = {

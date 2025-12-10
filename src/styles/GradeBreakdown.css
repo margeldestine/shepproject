@@ -55,6 +55,10 @@
   margin-top: 0.5rem;
 }
 
+.meta-right {
+  justify-content: flex-end;
+}
+
 .quarter-select {
   padding: 0.4rem 0.8rem;
   border-radius: 6px;

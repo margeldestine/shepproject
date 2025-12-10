@@ -16,6 +16,7 @@ import DetailModal from "../components/DetailModal";
 import { parentUser } from "../data/users";
 import { gradesCopy } from "../data/copy";
 import { getAllGrades } from "../api/gradesApi";
+import GradeBreakdown from "../components/GradeBreakdown";
 import { useAuth } from "../context/AuthContext";
 
 function Grades() {
@@ -30,6 +31,9 @@ function Grades() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [summary, setSummary] = useState({ Q1: null, Q2: null, Q3: null, Q4: null, Finals: null });
+  const [showBreakdown, setShowBreakdown] = useState(false);
+  const [selectedQuarter, setSelectedQuarter] = useState(1);
+  const [selectedSubject, setSelectedSubject] = useState(null);
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
@@ -88,6 +92,17 @@ function Grades() {
           Q4: q4Avg,
           Finals: explicitFinal != null ? explicitFinal : finalsAvg,
         });
+
+        // Build subject options for breakdown view
+        const subjectsMap = new Map();
+        own.forEach((g) => {
+          const id = g.subject_id || g.subjectId;
+          const name = (g.subject_name || g.subjectName || "").toString();
+          if (id) subjectsMap.set(Number(id), name || `Subject ${id}`);
+        });
+        const options = Array.from(subjectsMap.entries()).map(([id, name]) => ({ id, name: name || "Science" }));
+        const defaultOption = options[0] || { id: 1, name: "Science" };
+        setSelectedSubject(defaultOption);
       } catch (err) {
         if (!mounted) return;
         setError("Failed to load grades.");
@@ -142,7 +157,15 @@ function Grades() {
                     { label: "Q4", value: summary.Q4 },
                     { label: "Finals", value: summary.Finals },
                   ].map((row) => (
-                    <tr key={row.label}>
+                  <tr
+                    key={row.label}
+                    onClick={() => {
+                      const q = row.label.startsWith("Q") ? parseInt(row.label.replace("Q", ""), 10) : selectedQuarter;
+                      setSelectedQuarter(Number.isFinite(q) ? q : 1);
+                      setShowBreakdown(true);
+                    }}
+                    style={{ cursor: row.label !== "Finals" ? "pointer" : "default" }}
+                  >
                       <td>{row.label}</td>
                       <td>{row.value != null ? Math.round(row.value) : "—"}</td>
                     </tr>
@@ -179,6 +202,22 @@ function Grades() {
           open={detailModalOpen}
           detail={selectedDetail}
           onClose={() => setDetailModalOpen(false)}
+        />
+      )}
+
+      {showBreakdown && selectedSubject && (
+        <GradeBreakdown
+          studentId={user?.studentId || user?.student_id}
+          studentName={`${user?.studentFirstName || ""} ${user?.studentLastName || ""}`.trim() || parentUser.name}
+          subjectId={selectedSubject.id}
+          subjectName={selectedSubject.name}
+          sectionName={user?.studentGradeLevel ? `Grade ${user.studentGradeLevel}` : ""}
+          quarter={selectedQuarter}
+          savedGrades={grades.filter((g) => Number(g.student_id || g.studentId) === Number(user?.studentId || user?.student_id) && Number(g.subject_id || g.subjectId) === Number(selectedSubject.id))}
+          readOnly={true}
+          hideSubjectInfo={true}
+          onClose={() => setShowBreakdown(false)}
+          onQuarterChange={(q) => setSelectedQuarter(q)}
         />
       )}
     </div>

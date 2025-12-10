@@ -19,7 +19,9 @@ export default function GradeBreakdown({
   quarter, 
   savedGrades = [],
   onClose,
-  onQuarterChange 
+  onQuarterChange,
+  readOnly = false,
+  hideSubjectInfo = false
 }) {
   
   const [allAssessments, setAllAssessments] = useState(savedGrades);
@@ -129,6 +131,7 @@ export default function GradeBreakdown({
 
 
   const handleAddItemClick = (catId) => {
+    if (readOnly) return;
     setAddingTo(catId);
     setNewItem({ 
       name: `${catId === 'QUIZZES' ? 'Quiz' : catId === 'EXAMS' ? 'Exam' : catId === 'PERFORMANCE' ? 'Task' : 'Assignment'} ${(assessments[catId]?.length || 0) + 1}`, 
@@ -226,7 +229,7 @@ export default function GradeBreakdown({
   return (
     <div className="grade-breakdown-overlay">
       <div className="grade-breakdown-container">
-        {notice.text && (
+        {notice.text && !readOnly && (
           <div className={`notice-bar ${notice.type === 'error' ? 'notice-error' : notice.type === 'success' ? 'notice-success' : ''}`}>
             {notice.text}
           </div>
@@ -237,8 +240,8 @@ export default function GradeBreakdown({
 
         <div className="breakdown-header">
           <h2>{studentName}</h2>
-          <div className="breakdown-meta">
-            <span>{subjectName} - {sectionName}</span>
+          <div className={`breakdown-meta ${hideSubjectInfo ? 'meta-right' : ''}`}>
+            {!hideSubjectInfo && <span>{subjectName} - {sectionName}</span>}
             <select 
               className="quarter-select" 
               value={quarter} 
@@ -255,7 +258,7 @@ export default function GradeBreakdown({
           {CATEGORIES.map(cat => {
             const items = assessments[cat.id] || [];
             const subtotal = calculateSubtotal(items);
-            const isAdding = addingTo === cat.id;
+            const isAdding = !readOnly && addingTo === cat.id;
             
             return (
               <div key={cat.id} className="breakdown-category">
@@ -326,15 +329,17 @@ export default function GradeBreakdown({
                   </tbody>
                 </table>
                 
-                {isAdding ? (
-                  <div className="add-actions">
-                    <button className="save-btn" onClick={handleSaveItem}>Save</button>
-                    <button className="cancel-btn" onClick={() => setAddingTo(null)}>Cancel</button>
-                  </div>
-                ) : (
-                  <button className="add-item-btn" onClick={() => handleAddItemClick(cat.id)}>
-                    + Add {cat.id === 'QUIZZES' ? 'quiz' : cat.label.slice(0, -1).toLowerCase()}
-                  </button>
+                {!readOnly && (
+                  isAdding ? (
+                    <div className="add-actions">
+                      <button className="save-btn" onClick={handleSaveItem}>Save</button>
+                      <button className="cancel-btn" onClick={() => setAddingTo(null)}>Cancel</button>
+                    </div>
+                  ) : (
+                    <button className="add-item-btn" onClick={() => handleAddItemClick(cat.id)}>
+                      + Add {cat.id === 'QUIZZES' ? 'quiz' : cat.label.slice(0, -1).toLowerCase()}
+                    </button>
+                  )
                 )}
 
                 <div className="subtotal-row">
