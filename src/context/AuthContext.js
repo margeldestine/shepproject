@@ -19,19 +19,21 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const loginUser = (authData) => {
-    const userIdValue = authData.userId || authData.user_id || authData.id;
+    let prev = null;
+    try { prev = JSON.parse(localStorage.getItem('user') || 'null'); } catch { prev = null; }
+    const userIdValue = authData.userId || authData.user_id || authData.id || (prev && (prev.userId || prev.user_id || prev.id));
     const userData = {
       userId: userIdValue,
-      email: authData.email || authData.user?.email,
-      firstName: authData.firstName || authData.user?.firstName || authData.firstname || authData.first_name,
-      lastName: authData.lastName || authData.user?.lastName || authData.lastname || authData.last_name,
-      role: (authData.role || authData.user?.role || "").toString(),
-      parentId: authData.parentId || authData.parent_id,
-      studentId: authData.studentId || authData.student_id || authData.student?.id || authData.student?.student_id,
-      studentNumber: authData.studentNumber || authData.student_number || authData.student?.student_number,
-      studentFirstName: authData.studentFirstName || authData.student_first_name || authData.student?.first_name || authData.student?.firstName,
-      studentLastName: authData.studentLastName || authData.student_last_name || authData.student?.last_name || authData.student?.lastName,
-      studentGradeLevel: authData.studentGradeLevel || authData.student_grade_level || authData.student?.gradeLevel || authData.student?.grade_level,
+      email: authData.email || authData.user?.email || (prev && prev.email),
+      firstName: authData.firstName || authData.user?.firstName || authData.firstname || authData.first_name || (prev && prev.firstName),
+      lastName: authData.lastName || authData.user?.lastName || authData.lastname || authData.last_name || (prev && prev.lastName),
+      role: (authData.role || authData.user?.role || (prev && prev.role) || "").toString(),
+      parentId: authData.parentId || authData.parent_id || (prev && (prev.parentId || prev.parent_id)),
+      studentId: authData.studentId || authData.student_id || authData.student?.id || authData.student?.student_id || (prev && (prev.studentId || prev.student_id)),
+      studentNumber: authData.studentNumber || authData.student_number || authData.student?.student_number || (prev && (prev.studentNumber || prev.student_number)),
+      studentFirstName: authData.studentFirstName || authData.student_first_name || authData.student?.first_name || authData.student?.firstName || (prev && prev.studentFirstName),
+      studentLastName: authData.studentLastName || authData.student_last_name || authData.student?.last_name || authData.student?.lastName || (prev && prev.studentLastName),
+      studentGradeLevel: authData.studentGradeLevel || authData.student_grade_level || authData.student?.gradeLevel || authData.student?.grade_level || (prev && prev.studentGradeLevel),
     };
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
