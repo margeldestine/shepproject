@@ -9,6 +9,7 @@ import BackButton from "../components/BackButton";
 import SimpleTable from "../components/SimpleTable";
 import { BehaviorLogs, BehaviorLogsColumns } from "../data/behaviorLogs";
 import { getAllBehaviorLogs, createBehaviorLog, updateBehaviorLog, deleteBehaviorLog } from "../api/behaviorLogsApi";
+import { getBehaviorLogsByStudent } from "../api/behaviorApi";
 import { getStudentData } from "../api/studentApi";
 
 export default function Behavior() {
@@ -30,6 +31,7 @@ export default function Behavior() {
     incident: "",
     actionTaken: ""
   });
+  const [selectedStudentId, setSelectedStudentId] = useState("");
 
   useEffect(() => {
     if (notice.text && notice.type === 'success') {
@@ -66,55 +68,51 @@ export default function Behavior() {
     return Number.isFinite(num) ? num : cand;
   };
 
+  const loadLogs = async (mounted = true) => {
+    try {
+      let list;
+      if (selectedStudentId) {
+        list = await getBehaviorLogsByStudent(parseInt(selectedStudentId, 10));
+      } else {
+        list = await getAllBehaviorLogs();
+      }
+      if (!mounted) return;
+      const formattedData = list.map(log => ({
+        id: getBehaviorId(log),
+        date: log.incident_date || log.date,
+        student: log.student ? `${log.student.first_name} ${log.student.last_name}` : (log.studentName || 'Unknown'),
+        incident: log.description || log.incident,
+        action: log.type || log.actionTaken || log.action,
+        __raw: log,
+      }));
+      setData(formattedData);
+    } catch (error) {
+      console.error('Error loading behavior logs:', error);
+      const fallback = BehaviorLogs.map((log) => ({
+        id: log.id,
+        date: log.date,
+        student: log.student,
+        incident: log.incident,
+        action: log.action,
+        __raw: log,
+      }));
+      setData(fallback);
+    }
+  };
+
   useEffect(() => {
     let mounted = true;
-    
-    // Fetch behavior logs
-    getAllBehaviorLogs()
-      .then((list) => {
-        if (!mounted) return;
-        console.log('Behavior logs loaded:', list);
-        
-        // Format the data to match table columns
-        const formattedData = list.map(log => ({
-          id: getBehaviorId(log),
-          date: log.incident_date,
-          student: log.student ? `${log.student.first_name} ${log.student.last_name}` : 'Unknown',
-          incident: log.description,
-          action: log.type,
-          __raw: log,
-        }));
-        
-        setData(formattedData);
-      })
-      .catch((error) => {
-        console.error('Error loading behavior logs:', error);
-        const fallback = BehaviorLogs.map((log) => ({
-          id: log.id,
-          date: log.date,
-          student: log.student,
-          incident: log.incident,
-          action: log.action,
-          __raw: log,
-        }));
-        setData(fallback);
-      });
-
-    // Fetch students for dropdown
+    loadLogs(mounted);
     getStudentData()
       .then((list) => {
         if (!mounted) return;
-        console.log('Students loaded:', list);
         setStudents(list);
       })
       .catch((error) => {
         console.error('Error loading students:', error);
       });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+    return () => { mounted = false; };
+  }, [selectedStudentId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -141,8 +139,10 @@ export default function Behavior() {
     }
 
     try {
+      const sid = parseInt(formData.studentId, 10);
       const behaviorLogData = {
-        student_id: parseInt(formData.studentId),
+        student_id: sid,
+        studentId: sid,
         incident_date: formData.date,
         description: formData.incident,
         type: formData.actionTaken,
@@ -156,17 +156,7 @@ export default function Behavior() {
 
       setNotice({ text: 'Behavior log saved successfully!', type: 'success' });
       
-      // Refresh the data
-      const updatedLogs = await getAllBehaviorLogs();
-      const formattedData = updatedLogs.map(log => ({
-        id: getBehaviorId(log),
-        date: log.incident_date,
-        student: log.student ? `${log.student.first_name} ${log.student.last_name}` : 'Unknown',
-        incident: log.description,
-        action: log.type,
-        __raw: log,
-      }));
-      setData(formattedData);
+      await loadLogs(true);
 
       // Reset form and close modal
       setFormData({
@@ -202,8 +192,10 @@ export default function Behavior() {
       return;
     }
     try {
+      const sid = parseInt(editFormData.studentId, 10);
       const payload = {
-        student_id: parseInt(editFormData.studentId, 10),
+        student_id: sid,
+        studentId: sid,
         incident_date: editFormData.date,
         description: editFormData.incident,
         type: editFormData.actionTaken,
@@ -211,16 +203,7 @@ export default function Behavior() {
       };
       const id = getBehaviorId(showEditModal.__raw) ?? getBehaviorId(showEditModal);
       await updateBehaviorLog(id, payload);
-      const updatedLogs = await getAllBehaviorLogs();
-      const formattedData = updatedLogs.map(log => ({
-        id: getBehaviorId(log),
-        date: log.incident_date,
-        student: log.student ? `${log.student.first_name} ${log.student.last_name}` : 'Unknown',
-        incident: log.description,
-        action: log.type,
-        __raw: log,
-      }));
-      setData(formattedData);
+      await loadLogs(true);
       setShowEditModal(null);
       setNotice({ text: 'Behavior log updated successfully!', type: 'success' });
     } catch (error) {
@@ -234,16 +217,7 @@ export default function Behavior() {
     if (!row || row.id == null) return;
     try {
       await deleteBehaviorLog(row.id);
-      const updatedLogs = await getAllBehaviorLogs();
-      const formattedData = updatedLogs.map(log => ({
-        id: log.behavior_log_id || log.id,
-        date: log.incident_date,
-        student: log.student ? `${log.student.first_name} ${log.student.last_name}` : 'Unknown',
-        incident: log.description,
-        action: log.type,
-        __raw: log,
-      }));
-      setData(formattedData);
+      await loadLogs(true);
       setConfirmDeleteRow(null);
       setNotice({ text: 'Behavior log deleted.', type: 'success' });
     } catch (error) {
@@ -265,11 +239,26 @@ export default function Behavior() {
               {notice.text}
             </div>
           )}
-          <TeacherHeader
-            title="Behavior — G2 Faith"
-            buttonLabel="Add Behavior"
-            onButtonClick={() => setShowModal(true)}
-          />
+        <TeacherHeader
+          title="Behavior — G2 Faith"
+          buttonLabel="Add Behavior"
+          onButtonClick={() => setShowModal(true)}
+        />
+
+        <div className="filters-bar" style={{ margin: '0.6rem 0 1rem' }}>
+          <label style={{ marginRight: '0.5rem' }}>Filter by student:</label>
+          <select
+            value={selectedStudentId}
+            onChange={(e) => setSelectedStudentId(e.target.value)}
+          >
+            <option value="">All students</option>
+            {students.map(s => (
+              <option key={s.student_id} value={s.student_id}>
+                {s.first_name} {s.last_name}
+              </option>
+            ))}
+          </select>
+        </div>
 
           <SimpleTable
             columns={[
