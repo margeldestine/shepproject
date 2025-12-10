@@ -1,7 +1,7 @@
 import "../styles/Dashboard.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/Attendance.css";
 import "../styles/Reminders.css";
 import ParentTopbar from "../components/ParentTopbar";
@@ -32,11 +32,14 @@ function Attendance() {
   const [error, setError] = useState("");
   const [studentId, setStudentId] = useState(null);
   const today = useMemo(() => new Date(), []);
+  const pad = (n) => String(n).padStart(2, '0');
+  const toYMD = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [selectedDateStr, setSelectedDateStr] = useState(toYMD(today.getFullYear(), today.getMonth(), today.getDate()));
   const [attendanceRecords, setAttendanceRecords] = useState([]);
   const [currentAttendance, setCurrentAttendance] = useState(null);
+  const bcRef = useRef(null);
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
@@ -90,8 +93,7 @@ function Attendance() {
         const all = await getAttendanceByStudent(studentId);
         if (!mounted) return;
         setAttendanceRecords(Array.isArray(all) ? all : []);
-        const dateStr = selectedDate.toISOString().split("T")[0];
-        const dayRecords = await getAttendanceByStudentAndDate(studentId, dateStr);
+        const dayRecords = await getAttendanceByStudentAndDate(studentId, selectedDateStr);
         if (!mounted) return;
         const rec = Array.isArray(dayRecords) ? dayRecords[0] : dayRecords;
         setCurrentAttendance(rec || null);
@@ -102,7 +104,37 @@ function Attendance() {
       }
     })();
     return () => { mounted = false; };
-  }, [studentId, selectedDate]);
+  }, [studentId, selectedDateStr]);
+
+  useEffect(() => {
+    bcRef.current = new BroadcastChannel('attendance-updates');
+    const onMsg = async (ev) => {
+      const ids = ev?.data?.studentIds || [];
+      const msgDate = ev?.data?.date;
+      if (!Array.isArray(ids) || ids.length === 0) return;
+      if (studentId && ids.some((id) => Number(id) === Number(studentId))) {
+        try {
+          setLoading(true);
+          setError("");
+          const all = await getAttendanceByStudent(studentId);
+          setAttendanceRecords(Array.isArray(all) ? all : []);
+          const useDate = msgDate || selectedDateStr;
+          const dayRecords = await getAttendanceByStudentAndDate(studentId, useDate);
+          const rec = Array.isArray(dayRecords) ? dayRecords[0] : dayRecords;
+          setCurrentAttendance(rec || null);
+        } catch (e) {
+          setError(e?.message || "Failed to load attendance");
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    bcRef.current.addEventListener('message', onMsg);
+    return () => {
+      try { bcRef.current && bcRef.current.removeEventListener('message', onMsg); } catch {}
+      try { bcRef.current && bcRef.current.close(); } catch {}
+    };
+  }, [studentId, selectedDateStr]);
 
   const monthLabel = useMemo(() => {
     const d = new Date(currentYear, currentMonth, 1);
@@ -126,27 +158,27 @@ function Attendance() {
 
   const handlePrevMonth = () => {
     const m = currentMonth - 1;
-    if (m < 0) {
-      setCurrentMonth(11);
-      setCurrentYear((y) => y - 1);
-    } else {
-      setCurrentMonth(m);
-    }
-    setSelectedDate((prev) => new Date(currentYear, m < 0 ? 11 : m, Math.min(prev.getDate(), getDaysInMonth(m < 0 ? currentYear - 1 : currentYear, m < 0 ? 11 : m))));
+    const nextMonth = m < 0 ? 11 : m;
+    const nextYear = m < 0 ? currentYear - 1 : currentYear;
+    setCurrentMonth(nextMonth);
+    setCurrentYear(nextYear);
+    const selectedDay = parseInt(selectedDateStr.split('-')[2], 10);
+    const maxDay = getDaysInMonth(nextYear, nextMonth);
+    setSelectedDateStr(toYMD(nextYear, nextMonth, Math.min(selectedDay, maxDay)));
   };
   const handleNextMonth = () => {
     const m = currentMonth + 1;
-    if (m > 11) {
-      setCurrentMonth(0);
-      setCurrentYear((y) => y + 1);
-    } else {
-      setCurrentMonth(m);
-    }
-    setSelectedDate((prev) => new Date(currentYear, m > 11 ? 0 : m, Math.min(prev.getDate(), getDaysInMonth(m > 11 ? currentYear + 1 : currentYear, m > 11 ? 0 : m))));
+    const nextMonth = m > 11 ? 0 : m;
+    const nextYear = m > 11 ? currentYear + 1 : currentYear;
+    setCurrentMonth(nextMonth);
+    setCurrentYear(nextYear);
+    const selectedDay = parseInt(selectedDateStr.split('-')[2], 10);
+    const maxDay = getDaysInMonth(nextYear, nextMonth);
+    setSelectedDateStr(toYMD(nextYear, nextMonth, Math.min(selectedDay, maxDay)));
   };
   const handleDayClick = (day) => {
     if (!day) return;
-    setSelectedDate(new Date(currentYear, currentMonth, day));
+    setSelectedDateStr(toYMD(currentYear, currentMonth, day));
   };
 
   const normalizeDateStr = (src) => {
@@ -155,7 +187,7 @@ function Attendance() {
     return iso;
   };
   const hasAttendanceOnDay = (day) => {
-    const d = new Date(currentYear, currentMonth, day).toISOString().split("T")[0];
+    const d = toYMD(currentYear, currentMonth, day);
     return attendanceRecords.some((r) => normalizeDateStr(r) === d);
   };
 
@@ -164,10 +196,9 @@ function Attendance() {
     return s || "No record";
   })();
   const dateLabel = useMemo(() => {
-    return selectedDate.toISOString().split("T")[0];
-  }, [selectedDate]);
+    return selectedDateStr;
+  }, [selectedDateStr]);
   const showPresentIcon = statusLabel.toLowerCase() === "present";
-  const remarksLabel = currentAttendance ? "Attendance recorded" : "No remarks yet";
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
@@ -199,7 +230,7 @@ function Attendance() {
                 )}
                 {daysArray.map((d, idx) => (
                   <div
-                    className={`day ${d && selectedDate.getDate() === d ? "active" : ""} ${d && hasAttendanceOnDay(d) ? "marked" : ""}`}
+                    className={`day ${d && parseInt(selectedDateStr.split('-')[2], 10) === d ? "active" : ""} ${d && hasAttendanceOnDay(d) ? "marked" : ""}`}
                     key={idx}
                     onClick={() => handleDayClick(d)}
                   >
@@ -223,16 +254,7 @@ function Attendance() {
                   {showPresentIcon && <img src={presentIcon} alt="Present" className="status-icon" />}
                 </span>
               </div>
-              <div className="status-row">
-                <span className="status-key">Remarks:</span>
-                <span className="status-value">{loading ? "Loading..." : remarksLabel}</span>
-              </div>
-              {error && (
-                <div className="status-row">
-                  <span className="status-key">Notice:</span>
-                  <span className="status-value">{error}</span>
-                </div>
-              )}
+              {}
             </div>
           </div>
 

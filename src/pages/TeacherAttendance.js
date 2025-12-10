@@ -138,30 +138,30 @@ export default function TeacherAttendance() {
   }
 
   try {
-    // FIX: Create timestamp in local timezone without conversion to UTC
-    const timestamp = selectedDate + ' 00:00:00';
-    
     console.log('=== SAVING ATTENDANCE ===');
     console.log('Teacher ID:', teacherId);
     console.log('Selected Date:', selectedDate);
-    console.log('Timestamp:', timestamp);
     console.log('Number of students:', rows.length);
-    
-    const attendancePromises = rows.map(student => {
+
+    const attendancePromises = rows.map((student) => {
       const attendanceRecord = {
         student_id: student.id,
         teacher_id: teacherId,
-        attendance_date: timestamp,
-        status: attendanceData[student.id]?.status || "Present"
+        attendance_date: selectedDate,
+        status: attendanceData[student.id]?.status || "Present",
       };
-      
-      console.log('Sending attendance record:', attendanceRecord);
       return createAttendance(attendanceRecord);
     });
 
     const results = await Promise.all(attendancePromises);
     console.log('Attendance save results:', results);
     setNotice({ text: "Attendance saved successfully for " + rows.length + " students on " + selectedDate + "!", type: "success" });
+    try {
+      const bc = new BroadcastChannel('attendance-updates');
+      const ids = rows.map(s => s.id);
+      bc.postMessage({ studentIds: ids, date: selectedDate });
+      bc.close();
+    } catch {}
   } catch (error) {
     console.error('Error saving attendance:', error);
     setNotice({ text: "Failed to save attendance: " + error.message, type: "error" });
