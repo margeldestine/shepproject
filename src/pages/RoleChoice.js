@@ -69,88 +69,14 @@ function RoleChoice() {
     }
   };
 
-  const handleParentClick = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const tempUser = JSON.parse(localStorage.getItem("tempUser") || "{}");
-      
-      if (!tempUser.email || !tempUser.password) {
-        setError("Registration data missing. Please start over.");
-        navigate("/signup");
-        return;
-      }
-      
-      const response = await fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: tempUser.email,
-          password: tempUser.password,
-          firstName: tempUser.firstName,
-          lastName: tempUser.lastName,
-          role: "PARENT"
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error("Registration failed");
-      }
-      
-      const authData = await response.json();
-      loginUser(authData);
-      localStorage.setItem("selectedRole", "PARENT");
-      localStorage.removeItem("tempUser");
-      navigate("/parent-id", { state: { role: "PARENT" } });
-      
-    } catch (e) {
-      setError(e?.message || "Registration failed");
-    } finally {
-      setLoading(false);
-    }
+  const handleParentClick = () => {
+    try { localStorage.setItem("selectedRole", "PARENT"); } catch {}
+    navigate("/parent-id", { state: { role: "PARENT" } });
   };
 
-  const handleTeacherClick = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const tempUser = JSON.parse(localStorage.getItem("tempUser") || "{}");
-      
-      if (!tempUser.email || !tempUser.password) {
-        setError("Registration data missing. Please start over.");
-        navigate("/signup");
-        return;
-      }
-      
-      const response = await fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: tempUser.email,
-          password: tempUser.password,
-          firstName: tempUser.firstName,
-          lastName: tempUser.lastName,
-          role: "TEACHER"
-        })
-      });
-      
-      if (!response.ok) {
-        throw new Error("Registration failed");
-      }
-      
-      const authData = await response.json();
-      loginUser(authData);
-      localStorage.setItem("selectedRole", "TEACHER");
-      localStorage.removeItem("tempUser");
-      navigate("/teacher");
-      
-    } catch (e) {
-      setError(e?.message || "Registration failed");
-    } finally {
-      setLoading(false);
-    }
+  const handleTeacherClick = () => {
+    try { localStorage.setItem("selectedRole", "TEACHER"); } catch {}
+    navigate("/parent-id", { state: { role: "TEACHER" } });
   };
 
   return (
