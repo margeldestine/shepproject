@@ -192,7 +192,6 @@
                     <div className="record-title">{record.date}</div>
                     <div className="record-meta">Incident: {record.incident}</div>
                     <div className="record-body">
-                      <p>Teacher's remarks: {record.teacherRemarks}</p>
                       <p>Action: {record.actionTaken}</p>
                     </div>
                   </div>
