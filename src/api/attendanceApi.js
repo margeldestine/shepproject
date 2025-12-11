@@ -7,12 +7,33 @@ export async function getAllAttendance() {
 }
 
 export async function createAttendance(data) {
+  // Convert date from "2025-12-10" to "2025-12-10 08:00:00" format
+  const attendanceDateTime = data.attendance_date.includes(' ') 
+    ? data.attendance_date 
+    : `${data.attendance_date} 08:00:00`;
+  
+  const payload = {
+    student_id: data.student_id,
+    teacher_id: data.teacher_id,
+    attendance_date: attendanceDateTime,
+    status: data.status
+  };
+
+  console.log('Sending attendance payload:', payload);
+
   const res = await fetch(BASE_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payload),
     mode: "cors",
   });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error('Attendance save failed:', errorText);
+    throw new Error(`Failed to save attendance: ${errorText}`);
+  }
+
   return res.json();
 }
 
@@ -37,4 +58,3 @@ export async function getAttendanceByStudentAndDate(studentId, date) {
   }
   return data;
 }
-
