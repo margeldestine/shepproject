@@ -17,6 +17,7 @@ import { parentUser } from "../data/users";
 import { gradesCopy } from "../data/copy";
 import { getAllGrades } from "../api/gradesApi";
 import { useAuth } from "../context/AuthContext";
+import ParentGradeBreakdown from "./ParentGradeBreakdown";
 
 function Grades() {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ function Grades() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [summary, setSummary] = useState({ Q1: null, Q2: null, Q3: null, Q4: null, Finals: null });
+  const [showBreakdown, setShowBreakdown] = useState(false);
+  const [selectedQuarter, setSelectedQuarter] = useState(null);
 
   const handleSignOut = () => navigate("/");
   const handleSettings = () => navigate("/settings");
@@ -42,6 +45,11 @@ function Grades() {
   const openDetailModal = (item) => {
     setSelectedDetail(item);
     setDetailModalOpen(true);
+  };
+
+  const handleQuarterClick = (quarter) => {
+    setSelectedQuarter(quarter);
+    setShowBreakdown(true);
   };
 
   useEffect(() => {
@@ -65,28 +73,58 @@ function Grades() {
           if (raw.includes("q4") || raw.includes("4")) return "Q4";
           return "";
         };
-        const buckets = { Q1: [], Q2: [], Q3: [], Q4: [], Finals: [] };
+        const initCats = () => ({ QUIZZES: [], EXAMS: [], PERFORMANCE: [], ASSIGNMENTS: [] });
+        const buckets = { Q1: initCats(), Q2: initCats(), Q3: initCats(), Q4: initCats(), Finals: initCats() };
+        const detectCategory = (name) => {
+          const n = (name || "").toString();
+          if (n.startsWith("[QUIZ]")) return "QUIZZES";
+          if (n.startsWith("[EXAM]")) return "EXAMS";
+          if (n.startsWith("[PERF]")) return "PERFORMANCE";
+          if (n.startsWith("[ASG]")) return "ASSIGNMENTS";
+          const lower = n.toLowerCase();
+          if (lower.includes("quiz")) return "QUIZZES";
+          if (lower.includes("exam")) return "EXAMS";
+          if (lower.includes("task") || lower.includes("project") || lower.includes("lab") || lower.includes("report") || lower.includes("performance")) return "PERFORMANCE";
+          if (lower.includes("assignment") || lower.includes("homework") || lower.includes("seatwork")) return "ASSIGNMENTS";
+          return null;
+        };
         own.forEach((g) => {
           const p = norm(g);
-          if (p && buckets[p]) {
-            const val = Number(g.grade_value || g.gradeValue);
-            if (Number.isFinite(val)) buckets[p].push(val);
-          }
+          if (!p || !buckets[p]) return;
+          const val = Number(g.grade_value || g.gradeValue || g.score);
+          if (!Number.isFinite(val)) return;
+          const name = (g.assessment_name || g.assessmentName || g.name || g.title || g.description || "").toString();
+          const cat = detectCategory(name);
+          if (cat) buckets[p][cat].push(val);
         });
         const avg = (arr) => (arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length) : null);
-        const q1Avg = avg(buckets.Q1);
-        const q2Avg = avg(buckets.Q2);
-        const q3Avg = avg(buckets.Q3);
-        const q4Avg = avg(buckets.Q4);
-        const explicitFinal = avg(buckets.Finals);
-        const quarterAvgs = [q1Avg, q2Avg, q3Avg, q4Avg].filter((v) => v != null);
-        const finalsAvg = quarterAvgs.length ? (quarterAvgs.reduce((a, b) => a + b, 0) / quarterAvgs.length) : null;
+        const WEIGHTS = { QUIZZES: 0.3, EXAMS: 0.3, PERFORMANCE: 0.3, ASSIGNMENTS: 0.1 };
+        const weighted = (cats) => {
+          const has = Object.values(cats).some((a) => a.length);
+          if (!has) return null;
+          let total = 0;
+          Object.keys(WEIGHTS).forEach((k) => {
+            const items = cats[k] || [];
+            if (items.length) {
+              const a = avg(items);
+              if (a != null) total += a * WEIGHTS[k];
+            }
+          });
+          return total;
+        };
+        const q1W = weighted(buckets.Q1);
+        const q2W = weighted(buckets.Q2);
+        const q3W = weighted(buckets.Q3);
+        const q4W = weighted(buckets.Q4);
+        const finalsExplicit = weighted(buckets.Finals);
+        const present = [q1W, q2W, q3W, q4W].filter((v) => v != null);
+        const finalsFromQuarters = present.length ? (present.reduce((a, b) => a + b, 0) / present.length) : null;
         setSummary({
-          Q1: q1Avg,
-          Q2: q2Avg,
-          Q3: q3Avg,
-          Q4: q4Avg,
-          Finals: explicitFinal != null ? explicitFinal : finalsAvg,
+          Q1: q1W,
+          Q2: q2W,
+          Q3: q3W,
+          Q4: q4W,
+          Finals: finalsExplicit != null ? finalsExplicit : finalsFromQuarters,
         });
       } catch (err) {
         if (!mounted) return;
@@ -136,15 +174,20 @@ function Grades() {
                 </thead>
                 <tbody>
                   {[
-                    { label: "Q1", value: summary.Q1 },
-                    { label: "Q2", value: summary.Q2 },
-                    { label: "Q3", value: summary.Q3 },
-                    { label: "Q4", value: summary.Q4 },
-                    { label: "Finals", value: summary.Finals },
+                    { label: "Q1", value: summary.Q1, quarter: 1 },
+                    { label: "Q2", value: summary.Q2, quarter: 2 },
+                    { label: "Q3", value: summary.Q3, quarter: 3 },
+                    { label: "Q4", value: summary.Q4, quarter: 4 },
+                    { label: "Finals", value: summary.Finals, quarter: 5 },
                   ].map((row) => (
-                    <tr key={row.label}>
+                    <tr
+                      key={row.label}
+                      onClick={row.label !== "Finals" ? () => handleQuarterClick(row.quarter) : undefined}
+                      style={{ cursor: row.label !== "Finals" ? "pointer" : "default" }}
+                      className={row.label !== "Finals" ? "grade-row-clickable" : ""}
+                    >
                       <td>{row.label}</td>
-                      <td>{row.value != null ? Math.round(row.value) : "—"}</td>
+                      <td>{row.value != null ? Math.round(Number(row.value)) : "—"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -179,6 +222,14 @@ function Grades() {
           open={detailModalOpen}
           detail={selectedDetail}
           onClose={() => setDetailModalOpen(false)}
+        />
+      )}
+
+      {showBreakdown && (
+        <ParentGradeBreakdown
+          studentId={user?.studentId || user?.student_id}
+          quarter={selectedQuarter}
+          onClose={() => setShowBreakdown(false)}
         />
       )}
     </div>
