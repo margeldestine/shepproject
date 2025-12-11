@@ -106,6 +106,17 @@
   color: #fff !important;
 }
 
+/* Ensure helper/error text is visible on dark background */
+.register-right .MuiFormHelperText-root,
+.register-right .MuiFormHelperText-root.Mui-error {
+  color: #ffffff !important;
+}
+
+/* Inline error paragraph color */
+.register-right .error-text {
+  color: #ffffff;
+}
+
 @media (max-width: 900px) {
   .register-card {
     grid-template-columns: 1fr;

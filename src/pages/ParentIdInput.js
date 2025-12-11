@@ -5,6 +5,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import { CheckCircle, ErrorOutline } from "@mui/icons-material";
 import shepbg from "../assets/shepbg.png";
 import { validateStudentNumber, registerParent, registerTeacher } from "../api/authApi";
+import { getParentData } from "../api/parentApi";
 import { getStudentData } from "../api/studentApi";
 import { useAuth } from "../context/AuthContext";
 import "../styles/RoleSelection.css";
@@ -45,8 +46,54 @@ function ParentIdInput() {
       setError("");
       const res = await validateStudentNumber(v);
       if (res && res.exists) {
-        setValidationState("valid");
-        setError("");
+        // Resolve target student ID from student number first
+        let targetStudentId = null;
+        try {
+          const students = await getStudentData();
+          console.log('[VALIDATE] All students:', students);
+          const student = Array.isArray(students) ? students.find((s) => String(s.student_number || '').trim() === v) : null;
+          targetStudentId = student ? (student.student_id || student.id) : null;
+          console.log('[VALIDATE] Target student:', student);
+          console.log('[VALIDATE] Target student_id:', targetStudentId);
+        } catch (e) {
+          console.error('[VALIDATE] Error fetching students:', e);
+        }
+        if (!targetStudentId) {
+          setValidationState('invalid');
+          setError('Student number not found. Please check and try again.');
+          return;
+        }
+
+        try {
+          const parents = await getParentData();
+          console.log('[VALIDATE] Raw API response:', parents);
+          console.log('[VALIDATE] First parent structure:', parents?.[0]);
+          console.log('[VALIDATE] Fields available:', parents?.[0] ? Object.keys(parents[0]) : 'none');
+          const list = Array.isArray(parents) ? parents : (parents?.items || parents?.data || parents?.rows || []);
+          console.log('[VALIDATE] Parsed parent list:', list);
+          try { console.log('[VALIDATE] Raw parent data sample:', JSON.stringify((Array.isArray(parents) ? parents?.[0] : (list?.[0] || parents)), null, 2)); } catch {}
+
+          const alreadyLinked = list.some((p) => {
+            const pStudentId = p.student_id || p.studentId;
+            const hasUser = p.user_id || p.userId || (p.user && (p.user.user_id || p.user.id)) || p.parent_user_id || p.parentUserId;
+            const matches = pStudentId && Number(pStudentId) === Number(targetStudentId);
+            console.log('[VALIDATE] Checking parent:', { parent_id: p.parent_id || p.parentId || p.id, user_id: hasUser, student_id: pStudentId, raw_parent: p, targetStudentId, matches });
+            const isLinked = !!hasUser && !!pStudentId && Number(pStudentId) === Number(targetStudentId);
+            if (isLinked) {
+              console.log('[VALIDATE] ⚠️ FOUND LINKED PARENT:', p);
+            }
+            return isLinked;
+          });
+          console.log('[VALIDATE] Already linked?', alreadyLinked);
+
+          if (alreadyLinked) {
+            setValidationState('invalid');
+            setError('This student is already linked to a parent account.');
+            return;
+          }
+        } catch {}
+        setValidationState('valid');
+        setError('');
       } else {
         setValidationState("invalid");
         setError("Student number not found. Please check and try again.");
@@ -126,6 +173,49 @@ function ParentIdInput() {
       };
 
       console.log("Payload being sent:", payload);
+      try {
+        const parents = await getParentData();
+        console.log('[SUBMIT] Raw API response:', parents);
+        const list = Array.isArray(parents) ? parents : (parents?.items || parents?.data || parents?.rows || []);
+        console.log('[SUBMIT] Parsed parent list:', list);
+        try { console.log('[SUBMIT] Raw parent data sample:', JSON.stringify((Array.isArray(parents) ? parents?.[0] : (list?.[0] || parents)), null, 2)); } catch {}
+        const snum = schoolId.trim();
+        let sid = null;
+        try {
+          const students = await getStudentData();
+          console.log('[SUBMIT] All students:', students);
+          const match = Array.isArray(students)
+            ? students.find((s) => String(s.student_number || '').trim() === snum)
+            : null;
+          sid = match ? (match.student_id || match.id) : null;
+          console.log('[SUBMIT] Target student:', match);
+          console.log('[SUBMIT] Target student_id:', sid);
+        } catch (e) {
+          console.error('[SUBMIT] Error fetching students:', e);
+        }
+        if (!sid) {
+          setError('Student number not found. Please check and try again.');
+          setRegistering(false);
+          return;
+        }
+        const alreadyLinked = list.some((p) => {
+          const pSid = p.student_id || p.studentId;
+          const hasUser = p.user_id || p.userId || (p.user && (p.user.user_id || p.user.id)) || p.parent_user_id || p.parentUserId;
+          const matches = pSid != null && Number(pSid) === Number(sid);
+          console.log('[SUBMIT] Checking parent:', { parent_id: p.parent_id || p.parentId || p.id, user_id: hasUser, student_id: pSid, raw_parent: p, targetStudentId: sid, matches });
+          const isLinked = !!hasUser && !!pSid && Number(pSid) === Number(sid);
+          if (isLinked) {
+            console.log('[SUBMIT] ⚠️ FOUND LINKED PARENT:', p);
+          }
+          return isLinked;
+        });
+        console.log('[SUBMIT] Already linked?', alreadyLinked);
+        if (alreadyLinked) {
+          setError('This student is already linked to a parent account.');
+          setRegistering(false);
+          return;
+        }
+      } catch {}
 
       let authData = await registerParent(payload);
       const snum = schoolId.trim();
@@ -164,7 +254,12 @@ function ParentIdInput() {
       navigate("/dashboard");
     } catch (e) {
       console.error("Registration error:", e);
-      setError(e?.message || "Registration failed");
+      const msg = (e && e.status === 409)
+        ? "This student is already linked to a parent account."
+        : (String(e?.message || "").toLowerCase().includes("already") && String(e?.message || "").toLowerCase().includes("linked"))
+        ? "This student is already linked to a parent account."
+        : (e?.message || "Registration failed");
+      setError(msg);
     } finally {
       setRegistering(false);
     }
