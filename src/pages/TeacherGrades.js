@@ -240,7 +240,7 @@ export default function TeacherGrades() {
         }
       });
 
-      return totalWeighted.toFixed(2);
+      return Math.round(totalWeighted);
     };
 
     const q1 = getGrade(1);
@@ -249,20 +249,20 @@ export default function TeacherGrades() {
     const q4 = getGrade(4);
 
     // Calculate Final (Average of all quarters, missing treated as 0)
-    const q1Num = parseFloat(q1) || 0;
-    const q2Num = parseFloat(q2) || 0;
-    const q3Num = parseFloat(q3) || 0;
-    const q4Num = parseFloat(q4) || 0;
-    const final = ((q1Num + q2Num + q3Num + q4Num) / 4).toFixed(2);
+    const q1Num = Number.isFinite(q1) ? q1 : 0;
+    const q2Num = Number.isFinite(q2) ? q2 : 0;
+    const q3Num = Number.isFinite(q3) ? q3 : 0;
+    const q4Num = Number.isFinite(q4) ? q4 : 0;
+    const final = Math.round((q1Num + q2Num + q3Num + q4Num) / 4);
 
 
     return {
       id: s.id,
       student: s.name,
-      q1: q1 || "",
-      q2: q2 || "",
-      q3: q3 || "",
-      q4: q4 || "",
+      q1: q1 != null ? q1 : "",
+      q2: q2 != null ? q2 : "",
+      q3: q3 != null ? q3 : "",
+      q4: q4 != null ? q4 : "",
       final: final
     };
   }), [students, gradesData, currentSubjectId, currentSubjectKey]);

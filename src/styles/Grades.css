@@ -211,3 +211,11 @@
   margin-bottom: 0.7rem;
   line-height: 1.5;
 }
+.grade-row-clickable:hover {
+  background: rgba(111, 13, 13, 0.08);
+  transition: background 0.2s;
+}
+
+.grade-row-clickable {
+  cursor: pointer;
+}
