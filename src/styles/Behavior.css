@@ -34,19 +34,24 @@
   background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  padding: 0.9rem;
+  padding: 1.1rem;
+  margin-bottom: 1rem;
 }
+.record-card:last-child { margin-bottom: 0; }
 .record-title {
-  font-weight: 800;
+  font-weight: 600;
   color: #3a2b2b;
+  margin-bottom: 0.35rem;
 }
 .record-meta {
   color: #6b6b6b;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 .record-body {
   color: #333;
+  line-height: 1.5;
 }
+.record-body p { margin: 0.35rem 0; }
 
 .pill.active {
   filter: brightness(1.1);

@@ -39,6 +39,15 @@
       }
     });
     const resolvedSidRef = useRef(null);
+    const bcRef = useRef(null);
+
+    const formatDateLabel = (raw) => {
+      if (!raw) return "";
+      const s = String(raw);
+      const d = new Date(s);
+      if (Number.isNaN(d.getTime())) return s.substring(0, 10);
+      return d.toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" });
+    };
 
     useEffect(() => {
       let mounted = true;
@@ -70,6 +79,31 @@
           } catch {}
         }
         if (!sid) {
+          try {
+            const all = await getAllBehaviorLogs();
+            const fname = (user?.studentFirstName || user?.student_first_name || "").toString().trim().toLowerCase();
+            const lname = (user?.studentLastName || user?.student_last_name || "").toString().trim().toLowerCase();
+            const filtered = Array.isArray(all)
+              ? all.filter((it) => {
+                  const sf = String(it?.student?.first_name || it?.studentFirstName || "").trim().toLowerCase();
+                  const sl = String(it?.student?.last_name || it?.studentLastName || "").trim().toLowerCase();
+                  return fname && lname && sf === fname && sl === lname;
+                })
+              : [];
+            const mapped = filtered
+              .sort((a, b) => {
+                const da = new Date(a.incident_date || a.date || a.recorded_at || 0).getTime();
+                const db = new Date(b.incident_date || b.date || b.recorded_at || 0).getTime();
+                return db - da;
+              })
+              .map((it) => ({
+                date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
+                incident: it.description || it.incident || "",
+                actionTaken: it.type || it.actionTaken || it.action || "",
+              }));
+            setLogs(mapped);
+            try { localStorage.setItem('currentStudentLogs', JSON.stringify(mapped)); } catch {}
+          } catch {}
           setLoading(false);
           return;
         }
@@ -85,9 +119,8 @@
                   return db - da;
                 })
                 .map((it) => ({
-                  date: it.incident_date || it.date || "",
+                  date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
                   incident: it.description || it.incident || "",
-                  teacherRemarks: it.teacherRemarks || it.remarks || it.description || "",
                   actionTaken: it.type || it.actionTaken || it.action || "",
                 }))
             : [];
@@ -111,9 +144,8 @@
                 return db - da;
               })
               .map((it) => ({
-                date: it.incident_date || it.date || "",
+                date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
                 incident: it.description || it.incident || "",
-                teacherRemarks: it.teacherRemarks || it.remarks || it.description || "",
                 actionTaken: it.type || it.actionTaken || it.action || "",
               }));
           }
@@ -129,6 +161,138 @@
       tryFetch();
       return () => { mounted = false; };
     }, [user?.studentId, user?.student_id]);
+
+    useEffect(() => {
+      bcRef.current = new BroadcastChannel('behavior-updates');
+      const onMsg = (ev) => {
+        const sid = resolvedSidRef.current;
+        const msgSid = ev?.data?.studentId || ev?.data?.student_id;
+        if (sid && Number(sid) === Number(msgSid || 0)) {
+          const reload = async () => {
+            try {
+              const list = await getBehaviorLogsByStudent(Number(sid));
+              let mapped = Array.isArray(list)
+                ? [...list]
+                    .sort((a, b) => {
+                      const da = new Date(a.incident_date || a.date || a.recorded_at || 0).getTime();
+                      const db = new Date(b.incident_date || b.date || b.recorded_at || 0).getTime();
+                      return db - da;
+                    })
+                    .map((it) => ({
+                      date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
+                      incident: it.description || it.incident || "",
+                      actionTaken: it.type || it.actionTaken || it.action || "",
+                    }))
+                : [];
+              if (mapped.length === 0) {
+                const all = await getAllBehaviorLogs();
+                const fname = (user?.studentFirstName || user?.student_first_name || "").toString().trim().toLowerCase();
+                const lname = (user?.studentLastName || user?.student_last_name || "").toString().trim().toLowerCase();
+                const filtered = Array.isArray(all)
+                  ? all.filter((it) => {
+                      const idMatch = Number(it.student_id || it.studentId) === Number(sid);
+                      const sf = String(it?.student?.first_name || it?.studentFirstName || "").trim().toLowerCase();
+                      const sl = String(it?.student?.last_name || it?.studentLastName || "").trim().toLowerCase();
+                      const nameMatch = fname && lname && sf === fname && sl === lname;
+                      return idMatch || nameMatch;
+                    })
+                  : [];
+                mapped = filtered
+                  .sort((a, b) => {
+                    const da = new Date(a.incident_date || a.date || a.recorded_at || 0).getTime();
+                    const db = new Date(b.incident_date || b.date || b.recorded_at || 0).getTime();
+                    return db - da;
+                  })
+                  .map((it) => ({
+                    date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
+                    incident: it.description || it.incident || "",
+                    actionTaken: it.type || it.actionTaken || it.action || "",
+                  }));
+              }
+              setLogs(mapped);
+              try { localStorage.setItem('currentStudentLogs', JSON.stringify(mapped)); } catch {}
+            } catch {}
+          };
+          reload();
+        }
+      };
+      bcRef.current.addEventListener('message', onMsg);
+      return () => {
+        try { bcRef.current && bcRef.current.removeEventListener('message', onMsg); } catch {}
+        try { bcRef.current && bcRef.current.close(); } catch {}
+      };
+    }, []);
+
+    useEffect(() => {
+      let timer = null;
+      const tick = async () => {
+        const sid = resolvedSidRef.current;
+        if (!sid) return;
+        try {
+          const list = await getBehaviorLogsByStudent(Number(sid));
+          let mapped = Array.isArray(list)
+            ? [...list]
+                .sort((a, b) => {
+                  const da = new Date(a.incident_date || a.date || a.recorded_at || 0).getTime();
+                  const db = new Date(b.incident_date || b.date || b.recorded_at || 0).getTime();
+                  return db - da;
+                })
+                .map((it) => ({
+                  date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
+                  incident: it.description || it.incident || "",
+                  actionTaken: it.type || it.actionTaken || it.action || "",
+                }))
+            : [];
+          if (mapped.length === 0) {
+            const all = await getAllBehaviorLogs();
+            const fname = (user?.studentFirstName || user?.student_first_name || "").toString().trim().toLowerCase();
+            const lname = (user?.studentLastName || user?.student_last_name || "").toString().trim().toLowerCase();
+            const filtered = Array.isArray(all)
+              ? all.filter((it) => {
+                  const idMatch = Number(it.student_id || it.studentId) === Number(sid);
+                  const sf = String(it?.student?.first_name || it?.studentFirstName || "").trim().toLowerCase();
+                  const sl = String(it?.student?.last_name || it?.studentLastName || "").trim().toLowerCase();
+                  const nameMatch = fname && lname && sf === fname && sl === lname;
+                  return idMatch || nameMatch;
+                })
+              : [];
+            mapped = filtered
+              .sort((a, b) => {
+                const da = new Date(a.incident_date || a.date || a.recorded_at || 0).getTime();
+                const db = new Date(b.incident_date || b.date || b.recorded_at || 0).getTime();
+                return db - da;
+              })
+              .map((it) => ({
+                date: formatDateLabel(it.incident_date || it.date || it.recorded_at || ""),
+                incident: it.description || it.incident || "",
+                actionTaken: it.type || it.actionTaken || it.action || "",
+              }));
+          }
+          const prevKey = JSON.stringify(logs);
+          const nextKey = JSON.stringify(mapped);
+          if (prevKey !== nextKey) {
+            setLogs(mapped);
+            try { localStorage.setItem('currentStudentLogs', JSON.stringify(mapped)); } catch {}
+          }
+        } catch {}
+      };
+      const start = () => {
+        timer = setInterval(tick, 5000);
+      };
+      const onVis = () => {
+        if (document.visibilityState === 'visible') {
+          if (!timer) start();
+        } else {
+          if (timer) { clearInterval(timer); timer = null; }
+        }
+      };
+      start();
+      document.addEventListener('visibilitychange', onVis);
+      return () => {
+        if (timer) clearInterval(timer);
+        document.removeEventListener('visibilitychange', onVis);
+      };
+    }, [logs]);
 
     const openAssignmentDetails = (assignment) => {
       setSelectedAssignment(assignment);
@@ -172,7 +336,7 @@
 
             {loading && (
               <div className="record-card">
-                <div className="record-body">Loading behavior logs...</div>
+                <div className="record-body">Fetching behavior logs...</div>
               </div>
             )}
             {!loading && error && (
@@ -192,7 +356,6 @@
                     <div className="record-title">{record.date}</div>
                     <div className="record-meta">Incident: {record.incident}</div>
                     <div className="record-body">
-                      <p>Teacher's remarks: {record.teacherRemarks}</p>
                       <p>Action: {record.actionTaken}</p>
                     </div>
                   </div>

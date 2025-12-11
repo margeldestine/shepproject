@@ -157,6 +157,9 @@ export default function Behavior() {
       setNotice({ text: 'Behavior log saved successfully!', type: 'success' });
       
       await loadLogs(true);
+      const bc = new BroadcastChannel('behavior-updates');
+      bc.postMessage({ studentId: sid });
+      bc.close();
 
       // Reset form and close modal
       setFormData({
@@ -204,6 +207,9 @@ export default function Behavior() {
       const id = getBehaviorId(showEditModal.__raw) ?? getBehaviorId(showEditModal);
       await updateBehaviorLog(id, payload);
       await loadLogs(true);
+      const bc = new BroadcastChannel('behavior-updates');
+      bc.postMessage({ studentId: sid });
+      bc.close();
       setShowEditModal(null);
       setNotice({ text: 'Behavior log updated successfully!', type: 'success' });
     } catch (error) {
@@ -218,6 +224,12 @@ export default function Behavior() {
     try {
       await deleteBehaviorLog(row.id);
       await loadLogs(true);
+      const sid = getStudentId(row.__raw);
+      if (sid != null) {
+        const bc = new BroadcastChannel('behavior-updates');
+        bc.postMessage({ studentId: sid });
+        bc.close();
+      }
       setConfirmDeleteRow(null);
       setNotice({ text: 'Behavior log deleted.', type: 'success' });
     } catch (error) {
