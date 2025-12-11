@@ -2,9 +2,9 @@ import "../styles/Dashboard.css";
 import "../styles/Reminders.css";
 import shepbg from "../assets/shepbg.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnnouncementModal from "../components/AnnouncementModal";
-import { announcements } from "../data/announcements";
+import { announcements as staticAnnouncements } from "../data/announcements";
 import { dashboardCopy } from "../data/copy";
 import ParentTopbar from "../components/ParentTopbar";
 import { parentUser } from "../data/users";
@@ -16,6 +16,7 @@ import ParentProfileCard from "../components/ParentProfileCard";
 import AnnouncementCard from "../components/AnnouncementCard";
 import EventsCard from "../components/EventsCard";
 import BackButton from "../components/BackButton";
+import { getAllCommunications } from "../api/communicationApi";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -24,6 +25,9 @@ function Dashboard() {
   const [modalContent, setModalContent] = useState({ title: "", date: "", description: "" });
   const [showAll, setShowAll] = useState(false);
   const [remindersOpen, setRemindersOpen] = useState(false);
+  const [apiAnnouncements, setApiAnnouncements] = useState([]);
+  const [loadingAnnouncements, setLoadingAnnouncements] = useState(false);
+  const [announcementsError, setAnnouncementsError] = useState("");
 
   const openModal = (title, date, description) => {
     setModalContent({ title, date, description });
@@ -49,6 +53,33 @@ function Dashboard() {
     setSelectedDetail(item);
     setDetailModalOpen(true);
   };
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchAnnouncements = async () => {
+      try {
+        setLoadingAnnouncements(true);
+        setAnnouncementsError("");
+        const list = await getAllCommunications();
+        const mapped = (Array.isArray(list) ? list : []).map((c) => ({
+          id: c.communication_id || c.id,
+          title: c.title || "",
+          date: c.event_date || c.eventDate || c.posted_At || c.posted_at || c.date || "",
+          preview: c.description || c.content || c.details || "",
+          full: c.details || c.description || c.content || "",
+        }));
+        if (mounted) setApiAnnouncements(mapped);
+      } catch (e) {
+        if (mounted) setAnnouncementsError(e?.message || "Failed to load announcements");
+      } finally {
+        if (mounted) setLoadingAnnouncements(false);
+      }
+    };
+    fetchAnnouncements();
+    return () => { mounted = false; };
+  }, []);
+
+  const dashboardAnnouncements = apiAnnouncements.length ? apiAnnouncements : staticAnnouncements;
 
   return (
     <div className="dash-bg" style={{ backgroundImage: `url(${shepbg})` }}>
@@ -84,7 +115,7 @@ function Dashboard() {
           </div>
 
           <div className="cards">
-            {(showAll ? announcements : announcements.slice(0, 3)).map((item) => (
+            {(showAll ? dashboardAnnouncements : dashboardAnnouncements.slice(0, 3)).map((item) => (
               <AnnouncementCard
                 key={item.id}
                 item={item}
@@ -128,7 +159,7 @@ function Dashboard() {
           onClose={() => setRemindersOpen(false)}
           onOpenAssignmentDetails={openAssignmentDetails}
           onOpenDetail={openDetailModal}
-          announcements={announcements}
+          announcements={dashboardAnnouncements}
         />
       )}
 
