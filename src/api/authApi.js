@@ -1,5 +1,6 @@
 const API_ROOT = process.env.REACT_APP_API_URL || "http://localhost:8080";
 const BASE_URL = `${API_ROOT}/api/auth`;
+const USER_BASE = `${API_ROOT}/api/user`;
 
 export async function login(email, password) {
   try {
@@ -137,7 +138,10 @@ export async function registerParent(payload) {
     }
     if (!res.ok) {
       const message = (data && (data.message || data.error)) || "Parent registration failed";
-      throw new Error(message);
+      const err = new Error(message);
+      err.status = res.status;
+      err.data = data;
+      throw err;
     }
     return data;
   } catch (e) {
@@ -175,5 +179,27 @@ export async function validateStudentNumber(student_number) {
       throw new Error("Failed to reach authentication API. Start backend on " + API_ROOT + " or set REACT_APP_API_URL.");
     }
     throw e;
+  }
+}
+
+export async function getAllUsers() {
+  const res = await fetch(`${USER_BASE}/getAllUsers`, { method: "GET", headers: { "Content-Type": "application/json" }, mode: "cors" });
+  let data = null;
+  try { data = await res.json(); } catch { data = null; }
+  if (!res.ok) {
+    const message = (data && (data.message || data.error)) || "Failed to fetch users";
+    throw new Error(message);
+  }
+  return Array.isArray(data) ? data : [];
+}
+
+export async function isEmailTaken(email) {
+  try {
+    const users = await getAllUsers();
+    const target = String(email || "").trim().toLowerCase();
+    return users.some((u) => String(u.email || "").trim().toLowerCase() === target);
+  } catch (e) {
+    // If users endpoint fails, do not block registration here; caller can proceed
+    return false;
   }
 }

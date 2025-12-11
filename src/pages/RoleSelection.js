@@ -3,6 +3,7 @@ import { Button, TextField } from "@mui/material";
 import shepbg from "../assets/shepbg.png";
 import "../styles/RoleSelection.css";
 import { useState } from "react";
+import { isEmailTaken } from "../api/authApi";
  
 
 function RoleSelection() {
@@ -14,12 +15,42 @@ function RoleSelection() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const validateEmail = (value) => {
+    const emailRegex = /^(?![._-])(?!.*[._-]{2})[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!value) return "Email is required.";
+    if (!emailRegex.test(value)) return "Invalid email format.";
+    if (!String(value).toLowerCase().endsWith("@cit.edu")) return "Invalid email. Use institutional email ending with @cit.edu";
+    return "";
+  };
+
+  const validatePassword = (value) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,12}$/;
+    if (!value) return "Password is required.";
+    if (!passwordRegex.test(value)) return "Password must be 8–12 chars with uppercase, lowercase, number, and symbol.";
+    return "";
+  };
 
   const handleRegister = async () => {
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       setError("Please complete all fields.");
       return;
     }
+    const emailErr = validateEmail(email);
+    setEmailError(emailErr);
+    if (emailErr) return;
+    try {
+      const taken = await isEmailTaken(email);
+      if (taken) {
+        setEmailError("Email already registered. Please sign in or use another email.");
+        return;
+      }
+    } catch {}
+    const passErr = validatePassword(password);
+    setPasswordError(passErr);
+    if (passErr) return;
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -71,17 +102,27 @@ function RoleSelection() {
               label="Email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError("");
+              }}
               fullWidth
               margin="normal"
+              error={!!emailError}
+              helperText={emailError}
             />
             <TextField
               label="Password"
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError("");
+              }}
               fullWidth
               margin="normal"
+              error={!!passwordError}
+              helperText={passwordError}
             />
             <TextField
               label="Confirm Password"
