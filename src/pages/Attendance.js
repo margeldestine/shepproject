@@ -90,12 +90,26 @@ function Attendance() {
       try {
         setLoading(true);
         setError("");
+        console.log('[ATT] Fetching all attendance for studentId:', studentId);
         const all = await getAttendanceByStudent(studentId);
         if (!mounted) return;
         setAttendanceRecords(Array.isArray(all) ? all : []);
+        console.log('[ATT] Fetching attendance by date:', { studentId, selectedDateStr });
         const dayRecords = await getAttendanceByStudentAndDate(studentId, selectedDateStr);
+        console.log('[ATT] API returned dayRecords:', dayRecords, 'type:', typeof dayRecords, 'isArray:', Array.isArray(dayRecords));
         if (!mounted) return;
-        const rec = Array.isArray(dayRecords) ? dayRecords[0] : dayRecords;
+        let rec = Array.isArray(dayRecords) ? (dayRecords[0] || null) : (dayRecords || null);
+        if (!rec) {
+          // Fallback: try to match from all records by normalized date
+          const match = (Array.isArray(all) ? all : []).find((r) => normalizeDateStr(r) === selectedDateStr);
+          if (match) {
+            console.log('[ATT] Fallback matched record from all by date:', match);
+            rec = match;
+          } else {
+            console.log('[ATT] No record found for selected date');
+          }
+        }
+        console.log('[ATT] Setting currentAttendance to:', rec);
         setCurrentAttendance(rec || null);
       } catch (e) {
         setError(e?.message || "Failed to load attendance");
@@ -116,11 +130,21 @@ function Attendance() {
         try {
           setLoading(true);
           setError("");
+          console.log('[ATT-BC] Broadcast update for studentId:', studentId, 'msgDate:', msgDate);
           const all = await getAttendanceByStudent(studentId);
           setAttendanceRecords(Array.isArray(all) ? all : []);
           const useDate = msgDate || selectedDateStr;
           const dayRecords = await getAttendanceByStudentAndDate(studentId, useDate);
-          const rec = Array.isArray(dayRecords) ? dayRecords[0] : dayRecords;
+          console.log('[ATT-BC] API returned dayRecords:', dayRecords);
+          let rec = Array.isArray(dayRecords) ? (dayRecords[0] || null) : (dayRecords || null);
+          if (!rec) {
+            const match = (Array.isArray(all) ? all : []).find((r) => normalizeDateStr(r) === useDate);
+            if (match) {
+              console.log('[ATT-BC] Fallback matched record from all by date:', match);
+              rec = match;
+            }
+          }
+          console.log('[ATT-BC] Setting currentAttendance to:', rec);
           setCurrentAttendance(rec || null);
         } catch (e) {
           setError(e?.message || "Failed to load attendance");
@@ -192,8 +216,21 @@ function Attendance() {
   };
 
   const statusLabel = (() => {
-    const s = (currentAttendance?.status || currentAttendance?.attendance_status || "").toString();
-    return s || "No record";
+    const raw = (
+      currentAttendance?.status ||
+      currentAttendance?.attendance_status ||
+      currentAttendance?.attendanceStatus ||
+      currentAttendance?.att_status ||
+      ""
+    ).toString();
+    if (!raw) return "No record";
+    const t = raw.trim();
+    const norm = t.toLowerCase();
+    if (norm === "present" || norm === "absent" || norm === "late") return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+    // Handle enum-like values (e.g., PRESENT)
+    if (["present", "absent", "late"].includes(norm)) return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+    if (["PRESENT", "ABSENT", "LATE"].includes(t)) return t.charAt(0) + t.slice(1).toLowerCase();
+    return t;
   })();
   const dateLabel = useMemo(() => {
     return selectedDateStr;

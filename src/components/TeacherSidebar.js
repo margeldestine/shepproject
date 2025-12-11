@@ -85,12 +85,6 @@ function TeacherSidebar({ active }) {
         >
           Class Announcements
         </button>
-        <button 
-          className={isActive("forms")} 
-          onClick={() => navigate("/teacher-forms")}
-        >
-          Forms
-        </button>
       </div>
     </aside>
   );
