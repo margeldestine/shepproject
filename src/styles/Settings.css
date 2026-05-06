@@ -216,5 +216,35 @@
   .modern-section button:hover {
     background: hsl(0, 60%, 35%);
   }
-  
+
+  .modern-section button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    filter: grayscale(20%);
+  }
+
+  .settings-status {
+    margin: 1rem 0;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    text-align: left;
+  }
+
+  .settings-status.success {
+    background: #ddffdf;
+    color: #1f5f27;
+    border: 1px solid #8cd18c;
+  }
+
+  .settings-status.error {
+    background: #ffd8d8;
+    color: #8b1c1c;
+    border: 1px solid #f39c9c;
+  }
+
+  .error-text {
+    margin: 0.4rem 0 0;
+    color: #b00020;
+    font-size: 0.92rem;
+  }
   

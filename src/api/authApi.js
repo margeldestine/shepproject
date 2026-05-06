@@ -193,6 +193,35 @@ export async function getAllUsers() {
   return Array.isArray(data) ? data : [];
 }
 
+export async function getUserById(userId) {
+  const users = await getAllUsers();
+  return users.find((u) => Number(u.user_id) === Number(userId)) || null;
+}
+
+export async function updateUserProfile(userId, payload) {
+  try {
+    const res = await fetch(`${USER_BASE}/updateUser?uid=${userId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      mode: "cors",
+    });
+
+    let data = null;
+    try { data = await res.json(); } catch { data = null; }
+    if (!res.ok) {
+      const message = (data && (data.message || data.error)) || "Failed to update user profile";
+      throw new Error(message);
+    }
+    return data;
+  } catch (e) {
+    if (e.message.includes("fetch") || e.name === "TypeError") {
+      throw new Error("Failed to reach user profile API. Start backend or set REACT_APP_API_URL.");
+    }
+    throw e;
+  }
+}
+
 export async function isEmailTaken(email) {
   try {
     const users = await getAllUsers();
