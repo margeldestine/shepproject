@@ -3,10 +3,22 @@ import { LogOut, Settings, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import "./TopRightActions.css";
 
-function TopRightActions({ showBackButton = false, backTo = "/teacher" }) {
+function TopRightActions({
+  showBackButton = false,
+  backTo = "/teacher",
+  onNavigateAttempt
+}) {
   const navigate = useNavigate();
   const handleSettings = () => navigate("/settings");
   const handleSignOut = () => navigate("/");
+
+  const navigateWithCheck = (path) => {
+  if (onNavigateAttempt) {
+    onNavigateAttempt(path);
+  } else {
+    navigate(path);
+  }
+};
 
   return (
     <div
@@ -14,7 +26,7 @@ function TopRightActions({ showBackButton = false, backTo = "/teacher" }) {
       style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}
     >
       {showBackButton && (
-        <button onClick={() => navigate(backTo)} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <button onClick={() => navigateWithCheck(backTo)} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <ArrowLeft size={16} />
           <span>Back</span>
         </button>

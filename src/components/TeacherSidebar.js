@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { teacherDashboardCopy } from "../data/copy";
 import { useAuth } from "../context/AuthContext";
 
-function TeacherSidebar({ active }) {
+function TeacherSidebar({ active, onNavigateAttempt }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const location = useLocation();
@@ -47,6 +47,14 @@ function TeacherSidebar({ active }) {
 
   const { subject, section } = extractFromPath();
 
+  const navigateWithCheck = (path) => {
+    if (onNavigateAttempt) {
+      onNavigateAttempt(path);
+    } else {
+      navigate(path);
+    }
+  };
+
   return (
     <aside className="teacher-sidebar">
       <div className="sidebar-header">
@@ -63,25 +71,25 @@ function TeacherSidebar({ active }) {
       <div className="sidebar-links">
         <button 
           className={isActive("attendance")} 
-          onClick={() => navigate(`/teacher/${subject}/attendance/${section}`)}
+          onClick={() =>  navigateWithCheck(`/teacher/${subject}/attendance/${section}`)}
         >
           Attendance
         </button>
         <button 
           className={isActive("grades")} 
-          onClick={() => navigate(`/teacher/grades/${section}/${subject}`)}
+          onClick={() => navigateWithCheck(`/teacher/grades/${section}/${subject}`)}
         >
           Grades
         </button>
         <button 
           className={isActive("behavior-logs")} 
-          onClick={() => navigate("/behavior-logs")}
+          onClick={() => navigateWithCheck("/behavior-logs")}
         >
           Behavior Logs
         </button>
         <button 
           className={isActive("class-announcements")} 
-          onClick={() => navigate("/class-announcements")}
+          onClick={() => navigateWithCheck("/class-announcements")}
         >
           Class Announcements
         </button>
